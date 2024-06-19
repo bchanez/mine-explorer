@@ -1,0 +1,28 @@
+name: CI
+
+on: [push]
+
+jobs:
+  ci:
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        java-version: [17]
+        distribution: [temurin]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: ${{ matrix.distribution }} 
+          cache: maven
+
+      - name: 📦 Build with Maven
+        run: mvn install
+
+

@@ -1,0 +1,24 @@
+{
+  "recommendations": [
+    // Linting / Formatting
+    "usernamehw.errorlens",
+    // PR management / Reviewing
+    "github.vscode-pull-request-github",
+    "eamodio.gitlens",
+    // Showing todo comments
+    "gruntfuggly.todo-tree",
+    "aaron-bond.better-comments",
+    // Collaborating
+    "ms-vsliveshare.vsliveshare",
+    // Github Actions
+    "github.vscode-github-actions", // see https://github.com/nektos/act
+    // Language Support
+    "VisualStudioExptTeam.vscodeintellicode",
+    "vscjava.vscode-java-pack",
+    "vscjava.vscode-maven",
+    "redhat.vscode-xml",
+    // docker
+    "ms-azuretools.vscode-docker",
+    "ms-vscode-remote.remote-containers"
+  ]
+}

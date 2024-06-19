@@ -1,0 +1,18 @@
+services:
+
+  java-app:
+    container_name: java-app
+    build:
+      context: ../../
+      dockerfile: docker/development/Dockerfile
+    command: sleep infinity
+    volumes:
+      - ../..:/app
+    networks:
+      - my_network
+    cpus: 1
+    mem_limit: 2G
+
+networks:
+  my_network:
+    name: my_network
