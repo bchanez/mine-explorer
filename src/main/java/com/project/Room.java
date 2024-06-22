@@ -1,12 +1,14 @@
 package com.project;
 
+import com.project.object.Exit;
+import com.project.object.GameObject;
+
 public class Room {
   private final String symbol = "  ";
-  private final String exitSymbol = "()";
 
   private Coordinate coordinate;
   private Player player;
-  private boolean exit;
+  private GameObject gameObject;
 
   public Room() {
     this.coordinate = new Coordinate(-1, -1);
@@ -18,15 +20,19 @@ public class Room {
 
   public void playerEnterRoom(Player player) {
     this.player = player;
-    player.setHasWon(exit);
+    player.setHasWon(gameObject instanceof Exit);
   }
 
   public void playerLeaveRoom() {
     this.player = null;
   }
 
-  public void setExit(boolean exit) {
-    this.exit = exit;
+  public void setGameObject(GameObject gameObject) {
+    this.gameObject = gameObject;
+  }
+
+  public Coordinate getCoordinate() {
+    return coordinate;
   }
 
   @Override
@@ -34,13 +40,10 @@ public class Room {
     if (player != null) {
       return player.toString();
     }
-    if (exit) {
-      return exitSymbol;
+    if (gameObject != null) {
+      return gameObject.toString();
     }
     return symbol;
   }
 
-  public Coordinate getCoordinate() {
-    return coordinate;
-  }
 }

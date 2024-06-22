@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.project.object.Exit;
+
 @ExtendWith(MockitoExtension.class)
 class PlayerTest {
 
@@ -82,7 +84,7 @@ class PlayerTest {
   void playerWin() {
     // given
     Room room = new Room();
-    room.setExit(true);
+    room.setGameObject(new Exit());
     Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(room);
     player = new Player();

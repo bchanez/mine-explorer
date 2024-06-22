@@ -2,6 +2,8 @@ package com.project;
 
 import java.util.Random;
 
+import com.project.object.Exit;
+
 public class Board {
 
   private Room[][] matrix;
@@ -53,7 +55,7 @@ public class Board {
         break;
     }
 
-    getRoomByCoordinate(cornerCoordinate).setExit(true);
+    getRoomByCoordinate(cornerCoordinate).setGameObject(new Exit());
   }
 
   public void initMatrix() {

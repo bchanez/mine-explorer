@@ -7,6 +7,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.project.object.Exit;
+
 @ExtendWith(MockitoExtension.class)
 class RoomTest {
 
@@ -78,7 +80,7 @@ class RoomTest {
     room.playerEnterRoom(player);
 
     // when
-    room.setExit(true);
+    room.setGameObject(new Exit());
     room.playerLeaveRoom();
     String display = room.toString();
 
@@ -94,7 +96,7 @@ class RoomTest {
     room = new Room();
 
     // when
-    room.setExit(true);
+    room.setGameObject(new Exit());
     room.playerEnterRoom(player);
     String display = room.toString();
 
