@@ -8,11 +8,11 @@ public class Room {
   private Player player;
   private boolean exit;
 
-  Room() {
+  public Room() {
     this.coordinate = new Coordinate(-1, -1);
   }
 
-  Room(Coordinate coordinate) {
+  public Room(Coordinate coordinate) {
     this.coordinate = coordinate;
   }
 
