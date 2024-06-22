@@ -1,11 +1,13 @@
 package com.project;
 
-public class Player {
-  private final String symbol = "♛♛";
-
+public class Player extends Draw {
   private boolean hasWon;
   private Coordinate coordinate;
   private Board board;
+
+  public Player() {
+    super("♛♛");
+  }
 
   public void setBoard(Board board) {
     this.board = board;
@@ -51,10 +53,5 @@ public class Player {
 
   public void setHasWon(boolean hasWon) {
     this.hasWon = hasWon;
-  }
-
-  @Override
-  public String toString() {
-    return symbol;
   }
 }

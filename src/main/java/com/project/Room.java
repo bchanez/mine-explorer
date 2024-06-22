@@ -3,18 +3,19 @@ package com.project;
 import com.project.object.Exit;
 import com.project.object.GameObject;
 
-public class Room {
-  private final String symbol = "  ";
+public class Room extends Draw {
 
   private Coordinate coordinate;
   private Player player;
   private GameObject gameObject;
 
   public Room() {
+    super("  ");
     this.coordinate = new Coordinate(-1, -1);
   }
 
   public Room(Coordinate coordinate) {
+    super("  ");
     this.coordinate = coordinate;
   }
 

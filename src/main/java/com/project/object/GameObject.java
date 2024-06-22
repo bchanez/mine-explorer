@@ -1,14 +1,9 @@
 package com.project.object;
 
-public abstract class GameObject {
-  protected String symbol;
+import com.project.Draw;
 
+public abstract class GameObject extends Draw {
   public GameObject(String symbol) {
-    this.symbol = symbol;
-  }
-
-  @Override
-  public String toString() {
-    return symbol;
+    super(symbol);
   }
 }
