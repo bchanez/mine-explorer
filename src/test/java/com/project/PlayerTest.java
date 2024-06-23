@@ -1,5 +1,6 @@
 package com.project;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
@@ -24,6 +25,9 @@ class PlayerTest {
   @Mock
   Board board;
 
+  @Mock
+  Exit exit;
+
   @Test
   void toStringShouldDisplayPlayer() {
     // given
@@ -42,7 +46,7 @@ class PlayerTest {
   void playerCanMove(String direction, Coordinate coordinateExpected) {
     // given
     Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
-    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(new Room());
+    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(Optional.of(new Room()));
     player = new Player();
     player.setBoard(board);
     player.setCoordinate(new Coordinate(1, 1));
@@ -68,7 +72,7 @@ class PlayerTest {
   void playerCantMoveOutsideBoard(String direction) {
     // given
     Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true).thenReturn(false);
-    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(new Room());
+    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(Optional.of(new Room()));
     player = new Player();
     player.setBoard(board);
     player.setCoordinate(new Coordinate(0, 0));
@@ -84,9 +88,9 @@ class PlayerTest {
   void playerWin() {
     // given
     Room room = new Room();
-    room.setGameObject(new Exit());
+    room.setGameObject(exit);
     Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
-    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(room);
+    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(Optional.of(room));
     player = new Player();
     player.setBoard(board);
     player.setCoordinate(new Coordinate(1, 1));

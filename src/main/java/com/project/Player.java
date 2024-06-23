@@ -11,17 +11,19 @@ public class Player extends Draw {
 
   public void setBoard(Board board) {
     this.board = board;
+    setCoordinate(new Coordinate(board.getNbColumn() / 2, board.getNbRow() / 2));
   }
 
   public void setCoordinate(Coordinate coordinate) {
     if (!board.isRoomExist(coordinate))
       return;
 
-    if (this.coordinate != null)
-      board.getRoomByCoordinate(this.coordinate).playerLeaveRoom();
+    if (this.coordinate != null) {
+      board.getRoomByCoordinate(this.coordinate).ifPresent(room -> room.playerLeaveRoom());
+    }
 
     this.coordinate = coordinate;
-    board.getRoomByCoordinate(this.coordinate).playerEnterRoom(this);
+    board.getRoomByCoordinate(this.coordinate).ifPresent(room -> room.playerEnterRoom(this));
   }
 
   public Coordinate getCoordinate() {

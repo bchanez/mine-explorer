@@ -1,5 +1,6 @@
 package com.project;
 
+import java.util.Optional;
 import java.util.Random;
 
 import com.project.object.Exit;
@@ -10,14 +11,13 @@ public class Board {
   private int nbRow;
   private int nbColumn;
 
-  private Random random;
-  private Player player;
-
   public Board(int nbRow, int nbColumn, Player player, Random random) {
     this.nbRow = nbRow;
     this.nbColumn = nbColumn;
-    this.player = player;
-    this.random = random;
+
+    initMatrix();
+    player.setBoard(this);
+    new Exit(this, random);
   }
 
   public boolean isRoomExist(Coordinate coordinate) {
@@ -25,37 +25,12 @@ public class Board {
         && coordinate.getY() < nbRow;
   }
 
-  public Room getRoomByCoordinate(Coordinate coordinate) {
-    return matrix[coordinate.getY()][coordinate.getX()];
-  }
-
-  private void setPositionPlayer() {
-    player.setCoordinate(new Coordinate(nbColumn / 2, nbRow / 2));
-  }
-
-  private void setPositionExit() {
-    int cornerBoard = random.nextInt(4);
-    Coordinate cornerCoordinate = null;
-
-    switch (cornerBoard) {
-      case 0:
-        cornerCoordinate = new Coordinate(0, 0);
-        break;
-      case 1:
-        cornerCoordinate = new Coordinate(nbColumn - 1, 0);
-        break;
-      case 2:
-        cornerCoordinate = new Coordinate(0, nbRow - 1);
-        break;
-      case 3:
-        cornerCoordinate = new Coordinate(nbColumn - 1, nbRow - 1);
-        break;
-
-      default:
-        break;
+  public Optional<Room> getRoomByCoordinate(Coordinate coordinate) {
+    if (isRoomExist(coordinate)) {
+      return Optional.ofNullable(matrix[coordinate.getY()][coordinate.getX()]);
     }
 
-    getRoomByCoordinate(cornerCoordinate).setGameObject(new Exit());
+    return Optional.empty();
   }
 
   public void initMatrix() {
@@ -65,13 +40,18 @@ public class Board {
         matrix[y][x] = new Room(new Coordinate(x, y));
       }
     }
-
-    setPositionPlayer();
-    setPositionExit();
   }
 
   public Room[][] getMatrix() {
     return matrix;
+  }
+
+  public int getNbRow() {
+    return nbRow;
+  }
+
+  public int getNbColumn() {
+    return nbColumn;
   }
 
   @Override

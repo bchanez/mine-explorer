@@ -15,9 +15,7 @@ public class Game {
     this.player = player;
 
     board = new Board(menu.getNbRow(), menu.getNbColumn(), player, random);
-    player.setBoard(board);
 
-    board.initMatrix();
     gameRunning = true;
   }
 

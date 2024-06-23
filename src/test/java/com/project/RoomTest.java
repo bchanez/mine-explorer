@@ -17,6 +17,9 @@ class RoomTest {
   @Mock
   Player player;
 
+  @Mock
+  Exit exit;
+
   @Test
   void coordinate() {
     // given
@@ -78,9 +81,10 @@ class RoomTest {
     // given
     room = new Room();
     room.playerEnterRoom(player);
+    Mockito.when(exit.toString()).thenReturn("()");
 
     // when
-    room.setGameObject(new Exit());
+    room.setGameObject(exit);
     room.playerLeaveRoom();
     String display = room.toString();
 
@@ -96,7 +100,7 @@ class RoomTest {
     room = new Room();
 
     // when
-    room.setGameObject(new Exit());
+    room.setGameObject(exit);
     room.playerEnterRoom(player);
     String display = room.toString();
 

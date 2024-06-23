@@ -1,5 +1,9 @@
 package com.project;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Stream;
 
@@ -9,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -19,6 +22,8 @@ class BoardTest {
 
   Board board;
 
+  Random random = new Random(1);
+
   @Mock
   Player player;
 
@@ -26,22 +31,21 @@ class BoardTest {
   void getRoom() {
     // given
     Coordinate coordinate = new Coordinate(1, 1);
-    board = new Board(2, 3, player, new Random(1));
-    board.initMatrix();
+    board = new Board(2, 3, player, random);
 
     // when
-    Room room = board.getRoomByCoordinate(coordinate);
+    Optional<Room> optionalRoom = board.getRoomByCoordinate(coordinate);
 
     // then
-    Assertions.assertEquals(coordinate, room.getCoordinate());
+    assertTrue(optionalRoom.isPresent(), "Room not found at coordinate: " + coordinate);
+    optionalRoom.ifPresent(room -> assertEquals(coordinate, room.getCoordinate()));
   }
 
   @ParameterizedTest
   @MethodSource
   void isRoomExist(Boolean expected, Coordinate coordinate) {
     // given
-    board = new Board(1, 1, player, new Random(1));
-    board.initMatrix();
+    board = new Board(1, 1, player, random);
 
     // when
     boolean roomExist = board.isRoomExist(coordinate);
@@ -62,16 +66,13 @@ class BoardTest {
   @Test
   void toStringShouldDisplayBoardOnInit() {
     // given
-    Mockito.doAnswer(invocation -> {
-      Coordinate coordinate = invocation.getArgument(0);
-      board.getMatrix()[coordinate.getY()][coordinate.getX()].playerEnterRoom(player);
-      return null;
-    }).when(player).setCoordinate(ArgumentMatchers.any(Coordinate.class));
     Mockito.when(player.toString()).thenReturn("♛♛");
 
     // when
-    board = new Board(3, 3, player, new Random(1));
-    board.initMatrix();
+    board = new Board(3, 3, player, random);
+    Optional<Room> optionalRoom = board
+        .getRoomByCoordinate(new Coordinate(board.getNbColumn() / 2, board.getNbRow() / 2));
+    optionalRoom.ifPresent(room -> room.playerEnterRoom(player));
     String result = board.toString();
 
     // then

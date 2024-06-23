@@ -14,6 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class GameTest {
   Game game;
 
+  Random random = new Random(1);
+
   @Mock
   Menu menu;
 
@@ -24,7 +26,7 @@ class GameTest {
     Mockito.when(menu.getNbRow()).thenReturn(3);
     Mockito.when(menu.chooseDirectionToMovePlayer()).thenReturn("z");
     Mockito.when(menu.doAction(ArgumentMatchers.any())).thenReturn(-1).thenReturn(1).thenReturn(0);
-    game = new Game(menu, new Player(), new Random(0));
+    game = new Game(menu, new Player(), random);
 
     // when
     game.loop();
@@ -48,7 +50,7 @@ class GameTest {
       }
     });
 
-    game = new Game(menu, new Player(), new Random(0));
+    game = new Game(menu, new Player(), random);
 
     // when
     game.loop();
