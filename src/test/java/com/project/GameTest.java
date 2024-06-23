@@ -20,7 +20,7 @@ class GameTest {
   Menu menu;
 
   @Test
-  void loopShouldStopWhenAction0() {
+  void loopShouldStopWhenAction0() throws Exception {
     // given
     Mockito.when(menu.getNbColumn()).thenReturn(3);
     Mockito.when(menu.getNbRow()).thenReturn(3);
@@ -36,7 +36,7 @@ class GameTest {
   }
 
   @Test
-  void loopShouldStopWhenPlayerWon() {
+  void loopShouldStopWhenPlayerWon() throws Exception {
     // given
     Mockito.when(menu.getNbColumn()).thenReturn(3);
     Mockito.when(menu.getNbRow()).thenReturn(1);

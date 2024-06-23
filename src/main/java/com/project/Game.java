@@ -10,7 +10,7 @@ public class Game {
 
   private boolean gameRunning;
 
-  public Game(Menu menu, Player player, Random random) {
+  public Game(Menu menu, Player player, Random random) throws Exception {
     this.menu = menu;
     this.player = player;
 

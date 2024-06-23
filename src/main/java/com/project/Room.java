@@ -32,8 +32,16 @@ public class Room extends Draw {
     this.gameObject = gameObject;
   }
 
+  public GameObject getGameObject() {
+    return gameObject;
+  }
+
   public Coordinate getCoordinate() {
     return coordinate;
+  }
+
+  public Player getPlayer() {
+    return player;
   }
 
   @Override
@@ -46,5 +54,4 @@ public class Room extends Draw {
     }
     return symbol;
   }
-
 }

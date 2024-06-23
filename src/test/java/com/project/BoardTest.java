@@ -1,8 +1,10 @@
 package com.project;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Stream;
@@ -17,6 +19,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.project.object.Exit;
+import com.project.object.GameObject;
+import com.project.object.Mine;
+
 @ExtendWith(MockitoExtension.class)
 class BoardTest {
 
@@ -27,8 +33,11 @@ class BoardTest {
   @Mock
   Player player;
 
+  @Mock
+  GameObject gameObject;
+
   @Test
-  void getRoom() {
+  void getRoom() throws Exception {
     // given
     Coordinate coordinate = new Coordinate(1, 1);
     board = new Board(2, 3, player, random);
@@ -43,7 +52,7 @@ class BoardTest {
 
   @ParameterizedTest
   @MethodSource
-  void isRoomExist(Boolean expected, Coordinate coordinate) {
+  void isRoomExist(Boolean expected, Coordinate coordinate) throws Exception {
     // given
     board = new Board(1, 1, player, random);
 
@@ -64,7 +73,29 @@ class BoardTest {
   }
 
   @Test
-  void toStringShouldDisplayBoardOnInit() {
+  void boardHasOneExit() throws Exception {
+    // given
+    // when
+    board = new Board(10, 10, player, random);
+
+    // then
+    int numberOfExit = countObjects(Exit.class);
+    Assertions.assertEquals(1, numberOfExit);
+  }
+
+  @Test
+  void boardHas3PercentageMine() throws Exception {
+    // given
+    // when
+    board = new Board(10, 10, player, random);
+
+    // then
+    int numberOfExit = countObjects(Mine.class);
+    Assertions.assertEquals(3, numberOfExit);
+  }
+
+  @Test
+  void toStringShouldDisplayBoard() throws Exception {
     // given
     Mockito.when(player.toString()).thenReturn("♛♛");
 
@@ -78,5 +109,64 @@ class BoardTest {
     // then
     String expected = "      \n  ♛♛  \n()    ";
     Assertions.assertEquals(expected, result);
+  }
+
+  @Test
+  void getRoomsWithoutGameObject() throws Exception {
+    // given
+    board = new Board(3, 3, player, random);
+    for (int y = 0; y < board.getNbRow(); y++) {
+      for (int x = 0; x < board.getNbColumn(); x++) {
+        board.getRoomByCoordinate(new Coordinate(x, y))
+            .ifPresent(room -> room.setGameObject(null));
+      }
+    }
+
+    board.getRoomByCoordinate(new Coordinate(0, 0)).ifPresent(room -> room.setGameObject(gameObject));
+    board.getRoomByCoordinate(new Coordinate(0, 1)).ifPresent(room -> room.setGameObject(gameObject));
+    board.getRoomByCoordinate(new Coordinate(0, 2)).ifPresent(room -> room.setGameObject(gameObject));
+
+    // when
+    List<Room> rooms = board.getRoomsWithoutGameObjectAndPlayer();
+
+    // then
+    Assertions.assertEquals(6, rooms.size());
+  }
+
+  @Test
+  void getRoomByCoordinateShouldReturnRoom() throws Exception {
+    // given
+    board = new Board(1, 1, player, random);
+
+    // when
+    Optional<Room> room = board.getRoomByCoordinate(new Coordinate(0, 0));
+
+    // then
+    assertTrue(room.isPresent());
+  }
+
+  @Test
+  void getRoomByCoordinateShouldReturnEmpty() throws Exception {
+    // given
+    board = new Board(1, 1, player, random);
+
+    // when
+    Optional<Room> room = board.getRoomByCoordinate(new Coordinate(-1, -1));
+
+    // then
+    assertFalse(room.isPresent());
+  }
+
+  private int countObjects(Class<?> clazz) {
+    int count = 0;
+    for (int y = 0; y < board.getNbRow(); y++) {
+      for (int x = 0; x < board.getNbColumn(); x++) {
+        Optional<Room> roomOptional = board.getRoomByCoordinate(new Coordinate(x, y));
+        if (roomOptional.isPresent() && clazz.isInstance(roomOptional.get().getGameObject())) {
+          count++;
+        }
+      }
+    }
+    return count;
   }
 }

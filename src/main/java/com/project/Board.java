@@ -1,23 +1,39 @@
 package com.project;
 
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
 import com.project.object.Exit;
+import com.project.object.Mine;
 
 public class Board {
+
+  private static final double PERCENTAGE_MINE = 0.03;
 
   private Room[][] matrix;
   private int nbRow;
   private int nbColumn;
 
-  public Board(int nbRow, int nbColumn, Player player, Random random) {
+  public Board(int nbRow, int nbColumn, Player player, Random random) throws Exception {
     this.nbRow = nbRow;
     this.nbColumn = nbColumn;
 
     initMatrix();
     player.setBoard(this);
     new Exit(this, random);
+
+    int totalNumberOfRooms = nbRow * nbColumn;
+    setUpGameObject(Mine.class, (int) (totalNumberOfRooms * PERCENTAGE_MINE), random);
+  }
+
+  private void setUpGameObject(Class<?> clazz, int totalNumberOfGameObjects, Random random) throws Exception {
+    Constructor<?> constructor = clazz.getConstructor(Board.class, Random.class);
+    for (int i = 0; i < totalNumberOfGameObjects; i++) {
+      constructor.newInstance(this, random);
+    }
   }
 
   public boolean isRoomExist(Coordinate coordinate) {
@@ -42,16 +58,28 @@ public class Board {
     }
   }
 
-  public Room[][] getMatrix() {
-    return matrix;
-  }
-
   public int getNbRow() {
     return nbRow;
   }
 
   public int getNbColumn() {
     return nbColumn;
+  }
+
+  public List<Room> getRoomsWithoutGameObjectAndPlayer() {
+    List<Room> rooms = new ArrayList<>();
+    Room room = null;
+
+    for (int y = 0; y < nbRow; y++) {
+      for (int x = 0; x < nbColumn; x++) {
+        room = matrix[y][x];
+        if (room.getGameObject() == null && room.getPlayer() == null) {
+          rooms.add(room);
+        }
+      }
+    }
+
+    return rooms;
   }
 
   @Override

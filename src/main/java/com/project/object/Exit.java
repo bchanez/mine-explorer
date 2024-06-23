@@ -9,10 +9,11 @@ public class Exit extends GameObject {
 
   public Exit(Board board, Random random) {
     super("()");
-    setPositionExit(board, random);
+    setPosition(board, random);
   }
 
-  private void setPositionExit(Board board, Random random) {
+  @Override
+  protected void setPosition(Board board, Random random) {
     int cornerBoard = random.nextInt(4);
     Coordinate cornerCoordinate = null;
 
