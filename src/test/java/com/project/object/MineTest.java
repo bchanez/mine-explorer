@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Random;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -36,11 +35,5 @@ class MineTest {
     // then
     String expected = "**";
     Assertions.assertEquals(expected, display);
-  }
-
-  @Test
-  @Disabled("TODO")
-  void setPosition() {
-    Assertions.fail();
   }
 }
