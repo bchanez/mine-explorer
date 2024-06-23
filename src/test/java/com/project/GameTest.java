@@ -3,6 +3,7 @@ package com.project;
 import java.util.Random;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -43,7 +44,7 @@ class GameTest {
     Mockito.when(menu.chooseDirectionToMovePlayer()).thenReturn("q");
     Mockito.when(menu.doAction(ArgumentMatchers.any())).thenAnswer(invocation -> {
       Player player = invocation.getArgument(0);
-      if (player.getHasWon()) {
+      if (player.getState().equals(PlayerState.WON)) {
         return 0;
       } else {
         return 1;
@@ -57,5 +58,12 @@ class GameTest {
 
     // then
     Assertions.assertEquals(false, game.isGameRunning());
+  }
+
+  @Test
+  @Disabled
+  void loopShouldStopWhenPlayerLost() {
+    // TODO
+    Assertions.fail();
   }
 }

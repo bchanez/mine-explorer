@@ -1,12 +1,13 @@
 package com.project;
 
 public class Player extends Draw {
-  private boolean hasWon;
+  private PlayerState state;
   private Coordinate coordinate;
   private Board board;
 
   public Player() {
     super("♛♛");
+    state = PlayerState.PLAYING;
   }
 
   public void setBoard(Board board) {
@@ -49,11 +50,11 @@ public class Player extends Draw {
     }
   }
 
-  public boolean getHasWon() {
-    return hasWon;
+  public PlayerState getState() {
+    return state;
   }
 
-  public void setHasWon(boolean hasWon) {
-    this.hasWon = hasWon;
+  public void setState(PlayerState state) {
+    this.state = state;
   }
 }

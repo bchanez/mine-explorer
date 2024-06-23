@@ -21,8 +21,11 @@ public class Menu {
   }
 
   public int doAction(Player player) {
-    if (player.getHasWon()) {
+    if (player.getState().equals(PlayerState.WON)) {
       System.out.println("Vous avez gagné!");
+      return 0;
+    } else if (player.getState().equals(PlayerState.LOST)) {
+      System.out.println("Vous avez perdu..");
       return 0;
     }
 

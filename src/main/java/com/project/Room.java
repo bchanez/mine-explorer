@@ -1,6 +1,5 @@
 package com.project;
 
-import com.project.object.Exit;
 import com.project.object.GameObject;
 
 public class Room extends Draw {
@@ -21,7 +20,9 @@ public class Room extends Draw {
 
   public void playerEnterRoom(Player player) {
     this.player = player;
-    player.setHasWon(gameObject instanceof Exit);
+    if (gameObject != null) {
+      gameObject.performAction(player);
+    }
   }
 
   public void playerLeaveRoom() {

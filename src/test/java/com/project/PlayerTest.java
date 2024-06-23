@@ -4,10 +4,12 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentMatchers;
@@ -28,11 +30,14 @@ class PlayerTest {
   @Mock
   Exit exit;
 
+  @BeforeEach
+  void setUp() {
+    player = new Player();
+  }
+
   @Test
   void toStringShouldDisplayPlayer() {
     // given
-    player = new Player();
-
     // when
     String display = player.toString();
 
@@ -47,7 +52,6 @@ class PlayerTest {
     // given
     Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(Optional.of(new Room()));
-    player = new Player();
     player.setBoard(board);
     player.setCoordinate(new Coordinate(1, 1));
 
@@ -73,7 +77,6 @@ class PlayerTest {
     // given
     Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true).thenReturn(false);
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(Optional.of(new Room()));
-    player = new Player();
     player.setBoard(board);
     player.setCoordinate(new Coordinate(0, 0));
 
@@ -85,20 +88,21 @@ class PlayerTest {
   }
 
   @Test
-  void playerWin() {
+  void playerStateInit() {
     // given
-    Room room = new Room();
-    room.setGameObject(exit);
-    Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
-    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(Optional.of(room));
-    player = new Player();
-    player.setBoard(board);
-    player.setCoordinate(new Coordinate(1, 1));
-
     // when
-    player.moveToDirection("z");
+    // then
+    Assertions.assertEquals(PlayerState.PLAYING, player.getState());
+  }
+
+  @ParameterizedTest
+  @EnumSource(PlayerState.class)
+  void playerStateTest(PlayerState state) {
+    // given
+    // when
+    player.setState(state);
 
     // then
-    Assertions.assertTrue(player.getHasWon());
+    Assertions.assertEquals(state, player.getState());
   }
 }

@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.project.Board;
 import com.project.Coordinate;
+import com.project.Player;
+import com.project.PlayerState;
 
 public class Exit extends GameObject {
 
@@ -36,5 +38,10 @@ public class Exit extends GameObject {
     }
 
     board.getRoomByCoordinate(cornerCoordinate).ifPresent(room -> room.setGameObject(this));
+  }
+
+  @Override
+  public void performAction(Player player) {
+    player.setState(PlayerState.WON);
   }
 }
