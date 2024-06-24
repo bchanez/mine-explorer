@@ -1,24 +1,24 @@
 package com.project.object;
 
 import java.util.List;
-import java.util.Random;
 
 import com.project.Board;
 import com.project.Player;
 import com.project.PlayerState;
 import com.project.Room;
+import com.project.util.RandomUtil;
 
 public class Mine extends GameObject {
 
-  public Mine(Board board, Random random) {
+  public Mine(Board board) {
     super("**");
-    setPosition(board, random);
+    setPosition(board);
   }
 
   @Override
-  protected void setPosition(Board board, Random random) {
+  protected void setPosition(Board board) {
     List<Room> rooms = board.getRoomsWithoutGameObjectAndPlayer();
-    int positionRoom = random.nextInt(rooms.size());
+    int positionRoom = RandomUtil.nextInt(rooms.size());
     rooms.get(positionRoom).setGameObject(this);
   }
 

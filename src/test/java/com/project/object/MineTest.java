@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
-import java.util.Random;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,13 +18,13 @@ import com.project.Board;
 import com.project.Player;
 import com.project.PlayerState;
 import com.project.Room;
+import com.project.util.FixedRandom;
+import com.project.util.RandomUtil;
 
 @ExtendWith(MockitoExtension.class)
 class MineTest {
 
   Mine mine;
-
-  Random random = new Random(1);
 
   @Mock
   Board board;
@@ -35,8 +34,9 @@ class MineTest {
 
   @BeforeEach
   void setUp() {
+    RandomUtil.setRandom(new FixedRandom(0));
     Mockito.when(board.getRoomsWithoutGameObjectAndPlayer()).thenReturn(Arrays.asList(new Room()));
-    mine = new Mine(board, random);
+    mine = new Mine(board);
   }
 
   @Test

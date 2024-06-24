@@ -3,8 +3,6 @@ package com.project.object;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 
-import java.util.Random;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,13 +14,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.project.Board;
 import com.project.Player;
 import com.project.PlayerState;
+import com.project.util.FixedRandom;
+import com.project.util.RandomUtil;
 
 @ExtendWith(MockitoExtension.class)
 class ExitTest {
 
   Exit exit;
-
-  Random random = new Random(1);
 
   @Mock
   Board board;
@@ -32,7 +30,8 @@ class ExitTest {
 
   @BeforeEach
   void setUp() {
-    exit = new Exit(board, random);
+    RandomUtil.setRandom(new FixedRandom(0));
+    exit = new Exit(board);
   }
 
   @Test

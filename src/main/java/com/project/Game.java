@@ -1,7 +1,5 @@
 package com.project;
 
-import java.util.Random;
-
 public class Game {
 
   private Menu menu;
@@ -10,11 +8,11 @@ public class Game {
 
   private boolean gameRunning;
 
-  public Game(Menu menu, Player player, Random random) throws Exception {
+  public Game(Menu menu, Player player) throws Exception {
     this.menu = menu;
     this.player = player;
 
-    board = new Board(menu.getNbRow(), menu.getNbColumn(), player, random);
+    board = new Board(menu.getNbRow(), menu.getNbColumn(), player);
 
     gameRunning = true;
   }

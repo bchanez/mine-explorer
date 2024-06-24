@@ -1,7 +1,5 @@
 package com.project;
 
-import java.util.Random;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -15,8 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class GameTest {
   Game game;
 
-  Random random = new Random(1);
-
   @Mock
   Menu menu;
 
@@ -27,7 +23,7 @@ class GameTest {
     Mockito.when(menu.getNbRow()).thenReturn(3);
     Mockito.when(menu.chooseDirectionToMovePlayer()).thenReturn("z");
     Mockito.when(menu.doAction(ArgumentMatchers.any())).thenReturn(-1).thenReturn(1).thenReturn(0);
-    game = new Game(menu, new Player(), random);
+    game = new Game(menu, new Player());
 
     // when
     game.loop();
@@ -51,7 +47,7 @@ class GameTest {
       }
     });
 
-    game = new Game(menu, new Player(), random);
+    game = new Game(menu, new Player());
 
     // when
     game.loop();

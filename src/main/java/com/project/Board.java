@@ -4,7 +4,6 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 import com.project.object.Exit;
 import com.project.object.Mine;
@@ -17,22 +16,22 @@ public class Board {
   private int nbRow;
   private int nbColumn;
 
-  public Board(int nbRow, int nbColumn, Player player, Random random) throws Exception {
+  public Board(int nbRow, int nbColumn, Player player) throws Exception {
     this.nbRow = nbRow;
     this.nbColumn = nbColumn;
 
     initMatrix();
     player.setBoard(this);
-    new Exit(this, random);
+    new Exit(this);
 
     int totalNumberOfRooms = nbRow * nbColumn;
-    setUpGameObject(Mine.class, (int) (totalNumberOfRooms * PERCENTAGE_MINE), random);
+    setUpGameObject(Mine.class, (int) (totalNumberOfRooms * PERCENTAGE_MINE));
   }
 
-  private void setUpGameObject(Class<?> clazz, int totalNumberOfGameObjects, Random random) throws Exception {
-    Constructor<?> constructor = clazz.getConstructor(Board.class, Random.class);
+  private void setUpGameObject(Class<?> clazz, int totalNumberOfGameObjects) throws Exception {
+    Constructor<?> constructor = clazz.getConstructor(Board.class);
     for (int i = 0; i < totalNumberOfGameObjects; i++) {
-      constructor.newInstance(this, random);
+      constructor.newInstance(this);
     }
   }
 

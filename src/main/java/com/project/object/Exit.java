@@ -1,22 +1,21 @@
 package com.project.object;
 
-import java.util.Random;
-
 import com.project.Board;
 import com.project.Coordinate;
 import com.project.Player;
 import com.project.PlayerState;
+import com.project.util.RandomUtil;
 
 public class Exit extends GameObject {
 
-  public Exit(Board board, Random random) {
+  public Exit(Board board) {
     super("()");
-    setPosition(board, random);
+    setPosition(board);
   }
 
   @Override
-  protected void setPosition(Board board, Random random) {
-    int cornerBoard = random.nextInt(4);
+  protected void setPosition(Board board) {
+    int cornerBoard = RandomUtil.nextInt(4);
     Coordinate cornerCoordinate = null;
 
     switch (cornerBoard) {

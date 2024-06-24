@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,13 +22,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.project.object.Exit;
 import com.project.object.GameObject;
 import com.project.object.Mine;
+import com.project.util.FixedRandom;
+import com.project.util.RandomUtil;
 
 @ExtendWith(MockitoExtension.class)
 class BoardTest {
 
   Board board;
-
-  Random random = new Random(1);
 
   @Mock
   Player player;
@@ -36,11 +36,16 @@ class BoardTest {
   @Mock
   GameObject gameObject;
 
+  @BeforeEach
+  void setUp() {
+    RandomUtil.setRandom(new FixedRandom(2));
+  }
+
   @Test
   void getRoom() throws Exception {
     // given
     Coordinate coordinate = new Coordinate(1, 1);
-    board = new Board(2, 3, player, random);
+    board = new Board(2, 3, player);
 
     // when
     Optional<Room> optionalRoom = board.getRoomByCoordinate(coordinate);
@@ -54,7 +59,7 @@ class BoardTest {
   @MethodSource
   void isRoomExist(Boolean expected, Coordinate coordinate) throws Exception {
     // given
-    board = new Board(1, 1, player, random);
+    board = new Board(1, 1, player);
 
     // when
     boolean roomExist = board.isRoomExist(coordinate);
@@ -76,7 +81,7 @@ class BoardTest {
   void boardHasOneExit() throws Exception {
     // given
     // when
-    board = new Board(10, 10, player, random);
+    board = new Board(10, 10, player);
 
     // then
     int numberOfExit = countObjects(Exit.class);
@@ -87,7 +92,7 @@ class BoardTest {
   void boardHas3PercentageMine() throws Exception {
     // given
     // when
-    board = new Board(10, 10, player, random);
+    board = new Board(10, 10, player);
 
     // then
     int numberOfExit = countObjects(Mine.class);
@@ -100,7 +105,7 @@ class BoardTest {
     Mockito.when(player.toString()).thenReturn("♛♛");
 
     // when
-    board = new Board(3, 3, player, random);
+    board = new Board(3, 3, player);
     Optional<Room> optionalRoom = board
         .getRoomByCoordinate(new Coordinate(board.getNbColumn() / 2, board.getNbRow() / 2));
     optionalRoom.ifPresent(room -> room.playerEnterRoom(player));
@@ -114,7 +119,7 @@ class BoardTest {
   @Test
   void getRoomsWithoutGameObject() throws Exception {
     // given
-    board = new Board(3, 3, player, random);
+    board = new Board(3, 3, player);
     for (int y = 0; y < board.getNbRow(); y++) {
       for (int x = 0; x < board.getNbColumn(); x++) {
         board.getRoomByCoordinate(new Coordinate(x, y))
@@ -136,7 +141,7 @@ class BoardTest {
   @Test
   void getRoomByCoordinateShouldReturnRoom() throws Exception {
     // given
-    board = new Board(1, 1, player, random);
+    board = new Board(1, 1, player);
 
     // when
     Optional<Room> room = board.getRoomByCoordinate(new Coordinate(0, 0));
@@ -148,7 +153,7 @@ class BoardTest {
   @Test
   void getRoomByCoordinateShouldReturnEmpty() throws Exception {
     // given
-    board = new Board(1, 1, player, random);
+    board = new Board(1, 1, player);
 
     // when
     Optional<Room> room = board.getRoomByCoordinate(new Coordinate(-1, -1));
