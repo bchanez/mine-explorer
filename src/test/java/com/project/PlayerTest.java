@@ -105,4 +105,18 @@ class PlayerTest {
     // then
     Assertions.assertEquals(state, player.getState());
   }
+
+  @Test
+  void playerHas10PercentageGrenade() throws Exception {
+    // given
+    Mockito.when(board.getNbColumn()).thenReturn(10);
+    Mockito.when(board.getNbRow()).thenReturn(10);
+
+    // when
+    player.setBoard(board);
+
+    // then
+    int numberOfGrenades = player.getGrenades().size();
+    Assertions.assertEquals(10, numberOfGrenades);
+  }
 }
