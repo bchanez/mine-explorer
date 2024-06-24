@@ -17,19 +17,21 @@ public class Exit extends GameObject {
   protected void setPosition(Board board) {
     int cornerBoard = RandomUtil.nextInt(4);
     Coordinate cornerCoordinate = null;
+    int nbColumn = board.getNbColumn();
+    int nbRow = board.getNbRow();
 
     switch (cornerBoard) {
       case 0:
         cornerCoordinate = new Coordinate(0, 0);
         break;
       case 1:
-        cornerCoordinate = new Coordinate(board.getNbColumn() - 1, 0);
+        cornerCoordinate = new Coordinate(nbColumn - 1, 0);
         break;
       case 2:
-        cornerCoordinate = new Coordinate(0, board.getNbRow() - 1);
+        cornerCoordinate = new Coordinate(0, nbRow - 1);
         break;
       case 3:
-        cornerCoordinate = new Coordinate(board.getNbColumn() - 1, board.getNbRow() - 1);
+        cornerCoordinate = new Coordinate(nbColumn - 1, nbRow - 1);
         break;
 
       default:

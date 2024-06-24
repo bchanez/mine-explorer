@@ -1,7 +1,10 @@
 package com.project.object;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
@@ -15,6 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.project.Board;
+import com.project.Coordinate;
 import com.project.Player;
 import com.project.PlayerState;
 import com.project.Room;
@@ -31,6 +35,9 @@ class MineTest {
 
   @Mock
   Player player;
+
+  @Mock
+  Room room;
 
   @BeforeEach
   void setUp() {
@@ -62,4 +69,26 @@ class MineTest {
 
     assertEquals(PlayerState.LOST, stateCaptor.getValue());
   }
+
+  @Test
+  void setPositionTest() {
+    // given
+    Coordinate coordinate = new Coordinate(0, 0);
+    RandomUtil.setRandom(new FixedRandom(0));
+    when(board.getRoomsWithoutGameObjectAndPlayer()).thenReturn(Arrays.asList(room));
+    when(room.getCoordinate()).thenReturn(coordinate);
+
+    doAnswer(invocation -> {
+      Mine mine = invocation.getArgument(0);
+      mine.setCoordinate(room.getCoordinate());
+      return null;
+    }).when(room).setGameObject(any(Mine.class));
+
+    // when
+    mine = new Mine(board);
+
+    // then
+    Assertions.assertEquals(coordinate, mine.getCoordinate());
+  }
+
 }
