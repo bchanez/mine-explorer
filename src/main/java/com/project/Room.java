@@ -1,21 +1,20 @@
 package com.project;
 
+import java.util.Optional;
+
 import com.project.object.GameObject;
 
 public class Room extends Draw {
 
-  private Coordinate coordinate;
   private Player player;
   private GameObject gameObject;
 
   public Room() {
-    super("  ");
-    this.coordinate = new Coordinate(-1, -1);
+    super("  ", new Coordinate(-1, -1));
   }
 
   public Room(Coordinate coordinate) {
-    super("  ");
-    this.coordinate = coordinate;
+    super("  ", coordinate);
   }
 
   public void playerEnterRoom(Player player) {
@@ -31,14 +30,11 @@ public class Room extends Draw {
 
   public void setGameObject(GameObject gameObject) {
     this.gameObject = gameObject;
+    Optional.ofNullable(this.gameObject).ifPresent(o -> o.setCoordinate(coordinate));
   }
 
   public GameObject getGameObject() {
     return gameObject;
-  }
-
-  public Coordinate getCoordinate() {
-    return coordinate;
   }
 
   public Player getPlayer() {

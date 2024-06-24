@@ -1,8 +1,8 @@
 package com.project;
 
 public class Player extends Draw {
+
   private PlayerState state;
-  private Coordinate coordinate;
   private Board board;
 
   public Player() {
@@ -15,6 +15,7 @@ public class Player extends Draw {
     setCoordinate(new Coordinate(board.getNbColumn() / 2, board.getNbRow() / 2));
   }
 
+  @Override
   public void setCoordinate(Coordinate coordinate) {
     if (!board.isRoomExist(coordinate))
       return;
@@ -25,10 +26,6 @@ public class Player extends Draw {
 
     this.coordinate = coordinate;
     board.getRoomByCoordinate(this.coordinate).ifPresent(room -> room.playerEnterRoom(this));
-  }
-
-  public Coordinate getCoordinate() {
-    return coordinate;
   }
 
   public void moveToDirection(String direction) {
