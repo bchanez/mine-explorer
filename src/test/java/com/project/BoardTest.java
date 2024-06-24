@@ -95,8 +95,8 @@ class BoardTest {
     board = new Board(10, 10, player);
 
     // then
-    int numberOfExit = countObjects(Mine.class);
-    Assertions.assertEquals(3, numberOfExit);
+    int numberOfMine = countObjects(Mine.class);
+    Assertions.assertEquals(3, numberOfMine);
   }
 
   @Test
