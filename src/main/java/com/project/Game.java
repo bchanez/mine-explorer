@@ -30,10 +30,11 @@ public class Game {
         gameRunning = false;
         break;
       case 1:
-        String direction = menu.chooseDirectionToMovePlayer();
-        player.moveToDirection(direction);
+        player.moveToDirection(menu.chooseDirection());
         break;
-
+      case 2:
+        player.throwGrenadeInDirection(menu.chooseDirection());
+        break;
       default:
         break;
     }

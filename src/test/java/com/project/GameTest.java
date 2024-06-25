@@ -1,7 +1,9 @@
 package com.project;
 
+import static org.mockito.Mockito.verify;
+
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -16,14 +18,18 @@ class GameTest {
   @Mock
   Menu menu;
 
+  @Mock
+  Player player;
+
+  @BeforeEach
+  void setUp() throws Exception {
+    game = new Game(menu, player);
+  }
+
   @Test
-  void loopShouldStopWhenAction0() throws Exception {
+  void loopShouldStopWhenAction0() {
     // given
-    Mockito.when(menu.getNbColumn()).thenReturn(3);
-    Mockito.when(menu.getNbRow()).thenReturn(3);
-    Mockito.when(menu.chooseDirectionToMovePlayer()).thenReturn("z");
-    Mockito.when(menu.doAction(ArgumentMatchers.any())).thenReturn(-1).thenReturn(1).thenReturn(0);
-    game = new Game(menu, new Player());
+    Mockito.when(menu.doAction(ArgumentMatchers.any())).thenReturn(-1).thenReturn(0);
 
     // when
     game.loop();
@@ -33,33 +39,30 @@ class GameTest {
   }
 
   @Test
-  void loopShouldStopWhenPlayerWon() throws Exception {
+  void playerMoveWhenAction1() {
     // given
-    Mockito.when(menu.getNbColumn()).thenReturn(3);
-    Mockito.when(menu.getNbRow()).thenReturn(1);
-    Mockito.when(menu.chooseDirectionToMovePlayer()).thenReturn("q");
-    Mockito.when(menu.doAction(ArgumentMatchers.any())).thenAnswer(invocation -> {
-      Player player = invocation.getArgument(0);
-      if (player.getState().equals(PlayerState.WON)) {
-        return 0;
-      } else {
-        return 1;
-      }
-    });
-
-    game = new Game(menu, new Player());
+    String direction = "q";
+    Mockito.when(menu.chooseDirection()).thenReturn(direction);
+    Mockito.when(menu.doAction(ArgumentMatchers.any())).thenReturn(1).thenReturn(0);
 
     // when
     game.loop();
 
     // then
-    Assertions.assertEquals(false, game.isGameRunning());
+    verify(player).moveToDirection(direction);
   }
 
   @Test
-  @Disabled
   void loopShouldStopWhenPlayerLost() {
-    // TODO
-    Assertions.fail();
+    // given
+    String direction = "z";
+    Mockito.when(menu.chooseDirection()).thenReturn(direction);
+    Mockito.when(menu.doAction(ArgumentMatchers.any())).thenReturn(2).thenReturn(0);
+
+    // when
+    game.loop();
+
+    // then
+    verify(player).throwGrenadeInDirection(direction);
   }
 }

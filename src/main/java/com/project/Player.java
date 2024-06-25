@@ -57,6 +57,10 @@ public class Player extends Draw {
     }
   }
 
+  public void throwGrenadeInDirection(String direction) {
+    // todo
+  }
+
   public PlayerState getState() {
     return state;
   }
