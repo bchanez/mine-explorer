@@ -74,7 +74,6 @@ class MineTest {
   void setPositionTest() {
     // given
     Coordinate coordinate = new Coordinate(0, 0);
-    RandomUtil.setRandom(new FixedRandom(0));
     when(board.getRoomsWithoutGameObjectAndPlayer()).thenReturn(Arrays.asList(room));
     when(room.getCoordinate()).thenReturn(coordinate);
 
