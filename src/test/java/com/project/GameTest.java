@@ -53,7 +53,7 @@ class GameTest {
   }
 
   @Test
-  void loopShouldStopWhenPlayerLost() {
+  void playerthrowGrenadeWhenAction2() {
     // given
     String direction = "z";
     Mockito.when(menu.chooseDirection()).thenReturn(direction);
