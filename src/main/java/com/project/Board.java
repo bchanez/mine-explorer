@@ -36,7 +36,7 @@ public class Board {
   }
 
   public boolean isRoomExist(Coordinate coordinate) {
-    return 0 <= coordinate.getX() && coordinate.getX() < nbColumn && 0 <= coordinate.getY()
+    return coordinate != null && 0 <= coordinate.getX() && coordinate.getX() < nbColumn && 0 <= coordinate.getY()
         && coordinate.getY() < nbRow;
   }
 

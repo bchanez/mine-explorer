@@ -74,7 +74,8 @@ class BoardTest {
         Arguments.of(false, new Coordinate(-1, 0)),
         Arguments.of(false, new Coordinate(0, -1)),
         Arguments.of(false, new Coordinate(1, 0)),
-        Arguments.of(false, new Coordinate(0, 1)));
+        Arguments.of(false, new Coordinate(0, 1)),
+        Arguments.of(false, null));
   }
 
   @Test
