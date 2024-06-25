@@ -38,35 +38,33 @@ public class Player extends Draw {
     board.getRoomByCoordinate(this.coordinate).ifPresent(room -> room.playerEnterRoom(this));
   }
 
-  public void moveToDirection(String direction) {
+  private Coordinate getNextCoordinate(String direction) {
+    Coordinate nextCoordinate = getCoordinate();
+
     switch (direction) {
       case "z":
-        setCoordinate(new Coordinate(coordinate.getX(), coordinate.getY() - 1));
+        nextCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() - 1);
         break;
       case "q":
-        setCoordinate(new Coordinate(coordinate.getX() - 1, coordinate.getY()));
+        nextCoordinate = new Coordinate(coordinate.getX() - 1, coordinate.getY());
         break;
       case "s":
-        setCoordinate(new Coordinate(coordinate.getX(), coordinate.getY() + 1));
+        nextCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() + 1);
         break;
       case "d":
-        setCoordinate(new Coordinate(coordinate.getX() + 1, coordinate.getY()));
-        break;
-      default:
+        nextCoordinate = new Coordinate(coordinate.getX() + 1, coordinate.getY());
         break;
     }
+
+    return nextCoordinate;
+  }
+
+  public void moveToDirection(String direction) {
+    setCoordinate(getNextCoordinate(direction));
   }
 
   public void throwGrenadeInDirection(String direction) {
-    // todo
-  }
-
-  public PlayerState getState() {
-    return state;
-  }
-
-  public void setState(PlayerState state) {
-    this.state = state;
+    setCoordinate(getNextCoordinate(direction));
   }
 
   private void setupGrenades() {
@@ -76,6 +74,14 @@ public class Player extends Draw {
     for (int i = 0; i < totalNumberOfGrenades; i++) {
       grenades.add(new Grenade());
     }
+  }
+
+  public PlayerState getState() {
+    return state;
+  }
+
+  public void setState(PlayerState state) {
+    this.state = state;
   }
 
   public List<Grenade> getGrenades() {

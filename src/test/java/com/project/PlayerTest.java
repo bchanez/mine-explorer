@@ -107,7 +107,7 @@ class PlayerTest {
   }
 
   @Test
-  void playerHas10PercentageGrenade() throws Exception {
+  void playerHas10PercentageGrenadeOnInit() throws Exception {
     // given
     Mockito.when(board.getNbColumn()).thenReturn(10);
     Mockito.when(board.getNbRow()).thenReturn(10);
@@ -118,5 +118,30 @@ class PlayerTest {
     // then
     int numberOfGrenades = player.getGrenades().size();
     Assertions.assertEquals(10, numberOfGrenades);
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void playerCanThrowGrenade(String direction, Coordinate coordinateExpected) {
+    // given
+    Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
+    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(Optional.of(new Room()));
+    player.setBoard(board);
+    player.setCoordinate(new Coordinate(1, 1));
+
+    // when
+    player.throwGrenadeInDirection(direction);
+
+    // then
+    Assertions.assertEquals(coordinateExpected, player.getCoordinate());
+  }
+
+  private static Stream<Arguments> playerCanThrowGrenade() {
+    return Stream.of(
+        Arguments.of("z", new Coordinate(1, 0)),
+        Arguments.of("q", new Coordinate(0, 1)),
+        Arguments.of("s", new Coordinate(1, 2)),
+        Arguments.of("d", new Coordinate(2, 1)),
+        Arguments.of("?", new Coordinate(1, 1)));
   }
 }
