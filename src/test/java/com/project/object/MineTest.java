@@ -58,7 +58,7 @@ class MineTest {
   }
 
   @Test
-  void performAction() {
+  void performActionShouldSetPlayerStateToLost() {
     // given
     // when
     mine.performAction(player);
@@ -71,7 +71,7 @@ class MineTest {
   }
 
   @Test
-  void setPositionTest() {
+  void setPositionShouldSetPositionRandomly() {
     // given
     Coordinate coordinate = new Coordinate(0, 0);
     when(board.getRoomsWithoutGameObjectAndPlayer()).thenReturn(Arrays.asList(room));

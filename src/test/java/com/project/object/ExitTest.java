@@ -61,7 +61,7 @@ class ExitTest {
   }
 
   @Test
-  void performAction() {
+  void performActionShouldSetPlayerStateToWon() {
     // given
     // when
     exit.performAction(player);
@@ -75,7 +75,7 @@ class ExitTest {
 
   @ParameterizedTest
   @MethodSource
-  void setPositionTest(int cornerBoard, Coordinate expected) {
+  void setPositionShouldSetPositionRandomlyToBoardCorner(int cornerBoard, Coordinate expected) {
     // given
     RandomUtil.setRandom(new FixedRandom(cornerBoard));
     Mockito.when(board.getNbRow()).thenReturn(4);
@@ -97,7 +97,7 @@ class ExitTest {
     Assertions.assertEquals(expected, exit.getCoordinate());
   }
 
-  private static Stream<Arguments> setPositionTest() {
+  private static Stream<Arguments> setPositionShouldSetPositionRandomlyToBoardCorner() {
     return Stream.of(
         Arguments.of(0, new Coordinate(0, 0)),
         Arguments.of(1, new Coordinate(3, 0)),

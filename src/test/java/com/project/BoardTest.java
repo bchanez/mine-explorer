@@ -42,40 +42,18 @@ class BoardTest {
   }
 
   @Test
-  void getRoom() throws Exception {
+  void testBoard() throws Exception {
     // given
-    Coordinate coordinate = new Coordinate(1, 1);
-    board = new Board(2, 3, player);
+    int nbRow = 1;
+    int nbColumn = 2;
 
     // when
-    Optional<Room> optionalRoom = board.getRoomByCoordinate(coordinate);
+    board = new Board(nbRow, nbColumn, player);
 
     // then
-    assertTrue(optionalRoom.isPresent(), "Room not found at coordinate: " + coordinate);
-    optionalRoom.ifPresent(room -> assertEquals(coordinate, room.getCoordinate()));
-  }
+    assertEquals(nbRow, board.getNbRow());
+    assertEquals(nbColumn, board.getNbColumn());
 
-  @ParameterizedTest
-  @MethodSource
-  void isRoomExist(Boolean expected, Coordinate coordinate) throws Exception {
-    // given
-    board = new Board(1, 1, player);
-
-    // when
-    boolean roomExist = board.isRoomExist(coordinate);
-
-    // then
-    Assertions.assertEquals(expected, roomExist);
-  }
-
-  private static Stream<Arguments> isRoomExist() {
-    return Stream.of(
-        Arguments.of(true, new Coordinate(0, 0)),
-        Arguments.of(false, new Coordinate(-1, 0)),
-        Arguments.of(false, new Coordinate(0, -1)),
-        Arguments.of(false, new Coordinate(1, 0)),
-        Arguments.of(false, new Coordinate(0, 1)),
-        Arguments.of(false, null));
   }
 
   @Test
@@ -100,25 +78,59 @@ class BoardTest {
     Assertions.assertEquals(3, numberOfMine);
   }
 
-  @Test
-  void toStringShouldDisplayBoard() throws Exception {
+  @ParameterizedTest
+  @MethodSource
+  void isRoomExistShouldReturnTrueIfRoomExists(Boolean expected, Coordinate coordinate) throws Exception {
     // given
-    Mockito.when(player.toString()).thenReturn("♛♛");
+    board = new Board(1, 1, player);
 
     // when
-    board = new Board(3, 3, player);
-    Optional<Room> optionalRoom = board
-        .getRoomByCoordinate(new Coordinate(board.getNbColumn() / 2, board.getNbRow() / 2));
-    optionalRoom.ifPresent(room -> room.playerEnterRoom(player));
-    String result = board.toString();
+    boolean roomExist = board.isRoomExist(coordinate);
 
     // then
-    String expected = "      \n  ♛♛  \n()    ";
-    Assertions.assertEquals(expected, result);
+    Assertions.assertEquals(expected, roomExist);
+  }
+
+  private static Stream<Arguments> isRoomExistShouldReturnTrueIfRoomExists() {
+    return Stream.of(
+        Arguments.of(true, new Coordinate(0, 0)),
+        Arguments.of(false, new Coordinate(-1, 0)),
+        Arguments.of(false, new Coordinate(0, -1)),
+        Arguments.of(false, new Coordinate(1, 0)),
+        Arguments.of(false, new Coordinate(0, 1)),
+        Arguments.of(false, null));
   }
 
   @Test
-  void getRoomsWithoutGameObject() throws Exception {
+  void getRoomByCoordinateShouldReturnRoom() throws Exception {
+    // given
+    Coordinate coordinate = new Coordinate(0, 0);
+    board = new Board(1, 1, player);
+
+    // when
+    Optional<Room> optionalRoom = board.getRoomByCoordinate(coordinate);
+
+    // then
+    assertTrue(optionalRoom.isPresent());
+    optionalRoom.ifPresent(room -> assertEquals(coordinate, room.getCoordinate()));
+
+  }
+
+  @Test
+  void getRoomByCoordinateShouldReturnEmpty() throws Exception {
+    // given
+    Coordinate coordinate = new Coordinate(-1, -1);
+    board = new Board(1, 1, player);
+
+    // when
+    Optional<Room> room = board.getRoomByCoordinate(coordinate);
+
+    // then
+    assertFalse(room.isPresent());
+  }
+
+  @Test
+  void getRoomsWithoutGameObjectOrPlayerShouldReturnsRoomsWithoutObjects() throws Exception {
     // given
     board = new Board(3, 3, player);
     for (int y = 0; y < board.getNbRow(); y++) {
@@ -140,27 +152,20 @@ class BoardTest {
   }
 
   @Test
-  void getRoomByCoordinateShouldReturnRoom() throws Exception {
+  void toStringShouldDisplayBoard() throws Exception {
     // given
-    board = new Board(1, 1, player);
+    Mockito.when(player.toString()).thenReturn("♛♛");
+    board = new Board(3, 3, player);
+    Optional<Room> optionalRoom = board
+        .getRoomByCoordinate(new Coordinate(board.getNbColumn() / 2, board.getNbRow() / 2));
+    optionalRoom.ifPresent(room -> room.playerEnterRoom(player));
 
     // when
-    Optional<Room> room = board.getRoomByCoordinate(new Coordinate(0, 0));
+    String result = board.toString();
 
     // then
-    assertTrue(room.isPresent());
-  }
-
-  @Test
-  void getRoomByCoordinateShouldReturnEmpty() throws Exception {
-    // given
-    board = new Board(1, 1, player);
-
-    // when
-    Optional<Room> room = board.getRoomByCoordinate(new Coordinate(-1, -1));
-
-    // then
-    assertFalse(room.isPresent());
+    String expected = "      \n  ♛♛  \n()    ";
+    Assertions.assertEquals(expected, result);
   }
 
   private int countObjects(Class<?> clazz) {

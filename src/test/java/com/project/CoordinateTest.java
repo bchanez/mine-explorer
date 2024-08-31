@@ -13,38 +13,43 @@ class CoordinateTest {
   Coordinate coordinate;
 
   @Test
-  void initCoordinate() {
+  void testCoordinate() {
     // given
+    int x = 1;
+    int y = 2;
+
     // when
-    coordinate = new Coordinate(0, 0);
+    coordinate = new Coordinate(x, y);
 
     // then
-    Assertions.assertEquals(0, coordinate.getX());
-    Assertions.assertEquals(0, coordinate.getY());
+    Assertions.assertEquals(x, coordinate.getX());
+    Assertions.assertEquals(y, coordinate.getY());
   }
 
   @Test
-  void setX() {
+  void testSetXandGetX() {
     // given
+    int x = 1;
     coordinate = new Coordinate(0, 0);
 
     // when
-    coordinate.setX(1);
+    coordinate.setX(x);
 
     // then
-    Assertions.assertEquals(coordinate, new Coordinate(1, 0));
+    Assertions.assertEquals(x, coordinate.getX());
   }
 
   @Test
-  void setY() {
+  void testSetYAndGetY() {
     // given
+    int y = 1;
     coordinate = new Coordinate(0, 0);
 
     // when
-    coordinate.setY(1);
+    coordinate.setY(y);
 
     // then
-    Assertions.assertEquals(coordinate, new Coordinate(0, 1));
+    Assertions.assertEquals(y, coordinate.getY());
   }
 
   @ParameterizedTest

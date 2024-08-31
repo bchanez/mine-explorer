@@ -28,6 +28,23 @@ public class Board {
     setUpGameObject(Mine.class, (int) (totalNumberOfRooms * PERCENTAGE_MINE));
   }
 
+  private void initMatrix() {
+    matrix = new Room[nbRow][nbColumn];
+    for (int y = 0; y < nbRow; y++) {
+      for (int x = 0; x < nbColumn; x++) {
+        matrix[y][x] = new Room(new Coordinate(x, y));
+      }
+    }
+  }
+
+  public int getNbRow() {
+    return nbRow;
+  }
+
+  public int getNbColumn() {
+    return nbColumn;
+  }
+
   private void setUpGameObject(Class<?> clazz, int totalNumberOfGameObjects) throws Exception {
     Constructor<?> constructor = clazz.getConstructor(Board.class);
     for (int i = 0; i < totalNumberOfGameObjects; i++) {
@@ -46,23 +63,6 @@ public class Board {
     }
 
     return Optional.empty();
-  }
-
-  public void initMatrix() {
-    matrix = new Room[nbRow][nbColumn];
-    for (int y = 0; y < nbRow; y++) {
-      for (int x = 0; x < nbColumn; x++) {
-        matrix[y][x] = new Room(new Coordinate(x, y));
-      }
-    }
-  }
-
-  public int getNbRow() {
-    return nbRow;
-  }
-
-  public int getNbColumn() {
-    return nbColumn;
   }
 
   public List<Room> getRoomsWithoutGameObjectAndPlayer() {

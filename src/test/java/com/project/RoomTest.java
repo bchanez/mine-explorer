@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.project.object.Exit;
+import com.project.object.GameObject;
 
 @ExtendWith(MockitoExtension.class)
 class RoomTest {
@@ -18,10 +18,10 @@ class RoomTest {
   Player player;
 
   @Mock
-  Exit exit;
+  GameObject gameObject;
 
   @Test
-  void coordinate() {
+  void getCoordinateShouldGiveCoordinateOfRoom() {
     // given
     Coordinate expected = new Coordinate(1, 1);
     room = new Room(expected);
@@ -47,7 +47,7 @@ class RoomTest {
   }
 
   @Test
-  void playerEntersInRoomShouldDisplayPlayer() {
+  void toStringShouldDisplayPlayerWhenPlayerEnterRoom() {
     // given
     Mockito.when(player.toString()).thenReturn("♛♛");
     room = new Room();
@@ -62,30 +62,13 @@ class RoomTest {
   }
 
   @Test
-  void playerLeavesRoomShouldDisplayRoom() {
+  void toStringShouldDisplayGameObjectWhenThereIsGameObject() {
     // given
     room = new Room();
-    room.playerEnterRoom(player);
+    Mockito.when(gameObject.toString()).thenReturn("()");
 
     // when
-    room.playerLeaveRoom();
-    String display = room.toString();
-
-    // then
-    String expected = "  ";
-    Assertions.assertEquals(expected, display);
-  }
-
-  @Test
-  void roomIsExitShouldDisplayExit() {
-    // given
-    room = new Room();
-    room.playerEnterRoom(player);
-    Mockito.when(exit.toString()).thenReturn("()");
-
-    // when
-    room.setGameObject(exit);
-    room.playerLeaveRoom();
+    room.setGameObject(gameObject);
     String display = room.toString();
 
     // then
@@ -94,18 +77,57 @@ class RoomTest {
   }
 
   @Test
-  void playerIsOnExitRoomShouldDisplayPlayer() {
+  void toStringShouldDisplayPlayerWhenPlayerEnterRoomAndThereIsGameObject() {
     // given
-    Mockito.when(player.toString()).thenReturn("♛♛");
     room = new Room();
+    Mockito.when(player.toString()).thenReturn("♛♛");
 
     // when
-    room.setGameObject(exit);
+    room.setGameObject(gameObject);
     room.playerEnterRoom(player);
     String display = room.toString();
 
     // then
     String expected = "♛♛";
     Assertions.assertEquals(expected, display);
+  }
+
+  @Test
+  void getPlayerShouldReturnThePlayerWhenPlayerEnterRoom() {
+    // given
+    room = new Room();
+
+    // when
+    room.playerEnterRoom(player);
+    Player player = room.getPlayer();
+
+    // then
+    Assertions.assertNotNull(player);
+  }
+
+  @Test
+  void getPlayerShouldReturnNullWhenPlayerLeaveRoom() {
+    // given
+    room = new Room();
+
+    // when
+    room.playerLeaveRoom();
+    Player player = room.getPlayer();
+
+    // then
+    Assertions.assertNull(player);
+  }
+
+  @Test
+  void getGameObjectShouldReturnTheGameObjectWhenPresent() {
+    // given
+    room = new Room();
+
+    // when
+    room.setGameObject(gameObject);
+    GameObject gameObject = room.getGameObject();
+
+    // then
+    Assertions.assertNotNull(gameObject);
   }
 }
