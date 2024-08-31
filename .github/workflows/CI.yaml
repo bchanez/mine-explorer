@@ -22,7 +22,7 @@ jobs:
           distribution: ${{ matrix.distribution }} 
           cache: maven
 
-      - name: 📦 Build with Maven
-        run: mvn install
+      - name: 📦 Build and run tests
+        run: mvn verify
 
 
