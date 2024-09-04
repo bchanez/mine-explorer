@@ -8,8 +8,10 @@ import com.project.util.RandomUtil;
 
 public class Exit extends GameObject {
 
+  private static final String symbol = "()";
+
   public Exit(Board board) {
-    super("()");
+    super(symbol);
     setPosition(board);
   }
 

@@ -86,13 +86,25 @@ public class Board {
     String display = "";
 
     for (int y = 0; y < nbRow; y++) {
+
+      display += "+";
       for (int x = 0; x < nbColumn; x++) {
-        display += matrix[y][x];
+        display += "----+";
       }
-      if (y < nbRow - 1) {
-        display += "\n";
+      display += "\n";
+
+      display += "|";
+      for (int x = 0; x < nbColumn; x++) {
+        display += " " + matrix[y][x] + " |";
       }
+      display += "\n";
     }
+
+    display += "+";
+    for (int x = 0; x < nbColumn; x++) {
+      display += "----+";
+    }
+    display += "\n";
 
     return display;
   }

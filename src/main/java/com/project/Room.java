@@ -6,15 +6,17 @@ import com.project.object.GameObject;
 
 public class Room extends Draw {
 
+  private static final String symbol = "  ";
+
   private Player player;
   private GameObject gameObject;
 
   public Room() {
-    super("  ", new Coordinate(-1, -1));
+    super(symbol, new Coordinate(-1, -1));
   }
 
   public Room(Coordinate coordinate) {
-    super("  ", coordinate);
+    super(symbol, coordinate);
   }
 
   public void playerEnterRoom(Player player) {
