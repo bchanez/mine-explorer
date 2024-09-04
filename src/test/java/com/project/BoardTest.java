@@ -164,7 +164,14 @@ class BoardTest {
     String result = board.toString();
 
     // then
-    String expected = "      \n  ♛♛  \n()    ";
+    String expected = ""
+        + "+----+----+----+\n"
+        + "|    |    |    |\n"
+        + "+----+----+----+\n"
+        + "|    | ♛♛ |    |\n"
+        + "+----+----+----+\n"
+        + "| () |    |    |\n"
+        + "+----+----+----+\n";
     Assertions.assertEquals(expected, result);
   }
 

@@ -7,6 +7,7 @@ import com.project.object.Grenade;
 
 public class Player extends Draw {
 
+  private static final String symbol = "♛♛";
   private static final double PERCENTAGE_GRENADE = 0.10;
 
   private PlayerState state;
@@ -14,7 +15,7 @@ public class Player extends Draw {
   private List<Grenade> grenades;
 
   public Player() {
-    super("♛♛");
+    super(symbol);
     state = PlayerState.PLAYING;
     grenades = new ArrayList<>();
   }
