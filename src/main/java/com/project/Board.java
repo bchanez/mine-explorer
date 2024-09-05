@@ -89,20 +89,20 @@ public class Board {
 
       display += "+";
       for (int x = 0; x < nbColumn; x++) {
-        display += "----+";
+        display += matrix[y][x].getTop() + "+";
       }
       display += "\n";
 
       display += "|";
       for (int x = 0; x < nbColumn; x++) {
-        display += " " + matrix[y][x] + " |";
+        display += " " + matrix[y][x] + " " + matrix[y][x].getRight();
       }
       display += "\n";
     }
 
     display += "+";
     for (int x = 0; x < nbColumn; x++) {
-      display += "----+";
+      display += matrix[nbRow - 1][x].getBottom() + "+";
     }
     display += "\n";
 
