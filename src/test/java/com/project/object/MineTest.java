@@ -42,7 +42,8 @@ class MineTest {
   @BeforeEach
   void setUp() {
     RandomUtil.setRandom(new FixedRandom(0));
-    Mockito.when(board.getRoomsWithoutGameObjectAndPlayer()).thenReturn(Arrays.asList(new Room()));
+    Mockito.when(board.getRoomsWithoutGameObjectAndPlayer())
+        .thenReturn(Arrays.asList(new Room(new Coordinate(-1, -1))));
     mine = new Mine(board);
   }
 

@@ -87,7 +87,8 @@ class PlayerTest {
   void moveToDirectionShouldMovesPlayerInSpecifiedDirection(String direction, Coordinate coordinateExpected) {
     // given
     Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
-    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(Optional.of(new Room()));
+    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
+        .thenReturn(Optional.of(new Room(new Coordinate(-1, -1))));
     player.setBoard(board);
     player.setCoordinate(new Coordinate(1, 1));
 
@@ -112,7 +113,8 @@ class PlayerTest {
   void moveToDirectionShouldNotAllowPlayerToMoveOutsideBoard(String direction) {
     // given
     Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true).thenReturn(false);
-    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(Optional.of(new Room()));
+    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
+        .thenReturn(Optional.of(new Room(new Coordinate(-1, -1))));
     player.setBoard(board);
     player.setCoordinate(new Coordinate(0, 0));
 
@@ -128,7 +130,8 @@ class PlayerTest {
   void throwGrenadeInDirectionShouldMovesInSpecifiedDirection(String direction, Coordinate coordinateExpected) {
     // given
     Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
-    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(Optional.of(new Room()));
+    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
+        .thenReturn(Optional.of(new Room(new Coordinate(-1, -1))));
     player.setBoard(board);
     player.setCoordinate(new Coordinate(1, 1));
 

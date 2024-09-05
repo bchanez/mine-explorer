@@ -36,7 +36,7 @@ class RoomTest {
   @Test
   void toStringShouldDisplayRoom() {
     // given
-    room = new Room();
+    room = new Room(new Coordinate(-1, -1));
 
     // when
     String display = room.toString();
@@ -50,7 +50,7 @@ class RoomTest {
   void toStringShouldDisplayPlayerWhenPlayerEnterRoom() {
     // given
     Mockito.when(player.toString()).thenReturn("♛♛");
-    room = new Room();
+    room = new Room(new Coordinate(-1, -1));
 
     // when
     room.playerEnterRoom(player);
@@ -64,7 +64,7 @@ class RoomTest {
   @Test
   void toStringShouldDisplayGameObjectWhenThereIsGameObject() {
     // given
-    room = new Room();
+    room = new Room(new Coordinate(-1, -1));
     Mockito.when(gameObject.toString()).thenReturn("()");
 
     // when
@@ -79,7 +79,7 @@ class RoomTest {
   @Test
   void toStringShouldDisplayPlayerWhenPlayerEnterRoomAndThereIsGameObject() {
     // given
-    room = new Room();
+    room = new Room(new Coordinate(-1, -1));
     Mockito.when(player.toString()).thenReturn("♛♛");
 
     // when
@@ -95,7 +95,7 @@ class RoomTest {
   @Test
   void getPlayerShouldReturnThePlayerWhenPlayerEnterRoom() {
     // given
-    room = new Room();
+    room = new Room(new Coordinate(-1, -1));
 
     // when
     room.playerEnterRoom(player);
@@ -108,7 +108,7 @@ class RoomTest {
   @Test
   void getPlayerShouldReturnNullWhenPlayerLeaveRoom() {
     // given
-    room = new Room();
+    room = new Room(new Coordinate(-1, -1));
 
     // when
     room.playerLeaveRoom();
@@ -121,7 +121,7 @@ class RoomTest {
   @Test
   void getGameObjectShouldReturnTheGameObjectWhenPresent() {
     // given
-    room = new Room();
+    room = new Room(new Coordinate(-1, -1));
 
     // when
     room.setGameObject(gameObject);
