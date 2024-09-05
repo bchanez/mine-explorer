@@ -47,6 +47,58 @@ class RoomTest {
   }
 
   @Test
+  void getTopShouldReturnTopWall() {
+    // given
+    room = new Room(new Coordinate(-1, -1));
+
+    // when
+    Wall wall = room.getTop();
+
+    // then
+    String expected = "----";
+    Assertions.assertEquals(expected, wall.toString());
+  }
+
+  @Test
+  void getBottomShouldReturnBottomWall() {
+    // given
+    room = new Room(new Coordinate(-1, -1));
+
+    // when
+    Wall wall = room.getBottom();
+
+    // then
+    String expected = "----";
+    Assertions.assertEquals(expected, wall.toString());
+  }
+
+  @Test
+  void getLeftShouldReturnLeftWall() {
+    // given
+    room = new Room(new Coordinate(-1, -1));
+
+    // when
+    Wall wall = room.getLeft();
+
+    // then
+    String expected = "|";
+    Assertions.assertEquals(expected, wall.toString());
+  }
+
+  @Test
+  void getRightShouldReturnRightWall() {
+    // given
+    room = new Room(new Coordinate(-1, -1));
+
+    // when
+    Wall wall = room.getRight();
+
+    // then
+    String expected = "|";
+    Assertions.assertEquals(expected, wall.toString());
+  }
+
+  @Test
   void toStringShouldDisplayPlayerWhenPlayerEnterRoom() {
     // given
     Mockito.when(player.toString()).thenReturn("♛♛");
