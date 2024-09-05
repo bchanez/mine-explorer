@@ -127,8 +127,11 @@ class PlayerTest {
 
   @ParameterizedTest
   @MethodSource
-  void throwGrenadeInDirectionShouldMovesInSpecifiedDirection(String direction, Coordinate coordinateExpected) {
+  void throwGrenadeInDirectionShouldMovesInSpecifiedDirectionWhenWeHaveGrenade(String direction,
+      Coordinate coordinateExpected) {
     // given
+    Mockito.when(board.getNbColumn()).thenReturn(10);
+    Mockito.when(board.getNbRow()).thenReturn(10);
     Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
         .thenReturn(Optional.of(new Room(new Coordinate(-1, -1))));
@@ -142,13 +145,59 @@ class PlayerTest {
     Assertions.assertEquals(coordinateExpected, player.getCoordinate());
   }
 
-  private static Stream<Arguments> throwGrenadeInDirectionShouldMovesInSpecifiedDirection() {
+  private static Stream<Arguments> throwGrenadeInDirectionShouldMovesInSpecifiedDirectionWhenWeHaveGrenade() {
     return Stream.of(
         Arguments.of("z", new Coordinate(1, 0)),
         Arguments.of("q", new Coordinate(0, 1)),
         Arguments.of("s", new Coordinate(1, 2)),
         Arguments.of("d", new Coordinate(2, 1)),
         Arguments.of("?", new Coordinate(1, 1)));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void throwGrenadeInDirectionShouldNotMovesInWhenWeDoNotHaveGrenade(String direction,
+      Coordinate coordinateExpected) {
+    // given
+    Mockito.when(board.getNbColumn()).thenReturn(3);
+    Mockito.when(board.getNbRow()).thenReturn(3);
+    Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
+    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
+        .thenReturn(Optional.of(new Room(new Coordinate(-1, -1))));
+    player.setBoard(board);
+    player.setCoordinate(new Coordinate(1, 1));
+
+    // when
+    player.throwGrenadeInDirection(direction);
+
+    // then
+    Assertions.assertEquals(coordinateExpected, player.getCoordinate());
+  }
+
+  private static Stream<Arguments> throwGrenadeInDirectionShouldNotMovesInWhenWeDoNotHaveGrenade() {
+    return Stream.of(
+        Arguments.of("z", new Coordinate(1, 1)),
+        Arguments.of("q", new Coordinate(1, 1)),
+        Arguments.of("s", new Coordinate(1, 1)),
+        Arguments.of("d", new Coordinate(1, 1)),
+        Arguments.of("?", new Coordinate(1, 1)));
+  }
+
+  @Test
+  void throwGrenadeShouldReduceTheQuantity() {
+    // given
+    Mockito.when(board.getNbColumn()).thenReturn(10);
+    Mockito.when(board.getNbRow()).thenReturn(10);
+    Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
+    player.setBoard(board);
+    player.setCoordinate(new Coordinate(1, 1));
+
+    // when
+    player.throwGrenadeInDirection("z");
+
+    // then
+    int numberOfGrenades = player.getGrenades().size();
+    Assertions.assertEquals(9, numberOfGrenades);
   }
 
   @ParameterizedTest

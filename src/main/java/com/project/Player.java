@@ -65,7 +65,13 @@ public class Player extends Draw {
   }
 
   public void throwGrenadeInDirection(String direction) {
-    setCoordinate(getNextCoordinate(direction));
+    int numberOfGrenades = grenades.size();
+
+    if (numberOfGrenades == 0)
+      return;
+
+    grenades.remove(numberOfGrenades - 1);
+    moveToDirection(direction);
   }
 
   private void setupGrenades() {
