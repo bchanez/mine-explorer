@@ -11,10 +11,6 @@ public class Room extends Draw {
   private Player player;
   private GameObject gameObject;
 
-  public Room() {
-    super(symbol, new Coordinate(-1, -1));
-  }
-
   public Room(Coordinate coordinate) {
     super(symbol, coordinate);
   }
