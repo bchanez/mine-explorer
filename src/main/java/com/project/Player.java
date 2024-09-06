@@ -49,7 +49,8 @@ public class Player extends Draw {
     if (numberOfGrenades == 0)
       return;
 
-    grenades.remove(numberOfGrenades - 1);
+    Grenade grenade = grenades.remove(numberOfGrenades - 1);
+    grenade.use(this, direction);
     moveToDirection(direction);
   }
 
@@ -58,7 +59,7 @@ public class Player extends Draw {
     int totalNumberOfGrenades = (int) (totalNumberOfRooms * PERCENTAGE_GRENADE);
 
     for (int i = 0; i < totalNumberOfGrenades; i++) {
-      grenades.add(new Grenade());
+      grenades.add(new Grenade(board));
     }
   }
 

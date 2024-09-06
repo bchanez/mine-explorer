@@ -7,8 +7,11 @@ import com.project.item.StaticItem;
 public class Room extends Draw {
 
   private static final String symbol = "  ";
+
   private static final String topAndBottomSymbol = "----";
+  private String topAndBottomDestroySymbol = "    ";
   private static final String leftAndRightSymbol = "|";
+  private String leftAndRightDestroySymbol = " ";
 
   private Player player;
   private StaticItem staticItem;
@@ -20,10 +23,10 @@ public class Room extends Draw {
 
   public Room(Coordinate coordinate) {
     super(symbol, coordinate);
-    top = new Wall(topAndBottomSymbol);
-    bottom = new Wall(topAndBottomSymbol);
-    left = new Wall(leftAndRightSymbol);
-    right = new Wall(leftAndRightSymbol);
+    top = new Wall(topAndBottomSymbol, topAndBottomDestroySymbol);
+    bottom = new Wall(topAndBottomSymbol, topAndBottomDestroySymbol);
+    left = new Wall(leftAndRightSymbol, leftAndRightDestroySymbol);
+    right = new Wall(leftAndRightSymbol, leftAndRightDestroySymbol);
   }
 
   public Wall getTop() {

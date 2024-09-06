@@ -12,13 +12,29 @@ class WallTest {
   @Test
   void toStringShouldDisplayWall() {
     // given
-    wall = new Wall("|");
+    String intactSymbol = "|";
+    String destroyedSymbol = " ";
+    wall = new Wall(intactSymbol, destroyedSymbol);
 
     // when
     String display = wall.toString();
 
     // then
-    String expected = "|";
-    Assertions.assertEquals(expected, display);
+    Assertions.assertEquals(intactSymbol, display);
+  }
+
+  @Test
+  void toStringShouldDisplayDestroyedWall() {
+    // given
+    String intactSymbol = "|";
+    String destroyedSymbol = " ";
+    wall = new Wall(intactSymbol, destroyedSymbol);
+
+    // when
+    wall.destroy();
+    String display = wall.toString();
+
+    // then
+    Assertions.assertEquals(destroyedSymbol, display);
   }
 }
