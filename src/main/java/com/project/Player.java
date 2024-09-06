@@ -8,7 +8,7 @@ import com.project.item.Grenade;
 public class Player extends Draw {
 
   private static final String symbol = "♛♛";
-  private static final double PERCENTAGE_GRENADE = 0.10;
+  private static final double PERCENTAGE_GRENADE = 0.1;
 
   private PlayerState state;
   private Board board;
