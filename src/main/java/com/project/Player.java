@@ -39,27 +39,6 @@ public class Player extends Draw {
     board.getRoomByCoordinate(this.coordinate).ifPresent(room -> room.playerEnterRoom(this));
   }
 
-  private Coordinate getNextCoordinate(String direction) {
-    Coordinate nextCoordinate = getCoordinate();
-
-    switch (direction) {
-      case "z":
-        nextCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() - 1);
-        break;
-      case "q":
-        nextCoordinate = new Coordinate(coordinate.getX() - 1, coordinate.getY());
-        break;
-      case "s":
-        nextCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() + 1);
-        break;
-      case "d":
-        nextCoordinate = new Coordinate(coordinate.getX() + 1, coordinate.getY());
-        break;
-    }
-
-    return nextCoordinate;
-  }
-
   public void moveToDirection(String direction) {
     setCoordinate(getNextCoordinate(direction));
   }
