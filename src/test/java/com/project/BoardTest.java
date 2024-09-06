@@ -19,9 +19,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.project.object.Exit;
-import com.project.object.GameObject;
-import com.project.object.Mine;
+import com.project.item.Exit;
+import com.project.item.Mine;
+import com.project.item.StaticItem;
 import com.project.util.FixedRandom;
 import com.project.util.RandomUtil;
 
@@ -34,7 +34,7 @@ class BoardTest {
   Player player;
 
   @Mock
-  GameObject gameObject;
+  StaticItem staticItem;
 
   @BeforeEach
   void setUp() {
@@ -136,13 +136,13 @@ class BoardTest {
     for (int y = 0; y < board.getNbRow(); y++) {
       for (int x = 0; x < board.getNbColumn(); x++) {
         board.getRoomByCoordinate(new Coordinate(x, y))
-            .ifPresent(room -> room.setGameObject(null));
+            .ifPresent(room -> room.setStaticItem(null));
       }
     }
 
-    board.getRoomByCoordinate(new Coordinate(0, 0)).ifPresent(room -> room.setGameObject(gameObject));
-    board.getRoomByCoordinate(new Coordinate(0, 1)).ifPresent(room -> room.setGameObject(gameObject));
-    board.getRoomByCoordinate(new Coordinate(0, 2)).ifPresent(room -> room.setGameObject(gameObject));
+    board.getRoomByCoordinate(new Coordinate(0, 0)).ifPresent(room -> room.setStaticItem(staticItem));
+    board.getRoomByCoordinate(new Coordinate(0, 1)).ifPresent(room -> room.setStaticItem(staticItem));
+    board.getRoomByCoordinate(new Coordinate(0, 2)).ifPresent(room -> room.setStaticItem(staticItem));
 
     // when
     List<Room> rooms = board.getRoomsWithoutGameObjectAndPlayer();
@@ -180,7 +180,7 @@ class BoardTest {
     for (int y = 0; y < board.getNbRow(); y++) {
       for (int x = 0; x < board.getNbColumn(); x++) {
         Optional<Room> roomOptional = board.getRoomByCoordinate(new Coordinate(x, y));
-        if (roomOptional.isPresent() && clazz.isInstance(roomOptional.get().getGameObject())) {
+        if (roomOptional.isPresent() && clazz.isInstance(roomOptional.get().getStaticItem())) {
           count++;
         }
       }

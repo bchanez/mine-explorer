@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.project.object.GameObject;
+import com.project.item.StaticItem;
 
 @ExtendWith(MockitoExtension.class)
 class RoomTest {
@@ -18,7 +18,7 @@ class RoomTest {
   Player player;
 
   @Mock
-  GameObject gameObject;
+  StaticItem staticItem;
 
   @Test
   void getCoordinateShouldGiveCoordinateOfRoom() {
@@ -117,10 +117,10 @@ class RoomTest {
   void toStringShouldDisplayGameObjectWhenThereIsGameObject() {
     // given
     room = new Room(new Coordinate(-1, -1));
-    Mockito.when(gameObject.toString()).thenReturn("()");
+    Mockito.when(staticItem.toString()).thenReturn("()");
 
     // when
-    room.setGameObject(gameObject);
+    room.setStaticItem(staticItem);
     String display = room.toString();
 
     // then
@@ -135,7 +135,7 @@ class RoomTest {
     Mockito.when(player.toString()).thenReturn("♛♛");
 
     // when
-    room.setGameObject(gameObject);
+    room.setStaticItem(staticItem);
     room.playerEnterRoom(player);
     String display = room.toString();
 
@@ -176,10 +176,10 @@ class RoomTest {
     room = new Room(new Coordinate(-1, -1));
 
     // when
-    room.setGameObject(gameObject);
-    GameObject gameObject = room.getGameObject();
+    room.setStaticItem(staticItem);
+    StaticItem staticItem = room.getStaticItem();
 
     // then
-    Assertions.assertNotNull(gameObject);
+    Assertions.assertNotNull(staticItem);
   }
 }

@@ -22,6 +22,7 @@ import com.project.Coordinate;
 import com.project.Player;
 import com.project.PlayerState;
 import com.project.Room;
+import com.project.item.Mine;
 import com.project.util.FixedRandom;
 import com.project.util.RandomUtil;
 
@@ -82,7 +83,7 @@ class MineTest {
       Mine mine = invocation.getArgument(0);
       mine.setCoordinate(room.getCoordinate());
       return null;
-    }).when(room).setGameObject(any(Mine.class));
+    }).when(room).setStaticItem(any(Mine.class));
 
     // when
     mine = new Mine(board);

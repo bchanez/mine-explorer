@@ -1,4 +1,4 @@
-package com.project.object;
+package com.project.item;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import com.project.PlayerState;
 import com.project.Room;
 import com.project.util.RandomUtil;
 
-public class Mine extends GameObject {
+public class Mine extends StaticItem {
 
   public Mine(Board board) {
     super("**");
@@ -19,7 +19,7 @@ public class Mine extends GameObject {
   protected void setPosition(Board board) {
     List<Room> rooms = board.getRoomsWithoutGameObjectAndPlayer();
     int positionRoom = RandomUtil.nextInt(rooms.size());
-    rooms.get(positionRoom).setGameObject(this);
+    rooms.get(positionRoom).setStaticItem(this);
   }
 
   @Override

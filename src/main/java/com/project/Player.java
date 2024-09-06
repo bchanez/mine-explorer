@@ -3,7 +3,7 @@ package com.project;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.project.object.Grenade;
+import com.project.item.Grenade;
 
 public class Player extends Draw {
 

@@ -17,7 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.project.object.Exit;
+import com.project.item.Exit;
 
 @ExtendWith(MockitoExtension.class)
 class PlayerTest {
