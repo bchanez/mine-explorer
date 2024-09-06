@@ -43,4 +43,24 @@ class GameIT {
     // then
     assertEquals(PlayerState.WON, player.getState());
   }
+
+  @Test
+  void playerShouldLoseWhenReachingMine() throws Exception {
+    // given
+    player = new Player();
+
+    RandomUtil.setRandom(new FixedRandom(3));
+    Mockito.when(menu.getNbRow()).thenReturn(6);
+    Mockito.when(menu.getNbColumn()).thenReturn(6);
+
+    Game game = new Game(menu, player);
+
+    // when
+    Mockito.when(menu.chooseDirection()).thenReturn("z").thenReturn("z").thenReturn("z");
+    Mockito.when(menu.doAction(ArgumentMatchers.any())).thenReturn(1).thenReturn(1).thenReturn(1).thenReturn(0);
+    game.loop();
+
+    // then
+    assertEquals(PlayerState.LOST, player.getState());
+  }
 }
