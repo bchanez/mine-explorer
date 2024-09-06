@@ -22,6 +22,27 @@ public abstract class Draw {
     this.coordinate = coordinate;
   }
 
+  public Coordinate getNextCoordinate(String direction) {
+    Coordinate nextCoordinate = getCoordinate();
+
+    switch (direction) {
+      case "z":
+        nextCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() - 1);
+        break;
+      case "q":
+        nextCoordinate = new Coordinate(coordinate.getX() - 1, coordinate.getY());
+        break;
+      case "s":
+        nextCoordinate = new Coordinate(coordinate.getX(), coordinate.getY() + 1);
+        break;
+      case "d":
+        nextCoordinate = new Coordinate(coordinate.getX() + 1, coordinate.getY());
+        break;
+    }
+
+    return nextCoordinate;
+  }
+
   @Override
   public String toString() {
     return symbol;
