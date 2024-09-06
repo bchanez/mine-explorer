@@ -26,6 +26,7 @@ import com.project.Coordinate;
 import com.project.Player;
 import com.project.PlayerState;
 import com.project.Room;
+import com.project.item.Exit;
 import com.project.util.FixedRandom;
 import com.project.util.RandomUtil;
 
@@ -88,7 +89,7 @@ class ExitTest {
       Exit exit = invocation.getArgument(0);
       exit.setCoordinate(coordinateCaptor.getValue());
       return null;
-    }).when(room).setGameObject(any(Exit.class));
+    }).when(room).setStaticItem(any(Exit.class));
 
     // when
     exit = new Exit(board);

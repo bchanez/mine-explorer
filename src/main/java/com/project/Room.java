@@ -2,7 +2,7 @@ package com.project;
 
 import java.util.Optional;
 
-import com.project.object.GameObject;
+import com.project.item.StaticItem;
 
 public class Room extends Draw {
 
@@ -11,7 +11,7 @@ public class Room extends Draw {
   private static final String leftAndRightSymbol = "|";
 
   private Player player;
-  private GameObject gameObject;
+  private StaticItem staticItem;
 
   private Wall top;
   private Wall bottom;
@@ -44,8 +44,8 @@ public class Room extends Draw {
 
   public void playerEnterRoom(Player player) {
     this.player = player;
-    if (gameObject != null) {
-      gameObject.performAction(player);
+    if (staticItem != null) {
+      staticItem.performAction(player);
     }
   }
 
@@ -53,13 +53,13 @@ public class Room extends Draw {
     this.player = null;
   }
 
-  public void setGameObject(GameObject gameObject) {
-    this.gameObject = gameObject;
-    Optional.ofNullable(this.gameObject).ifPresent(o -> o.setCoordinate(coordinate));
+  public void setStaticItem(StaticItem staticItem) {
+    this.staticItem = staticItem;
+    Optional.ofNullable(this.staticItem).ifPresent(o -> o.setCoordinate(coordinate));
   }
 
-  public GameObject getGameObject() {
-    return gameObject;
+  public StaticItem getStaticItem() {
+    return staticItem;
   }
 
   public Player getPlayer() {
@@ -71,8 +71,8 @@ public class Room extends Draw {
     if (player != null) {
       return player.toString();
     }
-    if (gameObject != null) {
-      return gameObject.toString();
+    if (staticItem != null) {
+      return staticItem.toString();
     }
     return symbol;
   }

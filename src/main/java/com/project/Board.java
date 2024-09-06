@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.project.object.Exit;
-import com.project.object.Mine;
+import com.project.item.Exit;
+import com.project.item.Mine;
 
 public class Board {
 
@@ -72,7 +72,7 @@ public class Board {
     for (int y = 0; y < nbRow; y++) {
       for (int x = 0; x < nbColumn; x++) {
         room = matrix[y][x];
-        if (room.getGameObject() == null && room.getPlayer() == null) {
+        if (room.getStaticItem() == null && room.getPlayer() == null) {
           rooms.add(room);
         }
       }

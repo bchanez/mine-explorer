@@ -1,4 +1,4 @@
-package com.project.object;
+package com.project.item;
 
 import com.project.Board;
 import com.project.Coordinate;
@@ -6,7 +6,7 @@ import com.project.Player;
 import com.project.PlayerState;
 import com.project.util.RandomUtil;
 
-public class Exit extends GameObject {
+public class Exit extends StaticItem {
 
   private static final String symbol = "()";
 
@@ -40,7 +40,7 @@ public class Exit extends GameObject {
         break;
     }
 
-    board.getRoomByCoordinate(cornerCoordinate).ifPresent(room -> room.setGameObject(this));
+    board.getRoomByCoordinate(cornerCoordinate).ifPresent(room -> room.setStaticItem(this));
   }
 
   @Override
