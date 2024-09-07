@@ -2,7 +2,6 @@ package com.project;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.project.item.Grenade;
 
@@ -30,11 +29,11 @@ public class Player extends Draw {
   @Override
   public void setCoordinate(Coordinate coordinate) {
     if (this.coordinate != null) {
-      board.getRoomByCoordinate(this.coordinate).ifPresent(room -> room.playerLeaveRoom());
+      board.getRoomByCoordinate(this.coordinate).playerLeaveRoom();
     }
 
     this.coordinate = coordinate;
-    board.getRoomByCoordinate(this.coordinate).ifPresent(room -> room.playerEnterRoom(this));
+    board.getRoomByCoordinate(this.coordinate).playerEnterRoom(this);
   }
 
   public void moveToDirection(String direction) {
@@ -46,14 +45,8 @@ public class Player extends Draw {
   }
 
   private boolean canMoveToDirection(String direction) {
-    Optional<Room> currentRoomOptional = board.getRoomByCoordinate(this.coordinate);
-    if (!currentRoomOptional.isPresent()) {
-      return false;
-    }
-    Room currentRoom = currentRoomOptional.get();
-
+    Room currentRoom = board.getRoomByCoordinate(this.coordinate);
     Wall wallByDirection = currentRoom.getWallByDirection(direction);
-
     return wallByDirection.isDestroyed();
   }
 

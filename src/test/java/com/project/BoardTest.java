@@ -1,10 +1,8 @@
 package com.project;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -80,12 +78,10 @@ class BoardTest {
     board = new Board(1, 1, player);
 
     // when
-    Optional<Room> optionalRoom = board.getRoomByCoordinate(coordinate);
+    Room room = board.getRoomByCoordinate(coordinate);
 
     // then
-    assertTrue(optionalRoom.isPresent());
-    optionalRoom.ifPresent(room -> assertEquals(coordinate, room.getCoordinate()));
-
+    assertEquals(coordinate, room.getCoordinate());
   }
 
   @Test
@@ -94,14 +90,13 @@ class BoardTest {
     board = new Board(3, 3, player);
     for (int y = 0; y < board.getNbRow(); y++) {
       for (int x = 0; x < board.getNbColumn(); x++) {
-        board.getRoomByCoordinate(new Coordinate(x, y))
-            .ifPresent(room -> room.setStaticItem(null));
+        board.getRoomByCoordinate(new Coordinate(x, y)).setStaticItem(null);
       }
     }
 
-    board.getRoomByCoordinate(new Coordinate(0, 0)).ifPresent(room -> room.setStaticItem(staticItem));
-    board.getRoomByCoordinate(new Coordinate(0, 1)).ifPresent(room -> room.setStaticItem(staticItem));
-    board.getRoomByCoordinate(new Coordinate(0, 2)).ifPresent(room -> room.setStaticItem(staticItem));
+    board.getRoomByCoordinate(new Coordinate(0, 0)).setStaticItem(staticItem);
+    board.getRoomByCoordinate(new Coordinate(0, 1)).setStaticItem(staticItem);
+    board.getRoomByCoordinate(new Coordinate(0, 2)).setStaticItem(staticItem);
 
     // when
     List<Room> rooms = board.getRoomsWithoutGameObjectAndPlayer();
@@ -115,9 +110,8 @@ class BoardTest {
     // given
     Mockito.when(player.toString()).thenReturn("♛♛");
     board = new Board(3, 3, player);
-    Optional<Room> optionalRoom = board
-        .getRoomByCoordinate(new Coordinate(board.getNbColumn() / 2, board.getNbRow() / 2));
-    optionalRoom.ifPresent(room -> room.playerEnterRoom(player));
+    Room room = board.getRoomByCoordinate(new Coordinate(board.getNbColumn() / 2, board.getNbRow() / 2));
+    room.playerEnterRoom(player);
 
     // when
     String result = board.toString();
@@ -138,8 +132,8 @@ class BoardTest {
     int count = 0;
     for (int y = 0; y < board.getNbRow(); y++) {
       for (int x = 0; x < board.getNbColumn(); x++) {
-        Optional<Room> roomOptional = board.getRoomByCoordinate(new Coordinate(x, y));
-        if (roomOptional.isPresent() && clazz.isInstance(roomOptional.get().getStaticItem())) {
+        Room room = board.getRoomByCoordinate(new Coordinate(x, y));
+        if (clazz.isInstance(room.getStaticItem())) {
           count++;
         }
       }
