@@ -29,15 +29,17 @@ class GameIT {
     // given
     player = new Player();
 
-    RandomUtil.setRandom(new FixedRandom(0));
-    Mockito.when(menu.getNbRow()).thenReturn(3);
-    Mockito.when(menu.getNbColumn()).thenReturn(3);
+    RandomUtil.setRandom(new FixedRandom(3));
+    Mockito.when(menu.getNbRow()).thenReturn(8);
+    Mockito.when(menu.getNbColumn()).thenReturn(8);
 
     Game game = new Game(menu, player);
 
     // when
-    Mockito.when(menu.chooseDirection()).thenReturn("q").thenReturn("z");
-    Mockito.when(menu.doAction(ArgumentMatchers.any())).thenReturn(1).thenReturn(1).thenReturn(0);
+    Mockito.when(menu.chooseDirection()).thenReturn("s").thenReturn("s").thenReturn("s").thenReturn("d").thenReturn("d")
+        .thenReturn("d");
+    Mockito.when(menu.doAction(ArgumentMatchers.any())).thenReturn(2).thenReturn(2).thenReturn(2).thenReturn(2)
+        .thenReturn(2).thenReturn(2).thenReturn(0);
     game.loop();
 
     // then
@@ -57,7 +59,7 @@ class GameIT {
 
     // when
     Mockito.when(menu.chooseDirection()).thenReturn("z").thenReturn("z").thenReturn("z");
-    Mockito.when(menu.doAction(ArgumentMatchers.any())).thenReturn(1).thenReturn(1).thenReturn(1).thenReturn(0);
+    Mockito.when(menu.doAction(ArgumentMatchers.any())).thenReturn(2).thenReturn(2).thenReturn(2).thenReturn(0);
     game.loop();
 
     // then
