@@ -31,23 +31,28 @@ public class Grenade extends UsableItem {
     }
     Room nextRoom = nextRoomOptional.get();
 
+    playerRoom.getWallByDirection(direction).destroy();
+    nextRoom.getWallByDirection(getReverseDirection(direction)).destroy();
+  }
+
+  private String getReverseDirection(String direction) {
+    String reverseDirection = null;
+
     switch (direction) {
       case "z":
-        playerRoom.getTop().destroy();
-        nextRoom.getBottom().destroy();
+        reverseDirection = "s";
         break;
       case "q":
-        playerRoom.getLeft().destroy();
-        nextRoom.getRight().destroy();
+        reverseDirection = "d";
         break;
       case "s":
-        playerRoom.getBottom().destroy();
-        nextRoom.getTop().destroy();
+        reverseDirection = "z";
         break;
       case "d":
-        playerRoom.getRight().destroy();
-        nextRoom.getLeft().destroy();
+        reverseDirection = "q";
         break;
     }
+
+    return reverseDirection;
   }
 }

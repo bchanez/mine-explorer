@@ -2,6 +2,7 @@ package com.project;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.project.item.Grenade;
 
@@ -40,7 +41,23 @@ public class Player extends Draw {
   }
 
   public void moveToDirection(String direction) {
+    if (!canMoveToDirection(direction)) {
+      return;
+    }
+
     setCoordinate(getNextCoordinate(direction));
+  }
+
+  private boolean canMoveToDirection(String direction) {
+    Optional<Room> currentRoomOptional = board.getRoomByCoordinate(this.coordinate);
+    if (!currentRoomOptional.isPresent()) {
+      return false;
+    }
+    Room currentRoom = currentRoomOptional.get();
+
+    Wall wallByDirection = currentRoom.getWallByDirection(direction);
+
+    return wallByDirection.isDestroyed();
   }
 
   public void throwGrenadeInDirection(String direction) {

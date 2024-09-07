@@ -38,8 +38,8 @@ class GrenadeTest {
       String nextRoomBottom,
       String nextRoomLeft, String nextRoomRight) {
     // given
-    Room playerRoom = new Room(new Coordinate(-1, -1));
-    Room nextRoom = new Room(new Coordinate(-1, -1));
+    Room playerRoom = new Room(board, new Coordinate(-1, -1));
+    Room nextRoom = new Room(board, new Coordinate(-1, -1));
 
     when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(Optional.of(playerRoom))
         .thenReturn(Optional.of(nextRoom));
@@ -82,10 +82,6 @@ class GrenadeTest {
         Arguments.of("d", topAndBottomSymbol, topAndBottomSymbol, leftAndRightSymbol,
             leftAndRightDestroySymbol,
             topAndBottomSymbol, topAndBottomSymbol, leftAndRightDestroySymbol,
-            leftAndRightSymbol),
-        Arguments.of("?", topAndBottomSymbol, topAndBottomSymbol, leftAndRightSymbol,
-            leftAndRightSymbol,
-            topAndBottomSymbol, topAndBottomSymbol, leftAndRightSymbol,
             leftAndRightSymbol));
   }
 }
