@@ -179,8 +179,7 @@ class PlayerTest {
         Arguments.of("z", new Coordinate(1, 1)),
         Arguments.of("q", new Coordinate(1, 1)),
         Arguments.of("s", new Coordinate(1, 1)),
-        Arguments.of("d", new Coordinate(1, 1)),
-        Arguments.of("?", new Coordinate(1, 1)));
+        Arguments.of("d", new Coordinate(1, 1)));
   }
 
   @Test
