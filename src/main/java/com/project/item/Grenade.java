@@ -1,7 +1,5 @@
 package com.project.item;
 
-import java.util.Optional;
-
 import com.project.Board;
 import com.project.Coordinate;
 import com.project.Player;
@@ -16,20 +14,10 @@ public class Grenade extends UsableItem {
   @Override
   public void use(Player player, String direction) {
     Coordinate playerCoordinate = player.getCoordinate();
-    Optional<Room> playerRoomOptional = board.getRoomByCoordinate(playerCoordinate);
-
-    if (!playerRoomOptional.isPresent()) {
-      return;
-    }
-    Room playerRoom = playerRoomOptional.get();
+    Room playerRoom = board.getRoomByCoordinate(playerCoordinate);
 
     Coordinate nexCoordinate = playerRoom.getNextCoordinate(direction);
-    Optional<Room> nextRoomOptional = board.getRoomByCoordinate(nexCoordinate);
-
-    if (!nextRoomOptional.isPresent()) {
-      return;
-    }
-    Room nextRoom = nextRoomOptional.get();
+    Room nextRoom = board.getRoomByCoordinate(nexCoordinate);
 
     playerRoom.getWallByDirection(direction).destroy();
     nextRoom.getWallByDirection(getReverseDirection(direction)).destroy();

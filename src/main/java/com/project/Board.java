@@ -3,7 +3,6 @@ package com.project;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.project.item.Exit;
 import com.project.item.Mine;
@@ -52,9 +51,8 @@ public class Board {
     }
   }
 
-  public Optional<Room> getRoomByCoordinate(Coordinate coordinate) {
-    return Optional.ofNullable(matrix[coordinate.getY()][coordinate.getX()]);
-
+  public Room getRoomByCoordinate(Coordinate coordinate) {
+    return matrix[coordinate.getY()][coordinate.getX()];
   }
 
   public List<Room> getRoomsWithoutGameObjectAndPlayer() {

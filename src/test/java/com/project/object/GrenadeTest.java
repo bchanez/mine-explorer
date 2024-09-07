@@ -3,7 +3,6 @@ package com.project.object;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,8 +40,8 @@ class GrenadeTest {
     Room playerRoom = new Room(board, new Coordinate(-1, -1));
     Room nextRoom = new Room(board, new Coordinate(-1, -1));
 
-    when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(Optional.of(playerRoom))
-        .thenReturn(Optional.of(nextRoom));
+    when(board.getRoomByCoordinate(ArgumentMatchers.any())).thenReturn(playerRoom)
+        .thenReturn(nextRoom);
     grenade = new Grenade(board);
 
     // when

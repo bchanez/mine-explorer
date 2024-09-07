@@ -1,12 +1,8 @@
 package com.project.object;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
@@ -18,14 +14,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.project.Board;
 import com.project.Coordinate;
 import com.project.Player;
 import com.project.PlayerState;
-import com.project.Room;
 import com.project.item.Exit;
 import com.project.util.FixedRandom;
 import com.project.util.RandomUtil;
@@ -35,18 +29,15 @@ class ExitTest {
 
   Exit exit;
 
-  @Mock
   Board board;
-
-  @Mock
-  Room room;
 
   @Mock
   Player player;
 
   @BeforeEach
-  void setUp() {
+  void setUp() throws Exception {
     RandomUtil.setRandom(new FixedRandom(0));
+    board = new Board(3, 3, player);
     exit = new Exit(board);
   }
 
@@ -76,20 +67,11 @@ class ExitTest {
 
   @ParameterizedTest
   @MethodSource
-  void setPositionShouldSetPositionRandomlyToBoardCorner(int cornerBoard, Coordinate expected) {
+  void setPositionShouldSetPositionRandomlyToBoardCorner(int cornerBoard, Coordinate expected) throws Exception {
     // given
     RandomUtil.setRandom(new FixedRandom(cornerBoard));
-    Mockito.when(board.getNbRow()).thenReturn(4);
-    Mockito.when(board.getNbColumn()).thenReturn(4);
-
-    ArgumentCaptor<Coordinate> coordinateCaptor = ArgumentCaptor.forClass(Coordinate.class);
-    when(board.getRoomByCoordinate(coordinateCaptor.capture())).thenReturn(Optional.of(room));
-
-    doAnswer(invocation -> {
-      Exit exit = invocation.getArgument(0);
-      exit.setCoordinate(coordinateCaptor.getValue());
-      return null;
-    }).when(room).setStaticItem(any(Exit.class));
+    board = new Board(4, 4, player);
+    exit = new Exit(board);
 
     // when
     exit = new Exit(board);

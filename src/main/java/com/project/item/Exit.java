@@ -40,7 +40,7 @@ public class Exit extends StaticItem {
         break;
     }
 
-    board.getRoomByCoordinate(cornerCoordinate).ifPresent(room -> room.setStaticItem(this));
+    board.getRoomByCoordinate(cornerCoordinate).setStaticItem(this);
   }
 
   @Override

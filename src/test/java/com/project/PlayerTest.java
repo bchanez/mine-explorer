@@ -1,6 +1,5 @@
 package com.project;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
@@ -59,6 +58,9 @@ class PlayerTest {
     // given
     Mockito.when(board.getNbColumn()).thenReturn(3);
     Mockito.when(board.getNbRow()).thenReturn(3);
+    Room room = new Room(board, new Coordinate(-1, -1));
+    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
+        .thenReturn(room);
 
     // when
     player.setBoard(board);
@@ -72,6 +74,9 @@ class PlayerTest {
     // given
     Mockito.when(board.getNbColumn()).thenReturn(10);
     Mockito.when(board.getNbRow()).thenReturn(10);
+    Room room = new Room(board, new Coordinate(-1, -1));
+    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
+        .thenReturn(room);
 
     // when
     player.setBoard(board);
@@ -93,7 +98,7 @@ class PlayerTest {
     room.getRight().destroy();
 
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
-        .thenReturn(Optional.of(room));
+        .thenReturn(room);
     player.setBoard(board);
     player.setCoordinate(new Coordinate(1, 1));
 
@@ -118,11 +123,10 @@ class PlayerTest {
     // given
     Mockito.when(board.getNbColumn()).thenReturn(3);
     Mockito.when(board.getNbRow()).thenReturn(3);
-
     Room room = new Room(board, new Coordinate(-1, -1));
-
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
-        .thenReturn(Optional.of(room));
+        .thenReturn(room);
+
     player.setBoard(board);
     Coordinate coordinate = new Coordinate(1, 1);
     player.setCoordinate(coordinate);
@@ -141,9 +145,9 @@ class PlayerTest {
     Mockito.when(board.getNbColumn()).thenReturn(1);
     Mockito.when(board.getNbRow()).thenReturn(1);
     Room room = new Room(board, new Coordinate(-1, -1));
-
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
-        .thenReturn(Optional.of(room));
+        .thenReturn(room);
+
     player.setBoard(board);
     player.setCoordinate(new Coordinate(0, 0));
 
@@ -163,7 +167,8 @@ class PlayerTest {
     Mockito.when(board.getNbRow()).thenReturn(10);
     Room room = new Room(board, new Coordinate(-1, -1));
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
-        .thenReturn(Optional.of(room));
+        .thenReturn(room);
+
     player.setBoard(board);
     player.setCoordinate(new Coordinate(1, 1));
 
@@ -191,7 +196,8 @@ class PlayerTest {
     Mockito.when(board.getNbRow()).thenReturn(3);
     Room room = new Room(board, new Coordinate(-1, -1));
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
-        .thenReturn(Optional.of(room));
+        .thenReturn(room);
+
     player.setBoard(board);
     player.setCoordinate(new Coordinate(1, 1));
 
@@ -215,6 +221,10 @@ class PlayerTest {
     // given
     Mockito.when(board.getNbColumn()).thenReturn(10);
     Mockito.when(board.getNbRow()).thenReturn(10);
+    Room room = new Room(board, new Coordinate(-1, -1));
+    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
+        .thenReturn(room);
+
     player.setBoard(board);
     player.setCoordinate(new Coordinate(1, 1));
 
@@ -230,6 +240,7 @@ class PlayerTest {
   @EnumSource(PlayerState.class)
   void testSetStateAndGetState(PlayerState state) {
     // given
+
     // when
     player.setState(state);
 
