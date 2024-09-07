@@ -23,6 +23,8 @@ class GameTest {
 
   @BeforeEach
   void setUp() throws Exception {
+    Mockito.when(menu.getNbColumn()).thenReturn(3);
+    Mockito.when(menu.getNbRow()).thenReturn(3);
     game = new Game(menu, player);
   }
 

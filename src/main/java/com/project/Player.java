@@ -29,9 +29,6 @@ public class Player extends Draw {
 
   @Override
   public void setCoordinate(Coordinate coordinate) {
-    if (!board.isRoomExist(coordinate))
-      return;
-
     if (this.coordinate != null) {
       board.getRoomByCoordinate(this.coordinate).ifPresent(room -> room.playerLeaveRoom());
     }

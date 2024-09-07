@@ -52,18 +52,9 @@ public class Board {
     }
   }
 
-  // to delete ?
-  public boolean isRoomExist(Coordinate coordinate) {
-    return coordinate != null && 0 <= coordinate.getX() && coordinate.getX() < nbColumn && 0 <= coordinate.getY()
-        && coordinate.getY() < nbRow;
-  }
-
   public Optional<Room> getRoomByCoordinate(Coordinate coordinate) {
-    if (isRoomExist(coordinate)) {
-      return Optional.ofNullable(matrix[coordinate.getY()][coordinate.getX()]);
-    }
+    return Optional.ofNullable(matrix[coordinate.getY()][coordinate.getX()]);
 
-    return Optional.empty();
   }
 
   public List<Room> getRoomsWithoutGameObjectAndPlayer() {

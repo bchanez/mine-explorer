@@ -59,7 +59,6 @@ class PlayerTest {
     // given
     Mockito.when(board.getNbColumn()).thenReturn(3);
     Mockito.when(board.getNbRow()).thenReturn(3);
-    Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
 
     // when
     player.setBoard(board);
@@ -87,7 +86,6 @@ class PlayerTest {
   void moveToDirectionShouldMovePlayerIfWallsAreDestroyedInSpecifiedDirection(String direction,
       Coordinate coordinateExpected) {
     // given
-    Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
     Room room = new Room(board, new Coordinate(-1, -1));
     room.getTop().destroy();
     room.getBottom().destroy();
@@ -118,7 +116,6 @@ class PlayerTest {
   @ValueSource(strings = { "z", "q", "s", "d" })
   void moveToDirectionShouldNotAllowPlayerToMoveIfWallIsNotDestroyed(String direction) {
     // given
-    Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true).thenReturn(false);
     Mockito.when(board.getNbColumn()).thenReturn(3);
     Mockito.when(board.getNbRow()).thenReturn(3);
 
@@ -143,7 +140,6 @@ class PlayerTest {
     // given
     Mockito.when(board.getNbColumn()).thenReturn(1);
     Mockito.when(board.getNbRow()).thenReturn(1);
-    Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
     Room room = new Room(board, new Coordinate(-1, -1));
 
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
@@ -165,7 +161,6 @@ class PlayerTest {
     // given
     Mockito.when(board.getNbColumn()).thenReturn(10);
     Mockito.when(board.getNbRow()).thenReturn(10);
-    Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
     Room room = new Room(board, new Coordinate(-1, -1));
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
         .thenReturn(Optional.of(room));
@@ -194,7 +189,6 @@ class PlayerTest {
     // given
     Mockito.when(board.getNbColumn()).thenReturn(3);
     Mockito.when(board.getNbRow()).thenReturn(3);
-    Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
     Room room = new Room(board, new Coordinate(-1, -1));
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
         .thenReturn(Optional.of(room));
@@ -221,7 +215,6 @@ class PlayerTest {
     // given
     Mockito.when(board.getNbColumn()).thenReturn(10);
     Mockito.when(board.getNbRow()).thenReturn(10);
-    Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
     player.setBoard(board);
     player.setCoordinate(new Coordinate(1, 1));
 
