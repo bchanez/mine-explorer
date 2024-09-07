@@ -1,8 +1,15 @@
 package com.project;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -20,11 +27,14 @@ class RoomTest {
   @Mock
   StaticItem staticItem;
 
+  @Mock
+  Board board;
+
   @Test
   void getCoordinateShouldGiveCoordinateOfRoom() {
     // given
     Coordinate expected = new Coordinate(1, 1);
-    room = new Room(expected);
+    room = new Room(board, expected);
 
     // when
     Coordinate actual = room.getCoordinate();
@@ -36,7 +46,7 @@ class RoomTest {
   @Test
   void toStringShouldDisplayRoom() {
     // given
-    room = new Room(new Coordinate(-1, -1));
+    room = new Room(board, new Coordinate(-1, -1));
 
     // when
     String display = room.toString();
@@ -49,7 +59,7 @@ class RoomTest {
   @Test
   void getTopShouldReturnTopWall() {
     // given
-    room = new Room(new Coordinate(-1, -1));
+    room = new Room(board, new Coordinate(-1, -1));
 
     // when
     Wall wall = room.getTop();
@@ -62,7 +72,7 @@ class RoomTest {
   @Test
   void getBottomShouldReturnBottomWall() {
     // given
-    room = new Room(new Coordinate(-1, -1));
+    room = new Room(board, new Coordinate(-1, -1));
 
     // when
     Wall wall = room.getBottom();
@@ -75,7 +85,7 @@ class RoomTest {
   @Test
   void getLeftShouldReturnLeftWall() {
     // given
-    room = new Room(new Coordinate(-1, -1));
+    room = new Room(board, new Coordinate(-1, -1));
 
     // when
     Wall wall = room.getLeft();
@@ -88,7 +98,7 @@ class RoomTest {
   @Test
   void getRightShouldReturnRightWall() {
     // given
-    room = new Room(new Coordinate(-1, -1));
+    room = new Room(board, new Coordinate(-1, -1));
 
     // when
     Wall wall = room.getRight();
@@ -98,11 +108,32 @@ class RoomTest {
     Assertions.assertEquals(expected, wall.toString());
   }
 
+  @ParameterizedTest
+  @MethodSource
+  void getWallByDirectionShouldReturnCorrectWallForGivenDirection(String direction, String expectedWall) {
+    // given
+    room = new Room(board, new Coordinate(-1, -1));
+
+    // when
+    Wall wall = room.getWallByDirection(direction);
+
+    // then
+    Assertions.assertEquals(expectedWall, wall.toString());
+  }
+
+  private static Stream<Arguments> getWallByDirectionShouldReturnCorrectWallForGivenDirection() {
+    return Stream.of(
+        Arguments.of("z", "----"),
+        Arguments.of("q", "|"),
+        Arguments.of("s", "----"),
+        Arguments.of("d", "|"));
+  }
+
   @Test
   void toStringShouldDisplayPlayerWhenPlayerEnterRoom() {
     // given
     Mockito.when(player.toString()).thenReturn("♛♛");
-    room = new Room(new Coordinate(-1, -1));
+    room = new Room(board, new Coordinate(-1, -1));
 
     // when
     room.playerEnterRoom(player);
@@ -116,7 +147,7 @@ class RoomTest {
   @Test
   void toStringShouldDisplayGameObjectWhenThereIsGameObject() {
     // given
-    room = new Room(new Coordinate(-1, -1));
+    room = new Room(board, new Coordinate(-1, -1));
     Mockito.when(staticItem.toString()).thenReturn("()");
 
     // when
@@ -131,7 +162,7 @@ class RoomTest {
   @Test
   void toStringShouldDisplayPlayerWhenPlayerEnterRoomAndThereIsGameObject() {
     // given
-    room = new Room(new Coordinate(-1, -1));
+    room = new Room(board, new Coordinate(-1, -1));
     Mockito.when(player.toString()).thenReturn("♛♛");
 
     // when
@@ -147,7 +178,7 @@ class RoomTest {
   @Test
   void getPlayerShouldReturnThePlayerWhenPlayerEnterRoom() {
     // given
-    room = new Room(new Coordinate(-1, -1));
+    room = new Room(board, new Coordinate(-1, -1));
 
     // when
     room.playerEnterRoom(player);
@@ -160,7 +191,7 @@ class RoomTest {
   @Test
   void getPlayerShouldReturnNullWhenPlayerLeaveRoom() {
     // given
-    room = new Room(new Coordinate(-1, -1));
+    room = new Room(board, new Coordinate(-1, -1));
 
     // when
     room.playerLeaveRoom();
@@ -173,7 +204,7 @@ class RoomTest {
   @Test
   void getGameObjectShouldReturnTheGameObjectWhenPresent() {
     // given
-    room = new Room(new Coordinate(-1, -1));
+    room = new Room(board, new Coordinate(-1, -1));
 
     // when
     room.setStaticItem(staticItem);
@@ -181,5 +212,25 @@ class RoomTest {
 
     // then
     Assertions.assertNotNull(staticItem);
+  }
+
+  @Test
+  void wallsShouldBeIndestructibleIfAtEdgeOfBoard() {
+    // given
+    Mockito.when(board.getNbColumn()).thenReturn(1);
+    Mockito.when(board.getNbRow()).thenReturn(1);
+
+    // when
+    Room room = new Room(board, new Coordinate(0, 0));
+    room.getTop().destroy();
+    room.getBottom().destroy();
+    room.getLeft().destroy();
+    room.getRight().destroy();
+
+    // then
+    assertFalse(room.getTop().isDestroyed());
+    assertFalse(room.getBottom().isDestroyed());
+    assertFalse(room.getLeft().isDestroyed());
+    assertFalse(room.getRight().isDestroyed());
   }
 }

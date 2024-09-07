@@ -32,7 +32,7 @@ public class Board {
     matrix = new Room[nbRow][nbColumn];
     for (int y = 0; y < nbRow; y++) {
       for (int x = 0; x < nbColumn; x++) {
-        matrix[y][x] = new Room(new Coordinate(x, y));
+        matrix[y][x] = new Room(this, new Coordinate(x, y));
       }
     }
   }
@@ -52,6 +52,7 @@ public class Board {
     }
   }
 
+  // to delete ?
   public boolean isRoomExist(Coordinate coordinate) {
     return coordinate != null && 0 <= coordinate.getX() && coordinate.getX() < nbColumn && 0 <= coordinate.getY()
         && coordinate.getY() < nbRow;

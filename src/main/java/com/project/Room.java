@@ -21,12 +21,24 @@ public class Room extends Draw {
   private Wall left;
   private Wall right;
 
-  public Room(Coordinate coordinate) {
+  public Room(Board board, Coordinate coordinate) {
     super(symbol, coordinate);
-    top = new Wall(topAndBottomSymbol, topAndBottomDestroySymbol);
-    bottom = new Wall(topAndBottomSymbol, topAndBottomDestroySymbol);
-    left = new Wall(leftAndRightSymbol, leftAndRightDestroySymbol);
-    right = new Wall(leftAndRightSymbol, leftAndRightDestroySymbol);
+    setupWalls(board, coordinate);
+  }
+
+  private void setupWalls(Board board, Coordinate coordinate) {
+    int maxY = board.getNbRow();
+    int maxX = board.getNbColumn();
+
+    boolean topIsIndestructible = 0 == coordinate.getY();
+    boolean bottomIsIndestructible = 0 == maxY - 1;
+    boolean leftIsIndestructible = 0 == coordinate.getX();
+    boolean rightIsIndestructible = 0 == maxX - 1;
+
+    top = new Wall(topIsIndestructible, topAndBottomSymbol, topAndBottomDestroySymbol);
+    bottom = new Wall(bottomIsIndestructible, topAndBottomSymbol, topAndBottomDestroySymbol);
+    left = new Wall(leftIsIndestructible, leftAndRightSymbol, leftAndRightDestroySymbol);
+    right = new Wall(rightIsIndestructible, leftAndRightSymbol, leftAndRightDestroySymbol);
   }
 
   public Wall getTop() {
@@ -43,6 +55,27 @@ public class Room extends Draw {
 
   public Wall getRight() {
     return right;
+  }
+
+  public Wall getWallByDirection(String direction) {
+    Wall wall = null;
+
+    switch (direction) {
+      case "z":
+        wall = top;
+        break;
+      case "q":
+        wall = left;
+        break;
+      case "s":
+        wall = bottom;
+        break;
+      case "d":
+        wall = right;
+        break;
+    }
+
+    return wall;
   }
 
   public void playerEnterRoom(Player player) {

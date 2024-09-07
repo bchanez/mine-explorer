@@ -84,11 +84,18 @@ class PlayerTest {
 
   @ParameterizedTest
   @MethodSource
-  void moveToDirectionShouldMovesPlayerInSpecifiedDirection(String direction, Coordinate coordinateExpected) {
+  void moveToDirectionShouldMovePlayerIfWallsAreDestroyedInSpecifiedDirection(String direction,
+      Coordinate coordinateExpected) {
     // given
     Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
+    Room room = new Room(board, new Coordinate(-1, -1));
+    room.getTop().destroy();
+    room.getBottom().destroy();
+    room.getLeft().destroy();
+    room.getRight().destroy();
+
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
-        .thenReturn(Optional.of(new Room(new Coordinate(-1, -1))));
+        .thenReturn(Optional.of(room));
     player.setBoard(board);
     player.setCoordinate(new Coordinate(1, 1));
 
@@ -99,27 +106,53 @@ class PlayerTest {
     Assertions.assertEquals(coordinateExpected, player.getCoordinate());
   }
 
-  private static Stream<Arguments> moveToDirectionShouldMovesPlayerInSpecifiedDirection() {
+  private static Stream<Arguments> moveToDirectionShouldMovePlayerIfWallsAreDestroyedInSpecifiedDirection() {
     return Stream.of(
         Arguments.of("z", new Coordinate(1, 0)),
         Arguments.of("q", new Coordinate(0, 1)),
         Arguments.of("s", new Coordinate(1, 2)),
-        Arguments.of("d", new Coordinate(2, 1)),
-        Arguments.of("?", new Coordinate(1, 1)));
+        Arguments.of("d", new Coordinate(2, 1)));
   }
 
   @ParameterizedTest
   @ValueSource(strings = { "z", "q", "s", "d" })
-  void moveToDirectionShouldNotAllowPlayerToMoveOutsideBoard(String direction) {
+  void moveToDirectionShouldNotAllowPlayerToMoveIfWallIsNotDestroyed(String direction) {
     // given
     Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true).thenReturn(false);
+    Mockito.when(board.getNbColumn()).thenReturn(3);
+    Mockito.when(board.getNbRow()).thenReturn(3);
+
+    Room room = new Room(board, new Coordinate(-1, -1));
+
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
-        .thenReturn(Optional.of(new Room(new Coordinate(-1, -1))));
+        .thenReturn(Optional.of(room));
+    player.setBoard(board);
+    Coordinate coordinate = new Coordinate(1, 1);
+    player.setCoordinate(coordinate);
+
+    // when
+    player.moveToDirection(direction);
+
+    // then
+    Assertions.assertEquals(coordinate, player.getCoordinate());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = { "z", "q", "s", "d" })
+  void throwGrenadeInDirectionShouldNotDestroyWallIfItIsIndestructible(String direction) {
+    // given
+    Mockito.when(board.getNbColumn()).thenReturn(1);
+    Mockito.when(board.getNbRow()).thenReturn(1);
+    Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
+    Room room = new Room(board, new Coordinate(-1, -1));
+
+    Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
+        .thenReturn(Optional.of(room));
     player.setBoard(board);
     player.setCoordinate(new Coordinate(0, 0));
 
     // when
-    player.moveToDirection(direction);
+    player.throwGrenadeInDirection(direction);
 
     // then
     Assertions.assertEquals(new Coordinate(0, 0), player.getCoordinate());
@@ -133,8 +166,9 @@ class PlayerTest {
     Mockito.when(board.getNbColumn()).thenReturn(10);
     Mockito.when(board.getNbRow()).thenReturn(10);
     Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
+    Room room = new Room(board, new Coordinate(-1, -1));
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
-        .thenReturn(Optional.of(new Room(new Coordinate(-1, -1))));
+        .thenReturn(Optional.of(room));
     player.setBoard(board);
     player.setCoordinate(new Coordinate(1, 1));
 
@@ -150,8 +184,7 @@ class PlayerTest {
         Arguments.of("z", new Coordinate(1, 0)),
         Arguments.of("q", new Coordinate(0, 1)),
         Arguments.of("s", new Coordinate(1, 2)),
-        Arguments.of("d", new Coordinate(2, 1)),
-        Arguments.of("?", new Coordinate(1, 1)));
+        Arguments.of("d", new Coordinate(2, 1)));
   }
 
   @ParameterizedTest
@@ -162,8 +195,9 @@ class PlayerTest {
     Mockito.when(board.getNbColumn()).thenReturn(3);
     Mockito.when(board.getNbRow()).thenReturn(3);
     Mockito.when(board.isRoomExist(ArgumentMatchers.any())).thenReturn(true);
+    Room room = new Room(board, new Coordinate(-1, -1));
     Mockito.when(board.getRoomByCoordinate(ArgumentMatchers.any()))
-        .thenReturn(Optional.of(new Room(new Coordinate(-1, -1))));
+        .thenReturn(Optional.of(room));
     player.setBoard(board);
     player.setCoordinate(new Coordinate(1, 1));
 
