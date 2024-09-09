@@ -6,7 +6,7 @@ import com.project.item.StaticItem;
 
 public class Room extends Draw {
 
-  private static final String symbol = "  ";
+  private static final String SYMBOL = "  ";
 
   private static final String topAndBottomSymbol = "----";
   private String topAndBottomDestroySymbol = "    ";
@@ -22,7 +22,7 @@ public class Room extends Draw {
   private Wall right;
 
   public Room(Board board, Coordinate coordinate) {
-    super(symbol, coordinate);
+    super(SYMBOL, coordinate);
     setupWalls(board, coordinate);
   }
 

@@ -8,10 +8,10 @@ import com.project.util.RandomUtil;
 
 public class Exit extends StaticItem {
 
-  private static final String symbol = "()";
+  private static final String SYMBOL = "()";
 
   public Exit(Board board) {
-    super(symbol);
+    super(SYMBOL);
     setPosition(board);
   }
 

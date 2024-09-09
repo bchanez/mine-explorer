@@ -10,8 +10,10 @@ import com.project.util.RandomUtil;
 
 public class Mine extends StaticItem {
 
+  private static final String SYMBOL = "**";
+
   public Mine(Board board) {
-    super("**");
+    super(SYMBOL);
     setPosition(board);
   }
 
