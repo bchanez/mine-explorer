@@ -65,9 +65,7 @@ public class Player extends Draw {
     int totalNumberOfRooms = board.getNbRow() * board.getNbColumn();
     int totalNumberOfGrenades = (int) (totalNumberOfRooms * PERCENTAGE_GRENADE);
 
-    for (int i = 0; i < totalNumberOfGrenades; i++) {
-      grenades.add(new Grenade(board));
-    }
+    collectGrenades(totalNumberOfGrenades);
   }
 
   public PlayerState getState() {
@@ -80,5 +78,11 @@ public class Player extends Draw {
 
   public List<Grenade> getGrenades() {
     return grenades;
+  }
+
+  public void collectGrenades(int quantity) {
+    for (int i = 0; i < quantity; i++) {
+      grenades.add(new Grenade(board));
+    }
   }
 }

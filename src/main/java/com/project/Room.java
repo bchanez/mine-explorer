@@ -82,6 +82,7 @@ public class Room extends Draw {
     this.player = player;
     if (staticItem != null) {
       staticItem.performAction(player);
+      staticItem = null;
     }
   }
 

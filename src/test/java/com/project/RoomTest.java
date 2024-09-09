@@ -233,4 +233,17 @@ class RoomTest {
     assertFalse(room.getLeft().isDestroyed());
     assertFalse(room.getRight().isDestroyed());
   }
+
+  @Test
+  void playerEnterRoomShouldDestroyItemsAfter() {
+    // given
+    room = new Room(board, new Coordinate(-1, -1));
+    room.setStaticItem(staticItem);
+
+    // when
+    room.playerEnterRoom(player);
+
+    // then
+    Assertions.assertNull(room.getStaticItem());
+  }
 }

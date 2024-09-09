@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.project.item.Exit;
+import com.project.item.GrenadeBox;
 import com.project.item.Mine;
 
 public class Board {
 
+  private static final int EXIT_QUANTITY = 1;
   private static final double PERCENTAGE_MINE = 0.03;
+  private static final double PERCENTAGE_GRENADE_BOX = 0.05;
 
   private Room[][] matrix;
   private int nbRow;
@@ -21,10 +24,11 @@ public class Board {
 
     initMatrix();
     player.setBoard(this);
-    new Exit(this);
 
     int totalNumberOfRooms = nbRow * nbColumn;
+    setUpGameObject(Exit.class, EXIT_QUANTITY);
     setUpGameObject(Mine.class, (int) (totalNumberOfRooms * PERCENTAGE_MINE));
+    setUpGameObject(GrenadeBox.class, (int) (totalNumberOfRooms * PERCENTAGE_GRENADE_BOX));
   }
 
   private void initMatrix() {

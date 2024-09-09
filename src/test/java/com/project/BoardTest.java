@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.project.item.Exit;
+import com.project.item.GrenadeBox;
 import com.project.item.Mine;
 import com.project.item.StaticItem;
 import com.project.util.FixedRandom;
@@ -69,6 +70,17 @@ class BoardTest {
     // then
     int numberOfMine = countObjects(Mine.class);
     Assertions.assertEquals(3, numberOfMine);
+  }
+
+  @Test
+  void boardHas5PercentageGrenadeBox() throws Exception {
+    // given
+    // when
+    board = new Board(10, 10, player);
+
+    // then
+    int numberOfGrenadeBox = countObjects(GrenadeBox.class);
+    Assertions.assertEquals(5, numberOfGrenadeBox);
   }
 
   @Test

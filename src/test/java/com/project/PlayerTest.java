@@ -247,4 +247,15 @@ class PlayerTest {
     // then
     Assertions.assertEquals(state, player.getState());
   }
+
+  @Test
+  void collectGrenadesShouldAddToCollection() {
+    // given
+
+    // when
+    player.collectGrenades(1);
+
+    // then
+    Assertions.assertEquals(1, player.getGrenades().size());
+  }
 }
