@@ -1,4 +1,4 @@
-package com.project.object;
+package com.project.item;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -20,7 +20,6 @@ import com.project.Board;
 import com.project.Coordinate;
 import com.project.Player;
 import com.project.PlayerState;
-import com.project.item.Exit;
 import com.project.util.FixedRandom;
 import com.project.util.RandomUtil;
 

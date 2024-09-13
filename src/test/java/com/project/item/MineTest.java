@@ -1,4 +1,4 @@
-package com.project.object;
+package com.project.item;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -14,14 +14,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.project.Board;
 import com.project.Coordinate;
 import com.project.Player;
-import com.project.item.GrenadeBox;
+import com.project.PlayerState;
 import com.project.util.FixedRandom;
 import com.project.util.RandomUtil;
 
 @ExtendWith(MockitoExtension.class)
-class GrenadeBoxTest {
+class MineTest {
 
-  GrenadeBox grenadeBox;
+  Mine mine;
 
   Board board;
 
@@ -30,19 +30,19 @@ class GrenadeBoxTest {
 
   @BeforeEach
   void setUp() throws Exception {
-    RandomUtil.setRandom(new FixedRandom(1));
+    RandomUtil.setRandom(new FixedRandom(0));
     board = new Board(3, 3, player);
-    grenadeBox = new GrenadeBox(board);
+    mine = new Mine(board);
   }
 
   @Test
-  void toStringShouldDisplayGrenadeBoxWithQuantity() {
+  void toStringShouldDisplayMine() {
     // given
     // when
-    String display = grenadeBox.toString();
+    String display = mine.toString();
 
     // then
-    String expected = "☌1";
+    String expected = "**";
     Assertions.assertEquals(expected, display);
   }
 
@@ -50,24 +50,24 @@ class GrenadeBoxTest {
   void performActionShouldSetPlayerStateToLost() {
     // given
     // when
-    grenadeBox.performAction(player);
+    mine.performAction(player);
 
     // then
-    ArgumentCaptor<Integer> quantityCaptor = ArgumentCaptor.forClass(Integer.class);
-    verify(player).collectGrenades(quantityCaptor.capture());
+    ArgumentCaptor<PlayerState> stateCaptor = ArgumentCaptor.forClass(PlayerState.class);
+    verify(player).setState(stateCaptor.capture());
 
-    assertEquals(1, quantityCaptor.getValue());
+    assertEquals(PlayerState.LOST, stateCaptor.getValue());
   }
 
   @Test
   void setPositionShouldSetPositionRandomly() {
     // given
-    Coordinate coordinate = new Coordinate(0, 1);
+    Coordinate coordinate = new Coordinate(2, 0);
 
     // when
-    grenadeBox = new GrenadeBox(board);
+    mine = new Mine(board);
 
     // then
-    Assertions.assertEquals(coordinate, grenadeBox.getCoordinate());
+    Assertions.assertEquals(coordinate, mine.getCoordinate());
   }
 }
