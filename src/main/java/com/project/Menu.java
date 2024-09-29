@@ -30,13 +30,12 @@ public class Menu {
     }
 
     String menu = "----------\n" +
-        "Actions disponibles :\n" +
         "Quitter[0]" +
         " Se déplacer[1]" +
         " Lancer grenade(" + player.getGrenades().size() + ")[2]" +
-        "\n----------";
+        "\n->   ";
 
-    System.out.println(menu);
+    System.out.print(menu);
     int action = scanner.nextInt();
 
     return action;
@@ -44,11 +43,10 @@ public class Menu {
 
   public String chooseDirection() {
     String menu = "----------\n" +
-        "Actions disponibles :\n" +
-        "Z Q S D\n" +
-        "----------";
+        "Z Q S D" +
+        "\n->   ";
 
-    System.out.println(menu);
+    System.out.print(menu);
     String action = scanner.next();
 
     return action;
