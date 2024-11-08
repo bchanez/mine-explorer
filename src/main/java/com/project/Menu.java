@@ -12,12 +12,12 @@ public class Menu {
 
   public int getNbRow() {
     System.out.print("Nombre de ligne : ");
-    return scanner.nextInt();
+    return getInt();
   }
 
   public int getNbColumn() {
     System.out.print("Nombre de colonne : ");
-    return scanner.nextInt();
+    return getInt();
   }
 
   public int doAction(Player player) {
@@ -36,7 +36,7 @@ public class Menu {
         "\n->   ";
 
     System.out.print(menu);
-    int action = scanner.nextInt();
+    int action = getInt();
 
     return action;
   }
@@ -49,6 +49,18 @@ public class Menu {
     System.out.print(menu);
     String action = scanner.next();
 
+    return action;
+  }
+
+  private int getInt() {
+    int action;
+    String input = scanner.next();
+    try {
+      action = Integer.parseInt(input);
+    } catch (NumberFormatException e) {
+      System.out.println("Veuillez entrer un nombre valide.");
+      action = -1;
+    }
     return action;
   }
 }
