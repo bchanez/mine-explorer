@@ -10,13 +10,13 @@ import com.project.util.RandomUtil;
 public class GrenadeBox extends StaticItem {
 
   private static final String SYMBOL = "☌";
-  private static final int MAX_QUANTITY_GRENADE_BOX = 10;
+  private static final int MAX_QUANTITY_GRENADE_BOX = 9;
 
   private int quantity;
 
   public GrenadeBox(Board board) {
     super(SYMBOL);
-    this.quantity = RandomUtil.nextInt(MAX_QUANTITY_GRENADE_BOX);
+    this.quantity = RandomUtil.nextInt(MAX_QUANTITY_GRENADE_BOX) + 1;
     this.symbol = SYMBOL + this.quantity;
     setPosition(board);
   }
