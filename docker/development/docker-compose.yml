@@ -10,8 +10,8 @@ services:
       - ../..:/app
     networks:
       - my_network
-    cpus: 1
-    mem_limit: 2G
+    # cpus: 1
+    # mem_limit: 2G
 
 networks:
   my_network:
