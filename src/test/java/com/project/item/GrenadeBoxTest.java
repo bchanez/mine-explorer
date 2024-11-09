@@ -29,7 +29,7 @@ class GrenadeBoxTest {
 
   @BeforeEach
   void setUp() throws Exception {
-    RandomUtil.setRandom(new FixedRandom(1));
+    RandomUtil.setRandom(new FixedRandom(0));
     board = new Board(3, 3, player);
     grenadeBox = new GrenadeBox(board);
   }
@@ -46,7 +46,7 @@ class GrenadeBoxTest {
   }
 
   @Test
-  void performActionShouldSetPlayerStateToLost() {
+  void performActionShouldMakePlayerCollectGrenade() {
     // given
     // when
     grenadeBox.performAction(player);
@@ -61,7 +61,7 @@ class GrenadeBoxTest {
   @Test
   void setPositionShouldSetPositionRandomly() {
     // given
-    Coordinate coordinate = new Coordinate(0, 1);
+    Coordinate coordinate = new Coordinate(2, 0);
 
     // when
     grenadeBox = new GrenadeBox(board);
