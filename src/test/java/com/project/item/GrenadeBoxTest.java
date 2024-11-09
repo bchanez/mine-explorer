@@ -46,7 +46,7 @@ class GrenadeBoxTest {
   }
 
   @Test
-  void performActionShouldSetPlayerStateToLost() { // TODO changer le nom
+  void performActionShouldMakePlayerCollectGrenade() {
     // given
     // when
     grenadeBox.performAction(player);
