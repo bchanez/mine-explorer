@@ -21,6 +21,8 @@ public class Grenade extends UsableItem {
 
     playerRoom.getWallByDirection(direction).destroy();
     nextRoom.getWallByDirection(getReverseDirection(direction)).destroy();
+
+    player.moveToDirection(direction);
   }
 
   private String getReverseDirection(String direction) {
