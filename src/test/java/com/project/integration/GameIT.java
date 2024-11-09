@@ -2,6 +2,7 @@ package com.project.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -24,22 +25,26 @@ class GameIT {
 
   Player player;
 
+  @BeforeEach
+  void setUp() {
+    player = new Player();
+    RandomUtil.setRandom(new FixedRandom(3));
+  }
+
   @Test
   void playerShouldWinWhenReachingExit() throws Exception {
     // given
-    player = new Player();
-
-    RandomUtil.setRandom(new FixedRandom(3));
     Mockito.when(menu.getNbRow()).thenReturn(8);
     Mockito.when(menu.getNbColumn()).thenReturn(8);
 
     Game game = new Game(menu, player);
 
-    // when
     Mockito.when(menu.chooseDirection()).thenReturn("s").thenReturn("s").thenReturn("s").thenReturn("d").thenReturn("d")
         .thenReturn("d");
     Mockito.when(menu.doAction(ArgumentMatchers.any())).thenReturn(2).thenReturn(2).thenReturn(2).thenReturn(2)
         .thenReturn(2).thenReturn(2).thenReturn(0);
+
+    // when
     game.loop();
 
     // then
@@ -49,17 +54,15 @@ class GameIT {
   @Test
   void playerShouldLoseWhenReachingMine() throws Exception {
     // given
-    player = new Player();
-
-    RandomUtil.setRandom(new FixedRandom(3));
     Mockito.when(menu.getNbRow()).thenReturn(6);
     Mockito.when(menu.getNbColumn()).thenReturn(6);
 
     Game game = new Game(menu, player);
 
-    // when
     Mockito.when(menu.chooseDirection()).thenReturn("z").thenReturn("z").thenReturn("z");
     Mockito.when(menu.doAction(ArgumentMatchers.any())).thenReturn(2).thenReturn(2).thenReturn(2).thenReturn(0);
+
+    // when
     game.loop();
 
     // then

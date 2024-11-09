@@ -58,7 +58,6 @@ public class Player extends Draw {
 
     Grenade grenade = grenades.remove(numberOfGrenades - 1);
     grenade.use(this, direction);
-    moveToDirection(direction);
   }
 
   private void setupGrenades() {
