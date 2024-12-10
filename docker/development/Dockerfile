@@ -1,4 +1,4 @@
-FROM maven:3.9.9-eclipse-temurin-17-alpine@sha256:2b7ce13aa6161ab63cea0bdfdb01675b0c3b55f4475e5c408d2dd137fabdf185
+FROM maven:3.9.9-eclipse-temurin-17-alpine@sha256:8b5926289c78bb49477b4d2612ed3448ff02c477795f0f80e35c375680d649bd
 RUN apk --no-cache add git
 
 WORKDIR /app
