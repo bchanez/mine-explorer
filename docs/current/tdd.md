@@ -1,8 +1,8 @@
-# TDD Analysis - Scenario 1.1: Standard Game Creation
+# TDD Analysis - Scenario 2.1: Player Moves South into Accessible Cell
 
 **Test Type:** UNIT (core domain logic, no HTTP or database)
 
-**Feature Area:** `src/main/java/com/mineexplorer/domain/` (to be created)
+**Feature Area:** `src/main/java/com/mineexplorer/domain/`
 
 **Bounded Context:** mineexplorer
 
@@ -10,47 +10,38 @@
 
 | # | Test Name | TPP | Contradiction | Status |
 |---|-----------|-----|---------------|--------|
-| 1 | should produce a game in PLAYING state when a valid game configuration is provided | nil -> constant (2) | Baseline - can be satisfied by always returning PLAYING state | GREEN |
-| 2 | should place the player at the configured starting position when the game is created | constant -> variable (3) | The constant PLAYING state alone is insufficient - forces storing and returning player position from configuration | GREEN |
-| 3 | should give the player the configured number of grenades when the game is created | constant -> variable (3) | The player position alone is insufficient - forces storing and returning grenade count from configuration | GREEN |
-| 4 | should make only the starting cell visible when the game is created | scalar -> collection (5) | A single position value is insufficient - forces a collection to track visible cells, initialized with the starting position | GREEN |
+| 1 | should place the player at position (0, 1) when the player moves south from position (0, 0) | nil -> constant (2) | Baseline - forces introduction of `move(Direction)` method on Game and `Direction` enum; can be satisfied by always returning new position with y+1 | ✅ GREEN |
+| 2 | should make the destination cell visible when the player moves south into an unvisited cell | scalar -> collection (5) | The position-only change from Test 1 is insufficient - forces updating the visibleCells set to include the new position | ✅ GREEN |
 
 ## Files to Create
 
-- `src/main/java/com/mineexplorer/domain/Game.java` - Main aggregate root
-- `src/main/java/com/mineexplorer/domain/GameState.java` - Enum for game states (PLAYING, WON, LOST)
-- `src/main/java/com/mineexplorer/domain/Position.java` - Value object for coordinates
-- `src/main/java/com/mineexplorer/domain/GameConfiguration.java` - Configuration value object
-- `src/test/java/com/mineexplorer/unit/CreateGameTest.java` - Test class
+- `src/main/java/com/mineexplorer/domain/Direction.java` - Enum for movement directions (SOUTH initially, others added when tested)
+- No new test file needed - extend existing test class or create `src/test/java/com/mineexplorer/unit/PlayerMovementTest.java`
 
 ## Design Notes
 
-- **Grid coordinates:** (x, y) with (0, 0) at top-left, Y increases downward
-- **Player position:** Stored as a Position value object
-- **Visibility:** Collection of visible positions, initialized with starting position only (fog of war)
-- **Grenades:** Integer count, fixed at game start
-- **Mine positions:** Part of configuration, not visible to player initially
-- **Exit position:** Part of configuration, discovery mechanic to be added later
-- **Game state:** Enum with at least PLAYING value (WON, LOST added when needed by future tests)
-- **Aggregate design:** Game is the aggregate root containing player state, grid visibility, and game rules
+- **Immutability:** Game is immutable; `move(Direction)` should return a new Game instance
+- **Direction enum:** Start with only `SOUTH` value; add `NORTH`, `EAST`, `WEST` when driven by tests
+- **Position arithmetic:** Moving SOUTH means y increases by 1 (y+1)
+- **Visible cells:** The new position must be added to the existing set of visible cells
+- **Wall concept:** Deferred to Scenario 2.5 - this scenario explicitly states "no wall between (0, 0) and (0, 1)"
+- **Game state:** Remains PLAYING (already handled by existing code)
 
 ## Implementation Notes for TDD Agent
 
-### Test 1: Game in PLAYING state
-- Create `Game.create(GameConfiguration config)` static factory
-- Return a Game with state = PLAYING
-- GameState enum with only PLAYING value initially
+### Test 1: Player position changes when moving south
+- Add `Direction` enum with `SOUTH` value
+- Add `move(Direction direction)` method on Game
+- Return new Game with updated playerPosition (y + 1 for SOUTH)
+- Keep other fields unchanged (grenadeCount, visibleCells)
 
-### Test 2: Player at configured position
-- GameConfiguration must include playerPosition
-- Game must expose `playerPosition()` method
-- Position value object with x and y coordinates
+### Test 2: Destination cell becomes visible
+- Update `move()` to add new position to visibleCells set
+- Use `Set.of()` or immutable set operations to combine old visibleCells with new position
+- The starting cell (0, 0) should remain visible, and (0, 1) should be added
 
-### Test 3: Player has configured grenades
-- GameConfiguration must include grenadeCount
-- Game must expose `grenadeCount()` method or `playerGrenades()`
+## Edge Cases (Deferred)
 
-### Test 4: Only starting cell visible
-- Game must expose `visibleCells()` or `isVisible(Position)` method
-- Collection of Position, containing only the starting position initially
-- Validates fog of war mechanic
+- **Walls:** Scenario 2.5 will introduce wall blocking - not needed for 2.1
+- **Grid boundaries:** Not mentioned in this scenario - defer until tested
+- **Other directions:** NORTH, EAST, WEST to be added when their scenarios are analyzed

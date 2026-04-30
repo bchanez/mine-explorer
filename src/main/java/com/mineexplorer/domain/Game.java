@@ -1,5 +1,6 @@
 package com.mineexplorer.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Game {
@@ -36,5 +37,12 @@ public class Game {
 
     public Set<Position> visibleCells() {
         return visibleCells;
+    }
+
+    public Game move(Direction direction) {
+        var newPosition = new Position(playerPosition.x(), playerPosition.y() + 1);
+        var newVisibleCells = new HashSet<>(visibleCells);
+        newVisibleCells.add(newPosition);
+        return new Game(newPosition, grenadeCount, Set.copyOf(newVisibleCells));
     }
 }
