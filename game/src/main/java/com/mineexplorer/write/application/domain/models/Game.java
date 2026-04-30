@@ -132,15 +132,15 @@ public class Game {
 
     public boolean hasVisibleWallToRight(Position pos) {
         var rightNeighbor = pos.neighbor(Direction.EAST);
-        var wallExists = walls.contains(Wall.between(pos, rightNeighbor));
-        var isVisible = visibleCells.contains(pos) || visibleCells.contains(rightNeighbor);
+        boolean wallExists = walls.contains(Wall.between(pos, rightNeighbor));
+        boolean isVisible = visibleCells.contains(pos) || visibleCells.contains(rightNeighbor);
         return wallExists && isVisible;
     }
 
     public boolean hasVisibleWallBelow(Position pos) {
         var belowNeighbor = pos.neighbor(Direction.SOUTH);
-        var wallExists = walls.contains(Wall.between(pos, belowNeighbor));
-        var isVisible = visibleCells.contains(pos) || visibleCells.contains(belowNeighbor);
+        boolean wallExists = walls.contains(Wall.between(pos, belowNeighbor));
+        boolean isVisible = visibleCells.contains(pos) || visibleCells.contains(belowNeighbor);
         return wallExists && isVisible;
     }
 
