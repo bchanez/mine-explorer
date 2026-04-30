@@ -36,29 +36,28 @@ class ThrowGrenadeCommandHandlerTest {
         void should_destroy_wall_and_propel_player_through() {
             givenGameWithWall(new Position(0, 0), new Position(0, 1));
 
-            var game = handler.handle(new ThrowGrenadeCommand(Direction.SOUTH));
+            handler.handle(new ThrowGrenadeCommand(Direction.SOUTH));
 
-            assertThat(game.playerPosition()).isEqualTo(new Position(0, 1));
-            assertThat(game.walls()).isEmpty();
-            assertThat(gameRepository.findCurrent().get().walls()).isEmpty();
+            assertThat(currentGame().playerPosition()).isEqualTo(new Position(0, 1));
+            assertThat(currentGame().walls()).isEmpty();
         }
 
         @Test
         void should_decrement_grenade_count() {
             givenGameWithWall(new Position(0, 0), new Position(0, 1));
 
-            var game = handler.handle(new ThrowGrenadeCommand(Direction.SOUTH));
+            handler.handle(new ThrowGrenadeCommand(Direction.SOUTH));
 
-            assertThat(game.grenadeCount()).isEqualTo(2);
+            assertThat(currentGame().grenadeCount()).isEqualTo(2);
         }
 
         @Test
         void should_reveal_target_position_in_fog_of_war() {
             givenGameWithWall(new Position(0, 0), new Position(0, 1));
 
-            var game = handler.handle(new ThrowGrenadeCommand(Direction.SOUTH));
+            handler.handle(new ThrowGrenadeCommand(Direction.SOUTH));
 
-            assertThat(game.visibleCells()).contains(new Position(0, 1));
+            assertThat(currentGame().visibleCells()).contains(new Position(0, 1));
         }
     }
 
@@ -69,31 +68,29 @@ class ThrowGrenadeCommandHandlerTest {
         void should_waste_grenade_when_no_wall_in_direction() {
             givenGameAt(new Position(0, 0), 3);
 
-            var game = handler.handle(new ThrowGrenadeCommand(Direction.SOUTH));
+            handler.handle(new ThrowGrenadeCommand(Direction.SOUTH));
 
-            assertThat(game.playerPosition()).isEqualTo(new Position(0, 0));
-            assertThat(game.grenadeCount()).isEqualTo(2);
-            assertThat(gameRepository.findCurrent().get().grenadeCount()).isEqualTo(2);
+            assertThat(currentGame().playerPosition()).isEqualTo(new Position(0, 0));
+            assertThat(currentGame().grenadeCount()).isEqualTo(2);
         }
 
         @Test
         void should_keep_other_walls_when_throwing_in_different_direction() {
             givenGameWithWallInOtherDirection();
 
-            var game = handler.handle(new ThrowGrenadeCommand(Direction.SOUTH));
+            handler.handle(new ThrowGrenadeCommand(Direction.SOUTH));
 
-            assertThat(game.walls()).hasSize(1);
-            assertThat(gameRepository.findCurrent().get().walls()).hasSize(1);
+            assertThat(currentGame().walls()).hasSize(1);
         }
 
         @Test
         void should_not_throw_when_no_grenades_left() {
             givenGameAt(new Position(0, 0), 0);
 
-            var game = handler.handle(new ThrowGrenadeCommand(Direction.SOUTH));
+            handler.handle(new ThrowGrenadeCommand(Direction.SOUTH));
 
-            assertThat(game.playerPosition()).isEqualTo(new Position(0, 0));
-            assertThat(game.grenadeCount()).isEqualTo(0);
+            assertThat(currentGame().playerPosition()).isEqualTo(new Position(0, 0));
+            assertThat(currentGame().grenadeCount()).isEqualTo(0);
         }
     }
 
@@ -104,11 +101,15 @@ class ThrowGrenadeCommandHandlerTest {
         void should_lose_when_propelled_into_mine() {
             givenGameWithWallAndMine(new Position(0, 0), new Position(0, 1));
 
-            var game = handler.handle(new ThrowGrenadeCommand(Direction.SOUTH));
+            handler.handle(new ThrowGrenadeCommand(Direction.SOUTH));
 
-            assertThat(game.state()).isEqualTo(GameState.LOST);
-            assertThat(game.playerPosition()).isEqualTo(new Position(0, 1));
+            assertThat(currentGame().state()).isEqualTo(GameState.LOST);
+            assertThat(currentGame().playerPosition()).isEqualTo(new Position(0, 1));
         }
+    }
+
+    private Game currentGame() {
+        return gameRepository.findCurrent().orElseThrow();
     }
 
     private void givenGameAt(Position position, int grenades) {

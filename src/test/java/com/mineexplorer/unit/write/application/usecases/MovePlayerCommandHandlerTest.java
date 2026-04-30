@@ -44,9 +44,9 @@ class MovePlayerCommandHandlerTest {
         void should_move_in_all_directions(Direction direction, int expectedX, int expectedY) {
             givenGameAt(new Position(2, 2));
 
-            var game = handler.handle(new MovePlayerCommand(direction));
+            handler.handle(new MovePlayerCommand(direction));
 
-            assertThat(game.playerPosition()).isEqualTo(new Position(expectedX, expectedY));
+            assertThat(currentGame().playerPosition()).isEqualTo(new Position(expectedX, expectedY));
         }
 
         @ParameterizedTest(name = "should not move {2} when at boundary ({0},{1})")
@@ -63,9 +63,9 @@ class MovePlayerCommandHandlerTest {
         void should_not_move_outside_grid_boundaries(int x, int y, Direction direction) {
             givenGameAt(new Position(x, y));
 
-            var game = handler.handle(new MovePlayerCommand(direction));
+            handler.handle(new MovePlayerCommand(direction));
 
-            assertThat(game.playerPosition()).isEqualTo(new Position(x, y));
+            assertThat(currentGame().playerPosition()).isEqualTo(new Position(x, y));
         }
 
         @ParameterizedTest(name = "should move from edge ({0},{1}) towards {2}")
@@ -82,27 +82,27 @@ class MovePlayerCommandHandlerTest {
         void should_move_from_edge_towards_center(int startX, int startY, Direction direction, int endX, int endY) {
             givenGameAt(new Position(startX, startY));
 
-            var game = handler.handle(new MovePlayerCommand(direction));
+            handler.handle(new MovePlayerCommand(direction));
 
-            assertThat(game.playerPosition()).isEqualTo(new Position(endX, endY));
+            assertThat(currentGame().playerPosition()).isEqualTo(new Position(endX, endY));
         }
 
         @Test
         void should_not_move_when_blocked_by_wall() {
             givenGameWithWall(new Position(0, 0), new Position(0, 1));
 
-            var game = handler.handle(new MovePlayerCommand(Direction.SOUTH));
+            handler.handle(new MovePlayerCommand(Direction.SOUTH));
 
-            assertThat(game.playerPosition()).isEqualTo(new Position(0, 0));
+            assertThat(currentGame().playerPosition()).isEqualTo(new Position(0, 0));
         }
 
         @Test
         void should_reveal_new_position_in_fog_of_war() {
             givenGameAt(new Position(0, 0));
 
-            var game = handler.handle(new MovePlayerCommand(Direction.SOUTH));
+            handler.handle(new MovePlayerCommand(Direction.SOUTH));
 
-            assertThat(game.visibleCells()).contains(new Position(0, 0), new Position(0, 1));
+            assertThat(currentGame().visibleCells()).contains(new Position(0, 0), new Position(0, 1));
         }
     }
 
@@ -113,9 +113,9 @@ class MovePlayerCommandHandlerTest {
         void should_win_when_reaching_exit() {
             givenGameWithExit(new Position(0, 0), new Position(0, 1));
 
-            var game = handler.handle(new MovePlayerCommand(Direction.SOUTH));
+            handler.handle(new MovePlayerCommand(Direction.SOUTH));
 
-            assertThat(game.state()).isEqualTo(GameState.WON);
+            assertThat(currentGame().state()).isEqualTo(GameState.WON);
         }
 
         @Test
@@ -123,9 +123,9 @@ class MovePlayerCommandHandlerTest {
             givenGameWithExit(new Position(0, 0), new Position(0, 1));
             handler.handle(new MovePlayerCommand(Direction.SOUTH));
 
-            var game = handler.handle(new MovePlayerCommand(Direction.SOUTH));
+            handler.handle(new MovePlayerCommand(Direction.SOUTH));
 
-            assertThat(game.playerPosition()).isEqualTo(new Position(0, 1));
+            assertThat(currentGame().playerPosition()).isEqualTo(new Position(0, 1));
         }
     }
 
@@ -136,9 +136,9 @@ class MovePlayerCommandHandlerTest {
         void should_lose_when_stepping_on_mine() {
             givenGameWithMine(new Position(0, 0), new Position(0, 1));
 
-            var game = handler.handle(new MovePlayerCommand(Direction.SOUTH));
+            handler.handle(new MovePlayerCommand(Direction.SOUTH));
 
-            assertThat(game.state()).isEqualTo(GameState.LOST);
+            assertThat(currentGame().state()).isEqualTo(GameState.LOST);
         }
 
         @Test
@@ -146,10 +146,14 @@ class MovePlayerCommandHandlerTest {
             givenGameWithMine(new Position(0, 0), new Position(0, 1));
             handler.handle(new MovePlayerCommand(Direction.SOUTH));
 
-            var game = handler.handle(new MovePlayerCommand(Direction.NORTH));
+            handler.handle(new MovePlayerCommand(Direction.NORTH));
 
-            assertThat(game.playerPosition()).isEqualTo(new Position(0, 1));
+            assertThat(currentGame().playerPosition()).isEqualTo(new Position(0, 1));
         }
+    }
+
+    private Game currentGame() {
+        return gameRepository.findCurrent().orElseThrow();
     }
 
     private void givenGameAt(Position position) {

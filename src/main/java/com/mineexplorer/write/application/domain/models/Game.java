@@ -12,7 +12,8 @@ public class Game {
     private final Position exitPosition;
     private final Set<Position> minePositions;
 
-    private Game(Position playerPosition, int grenadeCount, Set<Position> visibleCells, Set<Wall> walls, Position exitPosition, Set<Position> minePositions) {
+    private Game(Position playerPosition, int grenadeCount, Set<Position> visibleCells, Set<Wall> walls,
+            Position exitPosition, Set<Position> minePositions) {
         this.playerPosition = playerPosition;
         this.grenadeCount = grenadeCount;
         this.visibleCells = visibleCells;
@@ -28,8 +29,7 @@ public class Game {
                 Set.of(config.playerPosition()),
                 config.walls(),
                 config.exitPosition(),
-                config.minePositions()
-        );
+                config.minePositions());
     }
 
     public GameState state() {
@@ -70,14 +70,6 @@ public class Game {
         return walls;
     }
 
-    public Position exitPosition() {
-        return exitPosition;
-    }
-
-    public Set<Position> minePositions() {
-        return minePositions;
-    }
-
     public Game move(Direction direction) {
         if (isGameOver()) {
             return this;
@@ -112,7 +104,8 @@ public class Game {
         newWalls.remove(wallToDestroy);
         var newVisibleCells = new HashSet<>(visibleCells);
         newVisibleCells.add(targetPosition);
-        return new Game(targetPosition, grenadeCount - 1, Set.copyOf(newVisibleCells), Set.copyOf(newWalls), exitPosition, minePositions);
+        return new Game(targetPosition, grenadeCount - 1, Set.copyOf(newVisibleCells), Set.copyOf(newWalls),
+                exitPosition, minePositions);
     }
 
     private boolean hasNoGrenades() {

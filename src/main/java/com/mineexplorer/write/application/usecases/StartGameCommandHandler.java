@@ -15,7 +15,7 @@ public class StartGameCommandHandler {
         this.gameRepository = gameRepository;
     }
 
-    public Game handle(StartGameCommand command) {
+    public void handle(StartGameCommand command) {
         var config = new GameConfiguration(
                 new Position(0, 0),
                 3,
@@ -25,6 +25,5 @@ public class StartGameCommandHandler {
         );
         var game = Game.create(config);
         gameRepository.save(game);
-        return game;
     }
 }

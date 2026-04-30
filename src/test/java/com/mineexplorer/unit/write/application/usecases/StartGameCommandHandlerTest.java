@@ -17,8 +17,9 @@ class StartGameCommandHandlerTest {
 
     @Test
     void should_create_game_at_starting_position_with_grenades() {
-        var game = handler.handle(new StartGameCommand());
+        handler.handle(new StartGameCommand());
 
+        var game = gameRepository.findCurrent().orElseThrow();
         assertThat(game.playerPosition()).isEqualTo(new Position(0, 0));
         assertThat(game.grenadeCount()).isEqualTo(3);
         assertThat(game.state()).isEqualTo(GameState.PLAYING);
@@ -26,8 +27,9 @@ class StartGameCommandHandlerTest {
 
     @Test
     void should_initialize_fog_of_war_with_starting_position_visible() {
-        var game = handler.handle(new StartGameCommand());
+        handler.handle(new StartGameCommand());
 
+        var game = gameRepository.findCurrent().orElseThrow();
         assertThat(game.visibleCells()).containsExactly(new Position(0, 0));
     }
 }

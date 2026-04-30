@@ -1,6 +1,5 @@
 package com.mineexplorer.write.application.usecases;
 
-import com.mineexplorer.write.application.domain.models.Game;
 import com.mineexplorer.write.application.domain.ports.GameRepository;
 
 public class ThrowGrenadeCommandHandler {
@@ -11,11 +10,10 @@ public class ThrowGrenadeCommandHandler {
         this.gameRepository = gameRepository;
     }
 
-    public Game handle(ThrowGrenadeCommand command) {
+    public void handle(ThrowGrenadeCommand command) {
         var game = gameRepository.findCurrent()
                 .orElseThrow(() -> new NoGameInProgressException());
         var newGame = game.throwGrenade(command.direction());
         gameRepository.save(newGame);
-        return newGame;
     }
 }
