@@ -54,4 +54,17 @@ public class Game {
         newVisibleCells.add(newPosition);
         return new Game(newPosition, grenadeCount, Set.copyOf(newVisibleCells), walls);
     }
+
+    public Game throwGrenade(Direction direction) {
+        var targetPosition = new Position(
+                playerPosition.x() + direction.deltaX(),
+                playerPosition.y() + direction.deltaY()
+        );
+        var wallToDestroy = Wall.between(playerPosition, targetPosition);
+        var newWalls = new HashSet<>(walls);
+        newWalls.remove(wallToDestroy);
+        var newVisibleCells = new HashSet<>(visibleCells);
+        newVisibleCells.add(targetPosition);
+        return new Game(targetPosition, grenadeCount - 1, Set.copyOf(newVisibleCells), Set.copyOf(newWalls));
+    }
 }
