@@ -56,6 +56,9 @@ public class Game {
     }
 
     public Game throwGrenade(Direction direction) {
+        if (grenadeCount == 0) {
+            return this;
+        }
         var targetPosition = new Position(
                 playerPosition.x() + direction.deltaX(),
                 playerPosition.y() + direction.deltaY()

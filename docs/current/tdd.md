@@ -1,4 +1,4 @@
-# TDD Analysis - Grenade Destroys Wall and Propels Player (Scenario 3.1)
+# TDD Analysis - Player Cannot Throw Grenade With None Left (Scenario 3.5)
 
 **Test Type:** UNIT (core domain logic, no HTTP or database keywords)
 
@@ -10,32 +10,41 @@
 
 | # | Test Name | TPP | Contradiction | Status |
 |---|-----------|-----|---------------|--------|
-| 1 | should destroy the wall between player position and adjacent cell when player throws a grenade toward that wall | nil -> constant (2) | Baseline - the simplest grenade effect: wall removal. Can be satisfied by removing a hardcoded wall from the set. | ✅ GREEN |
-| 2 | should propel the player to the adjacent cell when grenade destroys a wall | constant -> variable (3) | Test 1's implementation only removes wall but leaves player in place. Now player must also move to the target cell. | ✅ GREEN |
-| 3 | should decrement grenade count when player throws a grenade toward a wall | unconditional -> conditional (4) | Tests 1-2 do not track grenade consumption. The grenade count must decrease by one after throwing. | ✅ GREEN |
-| 4 | should reveal the destination cell when player is propelled by grenade blast | unconditional -> conditional (4) | Tests 1-3 do not update visibility. The propelled-to cell must be added to visibleCells. | ✅ GREEN |
-| 5 | should keep game in progress when player is propelled to an empty cell after wall destruction | unconditional -> conditional (4) | Need to verify game state remains PLAYING (no mine, no exit at destination). This validates the happy path state. | ✅ GREEN |
+| 1 | should keep player at current position when throwing grenade with no grenades remaining | unconditional -> conditional (4) | Current `throwGrenade()` always performs the action. With 0 grenades, the method must return the same game state unchanged. Forces a guard clause checking `grenadeCount > 0`. | GREEN |
 
 ## Files to Create
 
-- `src/test/java/com/mineexplorer/unit/ThrowGrenadeTest.java` - Test class for grenade throwing behavior
+- None - extends existing `ThrowGrenadeTest.java` test class and `Game.throwGrenade()` method
 
 ## Design Notes
 
-- **Immutability:** `Game.throwGrenade(Direction)` must return a new `Game` instance (same pattern as `move()`)
-- **Wall tracking:** Game already stores `Set<Wall> walls` - destruction means returning new Game with that wall removed from the set
-- **Wall identity:** Use `Wall.between(playerPosition, targetPosition)` to identify the wall to destroy (Wall has canonical ordering)
-- **Direction reuse:** Existing `Direction` enum has `deltaX()` and `deltaY()` for computing target position
-- **Visibility pattern:** Same as `move()` - add destination to `visibleCells` set
-- **Test convention:** JUnit 5 `@Test` with AssertJ `assertThat()`
-- **Test location:** `/Users/bastien/Dev/mine-explorer/src/test/java/com/mineexplorer/unit/ThrowGrenadeTest.java`
+- **Existing test class:** `/Users/bastien/Dev/mine-explorer/src/test/java/com/mineexplorer/unit/ThrowGrenadeTest.java`
+- **Existing method:** `Game.throwGrenade(Direction)` at line 58-69 currently unconditionally destroys wall, moves player, decrements grenades
+- **Guard clause needed:** When `grenadeCount == 0`, return `this` (no state change) - same pattern as wall-blocked movement in `move()` method (line 50-52)
+- **Single test sufficient:** The scenario tests a single guard condition. One test validates all assertions (position unchanged, grenade count unchanged, wall intact) because they all stem from the same cause: the grenade throw is refused.
+- **Immutability preserved:** Returning `this` when action refused is idiomatic for immutable objects
 
 ## Business Context
 
-From BDD Scenario 3.1:
-- Player at (1,1) with 3 grenades
+From BDD Scenario 3.5:
+- Player at (1,1) with 0 grenades
 - Wall exists between (1,1) and (2,1)
-- Cell (2,1) is empty
-- After throwing grenade east: wall destroyed, player at (2,1), 2 grenades remaining, cell visible, game PLAYING
+- Player attempts to throw grenade east
+- After action: player still at (1,1), still 0 grenades, wall still intact
 
-Business Rule R2: "Blast propulsion - Only the explosion of a destructible wall generates a blast that propels the player"
+Business Rule: A grenade throw requires at least one grenade in inventory. Without grenades, the action is silently refused (no state change).
+
+## TPP Rationale
+
+This is a **single-test scenario** because:
+
+1. **One cause, multiple effects:** The guard clause `if (grenadeCount == 0) return this;` produces all observed outcomes simultaneously:
+   - Player position unchanged
+   - Grenade count unchanged (still 0)
+   - Wall unchanged (intact)
+
+2. **No TPP progression needed:** There is no simpler transformation that could be contradicted. The first (and only) test immediately demands a conditional.
+
+3. **Atomic business rule:** "Cannot throw without grenades" is indivisible - you cannot test "position unchanged" without implicitly also testing "wall unchanged."
+
+The test should assert all three conditions (position, grenade count, wall presence) in one test to document the complete business rule.
