@@ -82,7 +82,7 @@ class ThrowGrenadeCommandHandlerTest {
         void should_keep_player_inside_grid_when_destroying_border_wall() {
             // Given: player at east edge of the grid with a wall blocking the outside
             var borderWall = Wall.between(new Position(4, 2), new Position(5, 2));
-            var game = Game.create(new GameConfiguration(new Position(4, 2), 2, Set.of(borderWall)));
+            var game = Game.create(new GameConfiguration(new Position(4, 2), 2, Set.of(borderWall), null, Set.of()));
             gameRepository.save(game);
 
             // When: player throws grenade toward the border wall
@@ -193,13 +193,13 @@ class ThrowGrenadeCommandHandlerTest {
     }
 
     private void givenGameAt(Position position, int grenades) {
-        var game = Game.create(new GameConfiguration(position, grenades));
+        var game = Game.create(new GameConfiguration(position, grenades, Set.of(), null, Set.of()));
         gameRepository.save(game);
     }
 
     private void givenGameWithWall(Position playerPos, Position wallTarget) {
         var wall = Wall.between(playerPos, wallTarget);
-        var game = Game.create(new GameConfiguration(playerPos, 3, Set.of(wall)));
+        var game = Game.create(new GameConfiguration(playerPos, 3, Set.of(wall), null, Set.of()));
         gameRepository.save(game);
     }
 
@@ -217,21 +217,21 @@ class ThrowGrenadeCommandHandlerTest {
 
     private void givenGameWithWallInOtherDirection() {
         var wall = Wall.between(new Position(0, 0), new Position(1, 0));
-        var game = Game.create(new GameConfiguration(new Position(0, 0), 3, Set.of(wall)));
+        var game = Game.create(new GameConfiguration(new Position(0, 0), 3, Set.of(wall), null, Set.of()));
         gameRepository.save(game);
     }
 
     private void givenGameWithPreviouslyDestroyedWall(Position playerPos, Position destroyedWallTarget) {
         // First create game with the wall
         var wall = Wall.between(playerPos, destroyedWallTarget);
-        var game = Game.create(new GameConfiguration(playerPos, 3, Set.of(wall)));
+        var game = Game.create(new GameConfiguration(playerPos, 3, Set.of(wall), null, Set.of()));
         // Destroy the wall by throwing a grenade (simulating "previously destroyed")
         var direction = directionBetween(playerPos, destroyedWallTarget);
         var gameAfterDestruction = game.throwGrenade(direction);
         // Now player is at destroyedWallTarget with 2 grenades
         // Move player back to original position by creating a new game state
         // that represents: player at playerPos, 2 grenades, no wall
-        gameRepository.save(Game.create(new GameConfiguration(playerPos, 2, Set.of())));
+        gameRepository.save(Game.create(new GameConfiguration(playerPos, 2, Set.of(), null, Set.of())));
     }
 
     private Direction directionBetween(Position from, Position to) {

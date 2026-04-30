@@ -223,7 +223,7 @@ class MovePlayerCommandHandlerTest {
             // No wall between (1,1) and (1,2), wall between (1,1) and (2,1)
             var playerPos = new Position(1, 1);
             var wallEast = Wall.between(new Position(1, 1), new Position(2, 1));
-            var game = Game.create(new GameConfiguration(playerPos, 0, Set.of(wallEast)));
+            var game = Game.create(new GameConfiguration(playerPos, 0, Set.of(wallEast), null, Set.of()));
             gameRepository.save(game);
 
             // When: player moves south
@@ -243,7 +243,7 @@ class MovePlayerCommandHandlerTest {
             var wallEast = Wall.between(new Position(2, 2), new Position(3, 2));
             var wallNorth = Wall.between(new Position(2, 2), new Position(2, 1));
             var wallSouth = Wall.between(new Position(2, 2), new Position(2, 3));
-            var game = Game.create(new GameConfiguration(playerPos, 0, Set.of(wallWest, wallEast, wallNorth, wallSouth)));
+            var game = Game.create(new GameConfiguration(playerPos, 0, Set.of(wallWest, wallEast, wallNorth, wallSouth), null, Set.of()));
             gameRepository.save(game);
 
             // When: player tries to move east
@@ -260,13 +260,13 @@ class MovePlayerCommandHandlerTest {
     }
 
     private void givenGameAt(Position position) {
-        var game = Game.create(new GameConfiguration(position, 3));
+        var game = Game.create(new GameConfiguration(position, 3, Set.of(), null, Set.of()));
         gameRepository.save(game);
     }
 
     private void givenGameWithWall(Position playerPos, Position wallTarget) {
         var wall = Wall.between(playerPos, wallTarget);
-        var game = Game.create(new GameConfiguration(playerPos, 3, Set.of(wall)));
+        var game = Game.create(new GameConfiguration(playerPos, 3, Set.of(wall), null, Set.of()));
         gameRepository.save(game);
     }
 

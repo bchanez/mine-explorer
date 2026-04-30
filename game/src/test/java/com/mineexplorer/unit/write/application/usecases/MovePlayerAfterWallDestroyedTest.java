@@ -26,7 +26,7 @@ class MovePlayerAfterWallDestroyedTest {
     void should_allow_passage_when_wall_was_destroyed() {
         // Given: a game in progress with a wall between (1, 1) and (2, 1)
         var wall = Wall.between(new Position(1, 1), new Position(2, 1));
-        var game = Game.create(new GameConfiguration(new Position(1, 1), 3, Set.of(wall)));
+        var game = Game.create(new GameConfiguration(new Position(1, 1), 3, Set.of(wall), null, Set.of()));
         gameRepository.save(game);
 
         // And: the wall is destroyed by throwing a grenade east, propelling player to (2, 1)
