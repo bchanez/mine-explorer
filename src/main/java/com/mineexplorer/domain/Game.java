@@ -54,6 +54,10 @@ public class Game {
         return visibleCells;
     }
 
+    public Set<Wall> walls() {
+        return walls;
+    }
+
     public Game move(Direction direction) {
         var newPosition = new Position(
                 playerPosition.x() + direction.deltaX(),
