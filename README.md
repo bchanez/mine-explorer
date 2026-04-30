@@ -1,72 +1,38 @@
 # mine-explorer
 
-Welcome to mine-explorer project! This document explains how to set up your development environment, run the project, and code effectively using Visual Studio Code with Docker.
+A grid-based exploration game written in Java, built as a reference for clean code and TDD/BDD practices.
 
-## Project Overview
+## The Game
 
-This project aims to demonstrate clean coding practices and adherence to best practices to serve as a reference example. The core objective is to create a well-structured and maintainable codebase that showcases effective Java programming techniques.
+You play an explorer navigating a grid of rooms. Reach the exit without stepping on a mine.
 
-### Project Description
+- **Move** through rooms using `Z` / `Q` / `S` / `D`.
+- **Throw a grenade** to blast a wall and get propelled into the next cell — useful, but risky if the cell hides a mine.
+- **Fog of war**: only visited cells are revealed.
 
-The project is a game of exploration set on a grid-based board composed of rooms. In this game, you play as a character who moves from room to room, aiming to find the exit while avoiding mines that could lead to the character’s demise. 
+Full rules and scenarios live in [`docs/bdd-scenarios.md`](docs/bdd-scenarios.md).
 
-#### Key Features:
+## Getting Started
 
-- **Exploration Mechanics**: Navigate through a grid of rooms, with the goal of finding the exit.
-- **Mines**: Avoid mines placed randomly across the grid, which can end the game if encountered.
-- **Inventory**: The player can collect and use various items to assist in the exploration.
+Requirements:
 
-Feel free to suggest additional items or mechanics that could enhance the gameplay experience.
+- [Docker](https://docs.docker.com/engine/install)
+- [VS Code](https://code.visualstudio.com/) with the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension
 
-## Table of Contents
+Setup:
 
-1. [Prerequisites](#prerequisites)
-2. [Environment Setup](#environment-setup)
-3. [VSCode Extension Troubleshooting](#vscode-extension-troubleshooting)
-4. [Contact](#contact)
+```bash
+git clone https://github.com/bchanez/mine-explorer.git
+cd mine-explorer
+code .
+```
 
-## Prerequisites
+When VS Code prompts, **reopen the folder in the dev container**. All required Java/Docker extensions are installed automatically.
 
-Before you begin, make sure you have the following tools installed on your machine:
+## Troubleshooting
 
-- [Docker](https://docs.docker.com/engine/install): To run the application in containers.
-- [Visual Studio Code](https://code.visualstudio.com/): Your code editor.
-- [Dev Containers Extension for VSCode](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers): Open any folder or repository inside a Docker container.
+If an extension misbehaves inside the container, reload the window: `Cmd/Ctrl+Shift+P` → `Reload Window`.
 
-## Environment Setup
+## Contributing
 
-1. **Clone the Project Repository**
-
-    Clone the project repository from Git:
-
-    ```bash
-    git clone https://github.com/bchanez/mine-explorer.git
-    cd mine-explorer
-    ```
-
-2. **Open the Project in VSCode**
-
-    Open VSCode in the project directory:
-
-    ```bash
-    code .
-    ```
-
-3. **Container Mode**
-
-    Activate Container Mode: When you open the project in VSCode, it should automatically detect the .devcontainer file and prompt you to open the project in a Docker container. Accept this option to configure your development environment within a container.
-    Automatic Extensions: The Docker container will automatically install the necessary extensions for Java and Docker development.
-
-## VSCode Extension Troubleshooting
-
-If you encounter issues with VSCode extensions in container mode, follow these steps:
-
-1. **Reload the Window**
-
-    If an extension is not loading properly, try reloading the VSCode window:
-    * Press Ctrl+P (or Cmd+P on macOS) to open the Command Palette.
-    * Type >Reload Window and press Enter.
-
-## Contact
-
-If you encounter any issues or need assistance, please open an issue. I will do my best to assist you as quickly as possible.
+Open an issue for bugs, suggestions, or questions.
