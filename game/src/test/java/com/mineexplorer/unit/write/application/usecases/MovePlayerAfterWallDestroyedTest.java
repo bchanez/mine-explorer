@@ -23,7 +23,7 @@ class MovePlayerAfterWallDestroyedTest {
     private final ThrowGrenadeCommandHandler grenadeHandler = new ThrowGrenadeCommandHandler(gameRepository);
 
     @Test
-    void should_allow_passage_through_destroyed_wall_from_opposite_side() {
+    void should_allow_passage_when_wall_was_destroyed() {
         // Given: a game in progress with a wall between (1, 1) and (2, 1)
         var wall = Wall.between(new Position(1, 1), new Position(2, 1));
         var game = Game.create(new GameConfiguration(new Position(1, 1), 3, Set.of(wall)));

@@ -16,7 +16,7 @@ class StartGameCommandHandlerTest {
     private final StartGameCommandHandler handler = new StartGameCommandHandler(gameRepository);
 
     @Test
-    void should_create_game_at_starting_position_with_grenades() {
+    void should_place_player_at_start_with_grenades_when_creating_game() {
         handler.handle(new StartGameCommand());
 
         var game = gameRepository.findCurrent().orElseThrow();
@@ -26,7 +26,7 @@ class StartGameCommandHandlerTest {
     }
 
     @Test
-    void should_initialize_fog_of_war_with_starting_position_visible() {
+    void should_reveal_only_starting_cell_when_creating_game() {
         handler.handle(new StartGameCommand());
 
         var game = gameRepository.findCurrent().orElseThrow();

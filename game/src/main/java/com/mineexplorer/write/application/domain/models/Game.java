@@ -24,6 +24,7 @@ public class Game {
     }
 
     public static Game create(GameConfiguration config) {
+        validateConfiguration(config);
         return new Game(
                 config.playerPosition(),
                 config.grenadeCount(),
@@ -31,6 +32,18 @@ public class Game {
                 config.walls(),
                 config.exitPosition(),
                 config.minePositions());
+    }
+
+    private static void validateConfiguration(GameConfiguration config) {
+        if (config.exitPosition() != null && config.minePositions().contains(config.exitPosition())) {
+            throw new InvalidGameConfigurationException("Mine and exit cannot be on the same cell");
+        }
+        if (config.minePositions().contains(config.playerPosition())) {
+            throw new InvalidGameConfigurationException("Player cannot start on a mine");
+        }
+        if (config.playerPosition().equals(config.exitPosition())) {
+            throw new InvalidGameConfigurationException("Player cannot start on the exit");
+        }
     }
 
     public GameState state() {
@@ -93,6 +106,9 @@ public class Game {
     }
 
     public Game throwGrenade(Direction direction) {
+        if (isGameOver()) {
+            return this;
+        }
         if (hasNoGrenades()) {
             return this;
         }
