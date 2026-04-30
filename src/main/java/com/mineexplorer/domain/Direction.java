@@ -2,7 +2,8 @@ package com.mineexplorer.domain;
 
 public enum Direction {
     SOUTH(0, 1),
-    EAST(1, 0);
+    EAST(1, 0),
+    WEST(-1, 0);
 
     private final int deltaX;
     private final int deltaY;

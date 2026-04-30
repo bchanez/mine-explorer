@@ -65,4 +65,19 @@ class ThrowGrenadeTest {
         assertThat(newGame.grenadeCount()).isEqualTo(1);
         assertThat(newGame.state()).isEqualTo(GameState.PLAYING);
     }
+
+    @Test
+    void should_waste_grenade_without_blast_when_throwing_at_indestructible_wall() {
+        // Given
+        var playerPosition = new Position(0, 2);
+        var game = Game.create(new GameConfiguration(playerPosition, 2, Set.of()));
+
+        // When
+        var newGame = game.throwGrenade(Direction.WEST);
+
+        // Then
+        assertThat(newGame.playerPosition()).isEqualTo(playerPosition);
+        assertThat(newGame.grenadeCount()).isEqualTo(1);
+        assertThat(newGame.state()).isEqualTo(GameState.PLAYING);
+    }
 }
