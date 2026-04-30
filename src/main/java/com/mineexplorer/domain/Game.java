@@ -50,6 +50,10 @@ public class Game {
         return playerPosition.equals(exitPosition);
     }
 
+    private boolean isGameOver() {
+        return state() != GameState.PLAYING;
+    }
+
     public Position playerPosition() {
         return playerPosition;
     }
@@ -67,13 +71,20 @@ public class Game {
     }
 
     public Game move(Direction direction) {
+        if (isGameOver()) {
+            return this;
+        }
         var newPosition = playerPosition.neighbor(direction);
-        if (isBlockedByWall(playerPosition, newPosition)) {
+        if (isOutOfBounds(newPosition) || isBlockedByWall(playerPosition, newPosition)) {
             return this;
         }
         var newVisibleCells = new HashSet<>(visibleCells);
         newVisibleCells.add(newPosition);
         return new Game(newPosition, grenadeCount, Set.copyOf(newVisibleCells), walls, exitPosition, minePositions);
+    }
+
+    private boolean isOutOfBounds(Position position) {
+        return position.x() < 0 || position.x() > 4 || position.y() < 0 || position.y() > 4;
     }
 
     private boolean isBlockedByWall(Position from, Position to) {

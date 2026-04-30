@@ -29,4 +29,19 @@ class VictoryTest {
         assertThat(newGame.visibleCells()).contains(exitPosition);
         assertThat(newGame.state()).isEqualTo(GameState.WON);
     }
+
+    @Test
+    void should_block_player_actions_after_winning() {
+        // Given
+        var exitPosition = new Position(4, 4);
+        var config = new GameConfiguration(exitPosition, 0, Set.of(), exitPosition);
+        var wonGame = Game.create(config);
+
+        // When
+        var gameAfterMove = wonGame.move(Direction.WEST);
+
+        // Then
+        assertThat(gameAfterMove.playerPosition()).isEqualTo(exitPosition);
+        assertThat(gameAfterMove.state()).isEqualTo(GameState.WON);
+    }
 }

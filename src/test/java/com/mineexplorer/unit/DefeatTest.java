@@ -62,4 +62,19 @@ class DefeatTest {
         assertThat(newGame.visibleCells()).contains(minePosition);
         assertThat(newGame.state()).isEqualTo(GameState.LOST);
     }
+
+    @Test
+    void should_block_player_actions_after_losing() {
+        // Given
+        var minePosition = new Position(2, 2);
+        var config = new GameConfiguration(minePosition, 0, Set.of(), null, Set.of(minePosition));
+        var lostGame = Game.create(config);
+
+        // When
+        var gameAfterMove = lostGame.move(Direction.NORTH);
+
+        // Then
+        assertThat(gameAfterMove.playerPosition()).isEqualTo(minePosition);
+        assertThat(gameAfterMove.state()).isEqualTo(GameState.LOST);
+    }
 }

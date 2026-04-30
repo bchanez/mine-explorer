@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ThrowGrenadeTest {
 
     @Test
-    void should_destroy_wall_move_player_and_use_grenade_when_throwing_grenade() {
+    void should_destroy_wall_and_propel_player_with_grenade() {
         // Given
         var playerPosition = new Position(1, 1);
         var targetPosition = new Position(2, 1);
@@ -32,7 +32,7 @@ class ThrowGrenadeTest {
     }
 
     @Test
-    void should_refuse_grenade_throw_when_no_grenades_remaining() {
+    void should_ignore_grenade_throw_without_grenades() {
         // Given
         var playerPosition = new Position(1, 1);
         var targetPosition = new Position(2, 1);
