@@ -9,12 +9,14 @@ public class Game {
     private final int grenadeCount;
     private final Set<Position> visibleCells;
     private final Set<Wall> walls;
+    private final Position exitPosition;
 
-    private Game(Position playerPosition, int grenadeCount, Set<Position> visibleCells, Set<Wall> walls) {
+    private Game(Position playerPosition, int grenadeCount, Set<Position> visibleCells, Set<Wall> walls, Position exitPosition) {
         this.playerPosition = playerPosition;
         this.grenadeCount = grenadeCount;
         this.visibleCells = visibleCells;
         this.walls = walls;
+        this.exitPosition = exitPosition;
     }
 
     public static Game create(GameConfiguration config) {
@@ -22,11 +24,15 @@ public class Game {
                 config.playerPosition(),
                 config.grenadeCount(),
                 Set.of(config.playerPosition()),
-                config.walls()
+                config.walls(),
+                config.exitPosition()
         );
     }
 
     public GameState state() {
+        if (playerPosition.equals(exitPosition)) {
+            return GameState.WON;
+        }
         return GameState.PLAYING;
     }
 
@@ -52,7 +58,7 @@ public class Game {
         }
         var newVisibleCells = new HashSet<>(visibleCells);
         newVisibleCells.add(newPosition);
-        return new Game(newPosition, grenadeCount, Set.copyOf(newVisibleCells), walls);
+        return new Game(newPosition, grenadeCount, Set.copyOf(newVisibleCells), walls, exitPosition);
     }
 
     public Game throwGrenade(Direction direction) {
@@ -66,12 +72,12 @@ public class Game {
         var wallToDestroy = Wall.between(playerPosition, targetPosition);
         var wallExists = walls.contains(wallToDestroy);
         if (!wallExists) {
-            return new Game(playerPosition, grenadeCount - 1, visibleCells, walls);
+            return new Game(playerPosition, grenadeCount - 1, visibleCells, walls, exitPosition);
         }
         var newWalls = new HashSet<>(walls);
         newWalls.remove(wallToDestroy);
         var newVisibleCells = new HashSet<>(visibleCells);
         newVisibleCells.add(targetPosition);
-        return new Game(targetPosition, grenadeCount - 1, Set.copyOf(newVisibleCells), Set.copyOf(newWalls));
+        return new Game(targetPosition, grenadeCount - 1, Set.copyOf(newVisibleCells), Set.copyOf(newWalls), exitPosition);
     }
 }
