@@ -49,11 +49,11 @@ public class ConsoleGameRunner implements CommandLineRunner {
             printGame(game);
 
             if (game.state() == GameState.WON) {
-                System.out.println("🎉 VICTOIRE ! Tu as atteint la sortie !");
+                System.out.println("🎉 VICTORY! You reached the exit!");
                 break;
             }
             if (game.state() == GameState.LOST) {
-                System.out.println("💥 DÉFAITE ! Tu as marché sur une mine...");
+                System.out.println("💥 DEFEAT! You stepped on a mine...");
                 break;
             }
 
@@ -61,7 +61,7 @@ public class ConsoleGameRunner implements CommandLineRunner {
             var input = scanner.nextLine().trim().toLowerCase();
 
             if (input.equals("q") || input.equals("quit")) {
-                System.out.println("À bientôt !");
+                System.out.println("Goodbye!");
                 break;
             }
 
@@ -75,18 +75,18 @@ public class ConsoleGameRunner implements CommandLineRunner {
             ╔═══════════════════════════════════════╗
             ║         MINE EXPLORER                 ║
             ╠═══════════════════════════════════════╣
-            ║  Atteins la sortie [E] sans exploser  ║
+            ║  Reach the exit [E] without exploding ║
             ║                                       ║
-            ║  Commandes:                           ║
-            ║    z/w = haut    s = bas              ║
-            ║    q/a = gauche  d = droite           ║
+            ║  Commands:                            ║
+            ║    z/w = up      s = down             ║
+            ║    q/a = left    d = right            ║
             ║                                       ║
-            ║    gz/gw = grenade haut               ║
-            ║    gs = grenade bas                   ║
-            ║    gq/ga = grenade gauche             ║
-            ║    gd = grenade droite                ║
+            ║    gz/gw = grenade up                 ║
+            ║    gs = grenade down                  ║
+            ║    gq/ga = grenade left               ║
+            ║    gd = grenade right                 ║
             ║                                       ║
-            ║    quit/q = quitter                   ║
+            ║    quit/q = quit                      ║
             ╚═══════════════════════════════════════╝
             """);
     }
@@ -160,7 +160,7 @@ public class ConsoleGameRunner implements CommandLineRunner {
             case "gs" -> throwGrenade(Direction.SOUTH);
             case "gq", "ga" -> throwGrenade(Direction.WEST);
             case "gd" -> throwGrenade(Direction.EAST);
-            default -> System.out.println("Commande inconnue: " + input);
+            default -> System.out.println("Unknown command: " + input);
         }
     }
 
