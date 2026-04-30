@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PlayerMovementTest {
 
     @Test
-    void should_keep_player_at_current_position_when_moving_east_and_there_is_a_wall_between_current_position_and_target_position() {
+    void should_not_cross_intact_wall_when_moving_east() {
         // Given
         var startingPosition = new Position(1, 1);
         var wallBetweenPositions = new Wall(new Position(1, 1), new Position(2, 1));
@@ -29,7 +29,7 @@ class PlayerMovementTest {
     }
 
     @Test
-    void should_move_player_to_target_position_when_moving_east_and_there_is_no_wall_between_current_position_and_target_position() {
+    void should_enter_adjacent_cell_when_moving_east_through_clear_passage() {
         // Given
         var startingPosition = new Position(1, 1);
         var config = new GameConfiguration(startingPosition, 3, Set.of());
@@ -43,7 +43,7 @@ class PlayerMovementTest {
     }
 
     @Test
-    void should_keep_player_at_current_position_when_moving_south_and_there_is_a_wall_between_current_position_and_target_position() {
+    void should_not_cross_intact_wall_when_moving_south() {
         // Given
         var startingPosition = new Position(1, 1);
         var wallBetweenPositions = new Wall(new Position(1, 1), new Position(1, 2));
@@ -58,7 +58,7 @@ class PlayerMovementTest {
     }
 
     @Test
-    void should_place_the_player_at_position_0_1_when_the_player_moves_south_from_position_0_0() {
+    void should_move_south_into_accessible_cell() {
         // Given
         var startingPosition = new Position(0, 0);
         var config = new GameConfiguration(startingPosition, 3);
@@ -72,7 +72,7 @@ class PlayerMovementTest {
     }
 
     @Test
-    void should_make_the_destination_cell_visible_when_the_player_moves_south_into_an_unvisited_cell() {
+    void should_reveal_cell_when_player_enters_it() {
         // Given
         var startingPosition = new Position(0, 0);
         var config = new GameConfiguration(startingPosition, 3);
