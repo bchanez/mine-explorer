@@ -33,13 +33,21 @@ public class Game {
     }
 
     public GameState state() {
-        if (minePositions.contains(playerPosition)) {
+        if (playerSteppedOnMine()) {
             return GameState.LOST;
         }
-        if (playerPosition.equals(exitPosition)) {
+        if (playerReachedExit()) {
             return GameState.WON;
         }
         return GameState.PLAYING;
+    }
+
+    private boolean playerSteppedOnMine() {
+        return minePositions.contains(playerPosition);
+    }
+
+    private boolean playerReachedExit() {
+        return playerPosition.equals(exitPosition);
     }
 
     public Position playerPosition() {
@@ -59,8 +67,8 @@ public class Game {
     }
 
     public Game move(Direction direction) {
-        var newPosition = playerPosition.translate(direction);
-        if (walls.contains(Wall.between(playerPosition, newPosition))) {
+        var newPosition = playerPosition.neighbor(direction);
+        if (isBlockedByWall(playerPosition, newPosition)) {
             return this;
         }
         var newVisibleCells = new HashSet<>(visibleCells);
@@ -68,14 +76,17 @@ public class Game {
         return new Game(newPosition, grenadeCount, Set.copyOf(newVisibleCells), walls, exitPosition, minePositions);
     }
 
+    private boolean isBlockedByWall(Position from, Position to) {
+        return walls.contains(Wall.between(from, to));
+    }
+
     public Game throwGrenade(Direction direction) {
-        if (grenadeCount == 0) {
+        if (hasNoGrenades()) {
             return this;
         }
-        var targetPosition = playerPosition.translate(direction);
+        var targetPosition = playerPosition.neighbor(direction);
         var wallToDestroy = Wall.between(playerPosition, targetPosition);
-        var wallExists = walls.contains(wallToDestroy);
-        if (!wallExists) {
+        if (!hasWall(wallToDestroy)) {
             return new Game(playerPosition, grenadeCount - 1, visibleCells, walls, exitPosition, minePositions);
         }
         var newWalls = new HashSet<>(walls);
@@ -83,5 +94,13 @@ public class Game {
         var newVisibleCells = new HashSet<>(visibleCells);
         newVisibleCells.add(targetPosition);
         return new Game(targetPosition, grenadeCount - 1, Set.copyOf(newVisibleCells), Set.copyOf(newWalls), exitPosition, minePositions);
+    }
+
+    private boolean hasNoGrenades() {
+        return grenadeCount == 0;
+    }
+
+    private boolean hasWall(Wall wall) {
+        return walls.contains(wall);
     }
 }
