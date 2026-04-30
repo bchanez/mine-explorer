@@ -59,10 +59,7 @@ public class Game {
     }
 
     public Game move(Direction direction) {
-        var newPosition = new Position(
-                playerPosition.x() + direction.deltaX(),
-                playerPosition.y() + direction.deltaY()
-        );
+        var newPosition = playerPosition.translate(direction);
         if (walls.contains(Wall.between(playerPosition, newPosition))) {
             return this;
         }
@@ -75,10 +72,7 @@ public class Game {
         if (grenadeCount == 0) {
             return this;
         }
-        var targetPosition = new Position(
-                playerPosition.x() + direction.deltaX(),
-                playerPosition.y() + direction.deltaY()
-        );
+        var targetPosition = playerPosition.translate(direction);
         var wallToDestroy = Wall.between(playerPosition, targetPosition);
         var wallExists = walls.contains(wallToDestroy);
         if (!wallExists) {
