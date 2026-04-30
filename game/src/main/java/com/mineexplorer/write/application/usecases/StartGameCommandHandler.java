@@ -1,11 +1,7 @@
 package com.mineexplorer.write.application.usecases;
 
 import com.mineexplorer.write.application.domain.models.Game;
-import com.mineexplorer.write.application.domain.models.GameConfiguration;
-import com.mineexplorer.write.application.domain.models.Position;
 import com.mineexplorer.write.application.domain.ports.GameRepository;
-
-import java.util.Set;
 
 public class StartGameCommandHandler {
 
@@ -16,13 +12,7 @@ public class StartGameCommandHandler {
     }
 
     public void handle(StartGameCommand command) {
-        var config = new GameConfiguration(
-                new Position(0, 0),
-                5,
-                Set.of(),
-                new Position(4, 4),
-                Set.of());
-        var game = Game.create(config);
+        var game = Game.create(command.configuration());
         gameRepository.save(game);
     }
 }

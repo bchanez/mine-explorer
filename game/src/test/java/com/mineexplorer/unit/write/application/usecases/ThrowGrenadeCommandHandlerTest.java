@@ -59,6 +59,24 @@ class ThrowGrenadeCommandHandlerTest {
 
             assertThat(currentGame().visibleCells()).contains(new Position(0, 1));
         }
+
+        @Test
+        void should_allow_grenade_throws_in_multiple_directions_when_surrounded_by_walls() {
+            // Given: player at (0,0) with 2 grenades, surrounded by walls east and south
+            var playerPosition = new Position(0, 0);
+            var wallEast = Wall.between(playerPosition, new Position(1, 0));
+            var wallSouth = Wall.between(playerPosition, new Position(0, 1));
+            var config = new GameConfiguration(playerPosition, 2, Set.of(wallEast, wallSouth), new Position(4, 4), Set.of());
+            gameRepository.save(Game.create(config));
+
+            // When: throw grenade east
+            handler.handle(new ThrowGrenadeCommand(Direction.EAST));
+
+            // Then: player propelled east, wall destroyed, grenade consumed
+            assertThat(currentGame().playerPosition()).isEqualTo(new Position(1, 0));
+            assertThat(currentGame().grenadeCount()).isEqualTo(1);
+            assertThat(currentGame().walls()).doesNotContain(wallEast);
+        }
     }
 
     @Nested
