@@ -21,7 +21,7 @@ class StartGameCommandHandlerTest {
 
         var game = gameRepository.findCurrent().orElseThrow();
         assertThat(game.playerPosition()).isEqualTo(new Position(0, 0));
-        assertThat(game.grenadeCount()).isEqualTo(3);
+        assertThat(game.grenadeCount()).isEqualTo(5);
         assertThat(game.state()).isEqualTo(GameState.PLAYING);
     }
 
