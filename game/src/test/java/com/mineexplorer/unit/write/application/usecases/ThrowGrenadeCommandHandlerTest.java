@@ -77,6 +77,22 @@ class ThrowGrenadeCommandHandlerTest {
             assertThat(currentGame().grenadeCount()).isEqualTo(1);
             assertThat(currentGame().state()).isEqualTo(GameState.PLAYING);
         }
+
+        @Test
+        void should_keep_player_inside_grid_when_destroying_border_wall() {
+            // Given: player at east edge of the grid with a wall blocking the outside
+            var borderWall = Wall.between(new Position(4, 2), new Position(5, 2));
+            var game = Game.create(new GameConfiguration(new Position(4, 2), 2, Set.of(borderWall)));
+            gameRepository.save(game);
+
+            // When: player throws grenade toward the border wall
+            handler.handle(new ThrowGrenadeCommand(Direction.EAST));
+
+            // Then: grenade is consumed but player cannot leave the grid
+            assertThat(currentGame().playerPosition()).isEqualTo(new Position(4, 2));
+            assertThat(currentGame().grenadeCount()).isEqualTo(1);
+            assertThat(currentGame().state()).isEqualTo(GameState.PLAYING);
+        }
     }
 
     @Nested

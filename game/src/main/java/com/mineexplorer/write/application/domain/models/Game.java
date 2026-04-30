@@ -117,6 +117,9 @@ public class Game {
         if (!hasWall(wallToDestroy)) {
             return new Game(playerPosition, grenadeCount - 1, visibleCells, walls, exitPosition, minePositions);
         }
+        if (isOutOfBounds(targetPosition)) {
+            return new Game(playerPosition, grenadeCount - 1, visibleCells, walls, exitPosition, minePositions);
+        }
         var newWalls = new HashSet<>(walls);
         newWalls.remove(wallToDestroy);
         var newVisibleCells = new HashSet<>(visibleCells);
