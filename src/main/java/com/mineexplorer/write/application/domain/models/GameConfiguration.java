@@ -1,4 +1,4 @@
-package com.mineexplorer.domain;
+package com.mineexplorer.write.application.domain.models;
 
 import java.util.Set;
 

@@ -1,4 +1,4 @@
-package com.mineexplorer.domain;
+package com.mineexplorer.write.application.domain.models;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -68,6 +68,14 @@ public class Game {
 
     public Set<Wall> walls() {
         return walls;
+    }
+
+    public Position exitPosition() {
+        return exitPosition;
+    }
+
+    public Set<Position> minePositions() {
+        return minePositions;
     }
 
     public Game move(Direction direction) {
