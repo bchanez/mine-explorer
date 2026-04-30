@@ -1,4 +1,10 @@
 package com.mineexplorer.domain;
 
-public record GameConfiguration(Position playerPosition, int grenadeCount) {
+import java.util.Set;
+
+public record GameConfiguration(Position playerPosition, int grenadeCount, Set<Wall> walls) {
+
+    public GameConfiguration(Position playerPosition, int grenadeCount) {
+        this(playerPosition, grenadeCount, Set.of());
+    }
 }

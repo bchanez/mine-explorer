@@ -8,18 +8,21 @@ public class Game {
     private final Position playerPosition;
     private final int grenadeCount;
     private final Set<Position> visibleCells;
+    private final Set<Wall> walls;
 
-    private Game(Position playerPosition, int grenadeCount, Set<Position> visibleCells) {
+    private Game(Position playerPosition, int grenadeCount, Set<Position> visibleCells, Set<Wall> walls) {
         this.playerPosition = playerPosition;
         this.grenadeCount = grenadeCount;
         this.visibleCells = visibleCells;
+        this.walls = walls;
     }
 
     public static Game create(GameConfiguration config) {
         return new Game(
                 config.playerPosition(),
                 config.grenadeCount(),
-                Set.of(config.playerPosition())
+                Set.of(config.playerPosition()),
+                config.walls()
         );
     }
 
@@ -40,9 +43,15 @@ public class Game {
     }
 
     public Game move(Direction direction) {
-        var newPosition = new Position(playerPosition.x(), playerPosition.y() + 1);
+        var newPosition = new Position(
+                playerPosition.x() + direction.deltaX(),
+                playerPosition.y() + direction.deltaY()
+        );
+        if (walls.contains(Wall.between(playerPosition, newPosition))) {
+            return this;
+        }
         var newVisibleCells = new HashSet<>(visibleCells);
         newVisibleCells.add(newPosition);
-        return new Game(newPosition, grenadeCount, Set.copyOf(newVisibleCells));
+        return new Game(newPosition, grenadeCount, Set.copyOf(newVisibleCells), walls);
     }
 }
