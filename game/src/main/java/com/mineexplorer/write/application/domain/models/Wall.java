@@ -1,6 +1,8 @@
 package com.mineexplorer.write.application.domain.models;
 
-public record Wall(Position position1, Position position2) {
+import com.mineexplorer.sharedkernel.domain.ValueObject;
+
+public record Wall(Position position1, Position position2) implements ValueObject {
 
     public Wall {
         if (position1.x() > position2.x() || (position1.x() == position2.x() && position1.y() > position2.y())) {

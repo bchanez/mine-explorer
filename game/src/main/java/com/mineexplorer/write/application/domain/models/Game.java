@@ -3,6 +3,7 @@ package com.mineexplorer.write.application.domain.models;
 import java.util.HashSet;
 import java.util.Set;
 
+// Aggregate Root (TODO: add GameId and extend AggregateRoot<GameId>)
 public class Game {
 
     private final Position playerPosition;
