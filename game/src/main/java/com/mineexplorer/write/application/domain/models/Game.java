@@ -129,4 +129,30 @@ public class Game {
     private boolean hasWall(Wall wall) {
         return walls.contains(wall);
     }
+
+    public boolean hasVisibleWallToRight(Position pos) {
+        var rightNeighbor = pos.neighbor(Direction.EAST);
+        var wallExists = walls.contains(Wall.between(pos, rightNeighbor));
+        var isVisible = visibleCells.contains(pos) || visibleCells.contains(rightNeighbor);
+        return wallExists && isVisible;
+    }
+
+    public boolean hasVisibleWallBelow(Position pos) {
+        var belowNeighbor = pos.neighbor(Direction.SOUTH);
+        var wallExists = walls.contains(Wall.between(pos, belowNeighbor));
+        var isVisible = visibleCells.contains(pos) || visibleCells.contains(belowNeighbor);
+        return wallExists && isVisible;
+    }
+
+    public VisibleBounds visibleBounds() {
+        int minX = visibleCells.stream().mapToInt(Position::x).min().orElse(0);
+        int maxX = visibleCells.stream().mapToInt(Position::x).max().orElse(0);
+        int minY = visibleCells.stream().mapToInt(Position::y).min().orElse(0);
+        int maxY = visibleCells.stream().mapToInt(Position::y).max().orElse(0);
+        return new VisibleBounds(minX, maxX, minY, maxY);
+    }
+
+    public boolean isVisibleCell(Position pos) {
+        return visibleCells.contains(pos);
+    }
 }

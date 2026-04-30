@@ -1,5 +1,6 @@
 package com.mineexplorer.configuration;
 
+import com.mineexplorer.console.GameRenderer;
 import com.mineexplorer.write.adapters.secondary.persistence.InMemoryGameRepository;
 import com.mineexplorer.write.application.domain.ports.GameRepository;
 import com.mineexplorer.write.application.usecases.MovePlayerCommandHandler;
@@ -29,5 +30,10 @@ public class GameConfiguration {
     @Bean
     ThrowGrenadeCommandHandler throwGrenadeCommandHandler(GameRepository gameRepository) {
         return new ThrowGrenadeCommandHandler(gameRepository);
+    }
+
+    @Bean
+    GameRenderer gameRenderer() {
+        return new GameRenderer();
     }
 }
