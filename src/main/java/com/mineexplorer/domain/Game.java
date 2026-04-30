@@ -64,6 +64,10 @@ public class Game {
                 playerPosition.y() + direction.deltaY()
         );
         var wallToDestroy = Wall.between(playerPosition, targetPosition);
+        var wallExists = walls.contains(wallToDestroy);
+        if (!wallExists) {
+            return new Game(playerPosition, grenadeCount - 1, visibleCells, walls);
+        }
         var newWalls = new HashSet<>(walls);
         newWalls.remove(wallToDestroy);
         var newVisibleCells = new HashSet<>(visibleCells);

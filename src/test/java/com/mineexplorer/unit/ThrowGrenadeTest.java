@@ -50,4 +50,19 @@ class ThrowGrenadeTest {
         var afterMoveAttempt = newGame.move(Direction.EAST);
         assertThat(afterMoveAttempt.playerPosition()).isEqualTo(playerPosition);
     }
+
+    @Test
+    void should_waste_grenade_without_blast_when_throwing_toward_open_passage() {
+        // Given
+        var playerPosition = new Position(1, 1);
+        var game = Game.create(new GameConfiguration(playerPosition, 2, Set.of()));
+
+        // When
+        var newGame = game.throwGrenade(Direction.EAST);
+
+        // Then
+        assertThat(newGame.playerPosition()).isEqualTo(playerPosition);
+        assertThat(newGame.grenadeCount()).isEqualTo(1);
+        assertThat(newGame.state()).isEqualTo(GameState.PLAYING);
+    }
 }
