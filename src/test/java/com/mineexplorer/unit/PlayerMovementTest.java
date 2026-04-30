@@ -17,15 +17,15 @@ class PlayerMovementTest {
     void should_not_cross_intact_wall_when_moving_east() {
         // Given
         var startingPosition = new Position(1, 1);
-        var wallBetweenPositions = new Wall(new Position(1, 1), new Position(2, 1));
-        var config = new GameConfiguration(startingPosition, 3, Set.of(wallBetweenPositions));
-        var game = Game.create(config);
+        var targetPosition = new Position(2, 1);
+        var wall = Wall.between(startingPosition, targetPosition);
+        var game = Game.create(new GameConfiguration(startingPosition, 3, Set.of(wall)));
 
         // When
         var newGame = game.move(Direction.EAST);
 
         // Then
-        assertThat(newGame.playerPosition()).isEqualTo(new Position(1, 1));
+        assertThat(newGame.playerPosition()).isEqualTo(startingPosition);
     }
 
     @Test
@@ -46,15 +46,15 @@ class PlayerMovementTest {
     void should_not_cross_intact_wall_when_moving_south() {
         // Given
         var startingPosition = new Position(1, 1);
-        var wallBetweenPositions = new Wall(new Position(1, 1), new Position(1, 2));
-        var config = new GameConfiguration(startingPosition, 3, Set.of(wallBetweenPositions));
-        var game = Game.create(config);
+        var targetPosition = new Position(1, 2);
+        var wall = Wall.between(startingPosition, targetPosition);
+        var game = Game.create(new GameConfiguration(startingPosition, 3, Set.of(wall)));
 
         // When
         var newGame = game.move(Direction.SOUTH);
 
         // Then
-        assertThat(newGame.playerPosition()).isEqualTo(new Position(1, 1));
+        assertThat(newGame.playerPosition()).isEqualTo(startingPosition);
     }
 
     @Test

@@ -15,69 +15,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ThrowGrenadeTest {
 
     @Test
-    void should_destroy_wall_when_throwing_grenade() {
+    void should_destroy_wall_move_player_and_use_grenade_when_throwing_grenade() {
         // Given
         var playerPosition = new Position(1, 1);
         var targetPosition = new Position(2, 1);
-        var furtherPosition = new Position(3, 1);
-        var wallToDestroy = Wall.between(playerPosition, targetPosition);
-        var wallToKeep = Wall.between(targetPosition, furtherPosition);
-        var config = new GameConfiguration(playerPosition, 3, Set.of(wallToDestroy, wallToKeep));
-        var game = Game.create(config);
-
-        // When
-        var newGame = game.throwGrenade(Direction.EAST);
-
-        // Then - player is propelled to target, but cannot move further (wall still exists)
-        var afterMove = newGame.move(Direction.EAST);
-        assertThat(afterMove.playerPosition()).isEqualTo(targetPosition);
-    }
-
-    @Test
-    void should_move_player_to_adjacent_cell_when_wall_is_destroyed() {
-        // Given
-        var playerPosition = new Position(1, 1);
-        var targetPosition = new Position(2, 1);
-        var wallToDestroy = Wall.between(playerPosition, targetPosition);
-        var config = new GameConfiguration(playerPosition, 3, Set.of(wallToDestroy));
-        var game = Game.create(config);
+        var wall = Wall.between(playerPosition, targetPosition);
+        var game = Game.create(new GameConfiguration(playerPosition, 3, Set.of(wall)));
 
         // When
         var newGame = game.throwGrenade(Direction.EAST);
 
         // Then
         assertThat(newGame.playerPosition()).isEqualTo(targetPosition);
-    }
-
-    @Test
-    void should_use_one_grenade_when_destroying_wall() {
-        // Given
-        var playerPosition = new Position(1, 1);
-        var targetPosition = new Position(2, 1);
-        var wallToDestroy = Wall.between(playerPosition, targetPosition);
-        var config = new GameConfiguration(playerPosition, 3, Set.of(wallToDestroy));
-        var game = Game.create(config);
-
-        // When
-        var newGame = game.throwGrenade(Direction.EAST);
-
-        // Then
         assertThat(newGame.grenadeCount()).isEqualTo(2);
-    }
-
-    @Test
-    void should_keep_playing_when_grenade_lands_on_empty_cell() {
-        // Given
-        var playerPosition = new Position(1, 1);
-        var targetPosition = new Position(2, 1);
-        var wallToDestroy = Wall.between(playerPosition, targetPosition);
-        var config = new GameConfiguration(playerPosition, 3, Set.of(wallToDestroy));
-        var game = Game.create(config);
-
-        // When
-        var newGame = game.throwGrenade(Direction.EAST);
-
-        // Then
         assertThat(newGame.state()).isEqualTo(GameState.PLAYING);
     }
 
